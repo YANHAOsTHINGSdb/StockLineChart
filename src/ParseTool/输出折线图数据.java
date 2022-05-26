@@ -2,9 +2,10 @@ package ParseTool;
 
 import java.util.List;
 
-import InputData.折点;
+import InputData.日线;
 import InputData.简单解析;
 import InputData.计算目标;
+import OutputData.折点;
 
 public class 输出折线图数据 {
 	/*
@@ -26,7 +27,7 @@ public class 输出折线图数据 {
 				处理内容
 
 	 */
-	List<折点> 输出折线图数据(List<String> list日线) {
+	List<折点> 输出折线图数据(List<日线> list日线) {
 
 		List<折点> 折点List = null;
 

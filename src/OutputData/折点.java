@@ -1,4 +1,4 @@
-package InputData;
+package OutputData;
 
 public class 折点 {
 
