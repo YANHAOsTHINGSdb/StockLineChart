@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="C:/Users/yanhao/Documents/GitHub/StockDataConvert/hutool-all-5.5.9.jar"/>
 	<classpathentry kind="lib" path="C:/Users/yanhao/Documents/GitHub/StockDataConvert/jna-4.2.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/yanhao/Documents/GitHub/StockDataConvert/lombok.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yanhao/Documents/GitHub/StockLineChart/feilong-3.0.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

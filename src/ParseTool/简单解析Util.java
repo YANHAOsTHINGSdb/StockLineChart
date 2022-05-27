@@ -3,6 +3,8 @@ package ParseTool;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.feilong.core.util.SortUtil;
+
 import InputData.日线;
 import InputData.日线点;
 import InputData.简单解析;
@@ -79,33 +81,42 @@ public class 简单解析Util {
 
 	private static 日线点 取得简单解析的结束位(List<日线> list指定数据) {
 		日线点 o = new 日线点();
-		日线 r = list指定数据.get(0);
-		o.set价格(r.get开盘_价格());
-		o.set位置("S");
+		日线 r = list指定数据.get(list指定数据.size()-1);
+		o.set价格(r.get收盘_价格());
+		o.set位置("E");
 		o.set日时(r.get日时());
 		return o;
 	}
 
 	private static 日线点 取得简单解析的最高位(List<日线> list指定数据) {
 		日线点 o = new 日线点();
-		List<String> l =  new ArrayList();
-		for(日线 r : list指定数据) {
-			l.add(r.get最高_价格());
-		}
 
+		//SortUtil.sortList(list指定数据,newPropertyComparator<日线>("价格"));
+		List<日线> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"最高_价格");
+		日线 r = l.get(0);
+		o.set价格(r.get最高_价格());
+		o.set位置("H");
+		o.set日时(r.get日时());
 
 		return o;
 	}
 
 	private static 日线点 取得简单解析的最低位(List<日线> list指定数据) {
 		日线点 o = new 日线点();
-
+		List<日线> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"最低_价格");
+		日线 r = l.get(l.size()-1);
+		o.set价格(r.get最高_价格());
+		o.set位置("L");
+		o.set日时(r.get日时());
 		return o;
 	}
 
 	private static 日线点 取得简单解析的开始位(List<日线> list指定数据) {
 		日线点 o = new 日线点();
-
+		日线 r = list指定数据.get(0);
+		o.set价格(r.get开盘_价格());
+		o.set位置("S");
+		o.set日时(r.get日时());
 		return o;
 	}
 
