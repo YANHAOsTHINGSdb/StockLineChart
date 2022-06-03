@@ -58,6 +58,11 @@ public class 简单解析Util {
 			if (i开始位置 > list日线.size() - 指定日线数 + 1)
 				//跳出2的循环
 				break;
+
+			if(是否有效日(list日线.get(i开始位置))) {
+				continue;
+			}
+
 			//2.1. 生成【简单解析】
 			简单解析 o简单解析 = new 简单解析();
 			//取开始第一个的S位的信息（XXX）作为简单解析的开始；
@@ -69,6 +74,7 @@ public class 简单解析Util {
 			o简单解析.set最高(简单解析Util.取得简单解析的最高位(list指定数据));
 			//取开始第一个的S位的信息（XXX）作为简单解析的开始；
 			o简单解析.set结束(简单解析Util.取得简单解析的结束位(list指定数据));
+
 			//2.2将生成的【简单解析】追加到list
 			list简单解析.add(o简单解析);
 			//2.3.开始位置 +1
@@ -79,8 +85,16 @@ public class 简单解析Util {
 		return list简单解析;
 	}
 
+	private static boolean 是否有效日(日线 日线) {
+		if(日线.get开盘_价格().equals(日线.get收盘_价格()) && 日线.get最高_价格().equals(日线.get最低_价格())) {
+			return false;
+		}
+		return true;
+	}
+
 	private static 日线点 取得简单解析的结束位(List<日线> list指定数据) {
 		日线点 o = new 日线点();
+
 		日线 r = list指定数据.get(list指定数据.size()-1);
 		o.set价格(r.get收盘_价格());
 		o.set位置("E");
@@ -103,6 +117,7 @@ public class 简单解析Util {
 
 	private static 日线点 取得简单解析的最低位(List<日线> list指定数据) {
 		日线点 o = new 日线点();
+
 		List<日线> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"最低_价格");
 		日线 r = l.get(l.size()-1);
 		o.set价格(r.get最高_价格());
@@ -113,6 +128,7 @@ public class 简单解析Util {
 
 	private static 日线点 取得简单解析的开始位(List<日线> list指定数据) {
 		日线点 o = new 日线点();
+
 		日线 r = list指定数据.get(0);
 		o.set价格(r.get开盘_价格());
 		o.set位置("S");

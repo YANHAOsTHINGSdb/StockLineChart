@@ -10,6 +10,8 @@ import OutputData.折点;
 import common.CommonConst;
 
 public class 输出折线图数据 {
+
+	计算目标Util 计算目标util =new 计算目标Util();
 	/*
 	输出折线图数据
 		入口  【日线List】
@@ -33,9 +35,7 @@ public class 输出折线图数据 {
 
 		List<折点> 折点List = null;
 
-		int 指定日线数 = 3;
-
-		List<简单解析> 简单解析List = 简单解析Util.parse(list日线, 指定日线数);
+		List<简单解析> 简单解析List = 简单解析Util.parse(list日线, CommonConst.指定日线数);
 		计算目标Util util = new 计算目标Util();
 		计算目标 o计算目标 = util.初始化(简单解析List.get(0));
 
@@ -62,19 +62,37 @@ public class 输出折线图数据 {
 		boolean is是否最后的简单解析 = 简单解析List.size()==index+1?true:false;
 		// 返回要解析的状态
 
-		switch(解析当前状态(o计算目标, 简单解析List.get(index),折点list,is是否最后的简单解析)) {
-		case 1:
+		简单解析 简单解析对象 =简单解析List.get(index);
+		switch(解析当前状态(o计算目标, 简单解析对象,折点list,is是否最后的简单解析)) {
+		case CommonConst.如果_手持低点_要找高点_但碰见一个更低的谷:
 		//1=如果  手持低点，要找高点，但碰见一个更低的谷
-		case 2:
+			// 更新假点
+			计算目标util.更新假点(o计算目标, 简单解析对象, 折点list);
+
+		case CommonConst.如果_手持低点_要找高点_但没有碰见一个更低的谷:
 		//2=如果  手持低点，要找高点，但没有碰见一个更低的谷
-		case 3:
+			// 如果 碰见高点
+			// 就，固定低点，假设高点，寻找下一个低点
+			计算目标util.追加假点(o计算目标, 简单解析对象, 折点list);
+
+		case CommonConst.如果_手持高点_要找底点_但碰见一个更高的谷:
 		//3=如果  手持高点，要找底点，但碰见一个更高的谷
-		case 4:
+			// 更新假点
+			计算目标util.更新假点(o计算目标, 简单解析对象, 折点list);
+
+		case CommonConst.如果_手持高点_要找底点_但没碰见一个更高的谷:
 		//4=如果  手持高点，要找底点，但没碰见一个更高的谷
-		case 5:
+			// 如果  碰见低点
+			// 就，固定高点，假设低点，寻找下一个高点
+			计算目标util.追加假点(o计算目标, 简单解析对象, 折点list);
+
+		case CommonConst.如果_这是第一次计算:
 		//5=如果  这是第一次计算（折点list为空 ）
-		case 6:
+			计算目标util.第一次计算(o计算目标, 简单解析对象, 折点list);
+
+		case CommonConst.如果_这是最后一次计算:
 		//6=如果  这是最后一次计算（简单解析结果的最后一条 ）
+			计算目标util.最后一次计算(o计算目标, 简单解析对象, 折点list);
 		}
 	}
 
@@ -82,7 +100,7 @@ public class 输出折线图数据 {
 	private int 解析当前状态(计算目标 o计算目标, 简单解析 o简单解析, List<折点> 折点list, boolean is是否最后的简单解析) {
 
 		//6=如果  这是最后一次计算（简单解析结果的最后一条 ）
-		if(is是否最后的简单解析) return 6;
+		if(is是否最后的简单解析) return CommonConst.如果_这是最后一次计算;
 
 		//手持高低点:假是低还高
 		int 手持高低点=o计算目标.get假().get高低();//0=低 1=高
@@ -93,15 +111,15 @@ public class 输出折线图数据 {
 
 
 		//1=如果  手持低点，要找高点，但碰见一个更低的谷
-		if(手持高低点==CommonConst.低点 && 要找高低点==CommonConst.高点 && 碰见更高低点==CommonConst.更低点) return 1;
+		if(手持高低点==CommonConst.低点 && 要找高低点==CommonConst.高点 && 碰见更高低点==CommonConst.更低点) return CommonConst.如果_手持低点_要找高点_但碰见一个更低的谷;
 		//2=如果  手持低点，要找高点，但没有碰见一个更低的谷
-		if(手持高低点==CommonConst.低点 && 要找高低点==CommonConst.高点 && 碰见更高低点!=CommonConst.更低点) return 2;
+		if(手持高低点==CommonConst.低点 && 要找高低点==CommonConst.高点 && 碰见更高低点!=CommonConst.更低点) return CommonConst.如果_手持低点_要找高点_但没有碰见一个更低的谷;
 		//3=如果  手持高点，要找底点，但碰见一个更高的谷
-		if(手持高低点==CommonConst.高点 && 要找高低点==CommonConst.低点 && 碰见更高低点==CommonConst.更高点) return 3;
+		if(手持高低点==CommonConst.高点 && 要找高低点==CommonConst.低点 && 碰见更高低点==CommonConst.更高点) return CommonConst.如果_手持高点_要找底点_但碰见一个更高的谷;
 		//4=如果  手持高点，要找底点，但没碰见一个更高的谷
-		if(手持高低点==CommonConst.高点 && 要找高低点==CommonConst.低点 && 碰见更高低点==CommonConst.更高点) return 4;
+		if(手持高低点==CommonConst.高点 && 要找高低点==CommonConst.低点 && 碰见更高低点==CommonConst.更高点) return CommonConst.如果_手持高点_要找底点_但没碰见一个更高的谷;
 		//5=如果  这是第一次计算（折点list为空 ）
-		if(折点list.isEmpty())return 5;
+		if(折点list.isEmpty())return CommonConst.如果_这是第一次计算;
 
 
 		return 0;//啥也不是
