@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class 折点 {
 
-	String 日时; // YYYYMMDD
+	int 日時; // YYYYMMDD
 	String 位置; //SHLE
 	int 高低; //(高。低)
 	String 价格;
