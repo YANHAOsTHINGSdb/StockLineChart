@@ -47,7 +47,7 @@ public class 簡單解析Util {
 		 */
 		List<簡單解析> list簡單解析 = new ArrayList();
 		list日線 = 取得顺序日线数据(list日線);
-		
+
 		// 1，设置【开始位置】=0
 		int i开始位置 = 0;
 
@@ -57,7 +57,7 @@ public class 簡單解析Util {
 			if (i开始位置 > list日線.size() - 指定日线数)
 				//跳出2的循环
 				break;
-			
+
 			List<日線> list指定数据 = list日線.subList(i开始位置, i开始位置+指定日线数);
 
 
@@ -77,9 +77,9 @@ public class 簡單解析Util {
 		// 3.返回【簡單解析】的list
 		return list簡單解析;
 	}
-	
-	private static 簡單解析 根据指定日线数据制作簡單解析(List<日線> list指定数据 ) {
-		
+
+	public static 簡單解析 根据指定日线数据制作簡單解析(List<日線> list指定数据 ) {
+
 		簡單解析 o簡單解析 = new 簡單解析();
 		//取开始第一个的S位的信息（XXX）作为簡單解析的开始；
 
@@ -90,9 +90,9 @@ public class 簡單解析Util {
 		o簡單解析.set最高(簡單解析Util.取得簡單解析的最高位(new ArrayList(list指定数据)));
 		//取开始第一个的S位的信息（XXX）作为簡單解析的开始；
 		o簡單解析.set結束(簡單解析Util.取得簡單解析的結束位(new ArrayList(list指定数据)));
-		
+
 		o簡單解析.setList指定数据(list指定数据);
-		
+
 		return o簡單解析;
 	}
 
@@ -161,11 +161,31 @@ public class 簡單解析Util {
 			if(Integer.parseInt(i.get日時())
 					 > i指定日時) {
 				list日線.add(i);
-			}			 
+			}
 		}
-		
+
 		// 重新计算高低点
-		
+
 		return 根据指定日线数据制作簡單解析(list日線);
+	}
+
+	public static int 取得指定日期的index(List<日線> list日線, int i指定日時) {
+
+		int index =0;
+		for(日線 i : list日線) {
+				if(Integer.parseInt(i.get日時())
+						 == i指定日時) {
+					return index;
+				}
+				index++;
+
+		}
+		return index;
+	}
+
+	public static 簡單解析 取得指定区间数据制作簡單解析(List<日線> list日線,int index, int 对象个数) {
+		List<日線> list指定数据 = list日線.subList(index, index+对象个数);
+		return 簡單解析Util.根据指定日线数据制作簡單解析(list指定数据);
+
 	}
 }
