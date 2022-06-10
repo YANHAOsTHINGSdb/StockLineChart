@@ -11,12 +11,44 @@ import common.CommonConst;
 public class 計算目標Util {
 
 	//計算目標 o計算目標;
-	public void 第一次计算(計算目標 o計算目標2, 簡單解析 簡單解析對象, List<折点> 折点list) {
+	public void 第一次计算(計算目標 o計算目標, 簡單解析 簡單解析對象, List<折点> 折点list) {
+		
+		初始化(o計算目標, 簡單解析對象,  折点list);
+		
 		// 設定初始點
-		追加确点(o計算目標2, o計算目標2.get确(), 折点list);
+		//追加确点(o計算目標, o計算目標.get确(), 折点list);
 
 		// 設定假設點+設定需求點
-		初次设置假点(o計算目標2, o計算目標2.get假(), o計算目標2.get求());
+		//初次设置假点(o計算目標, o計算目標.get假(), o計算目標.get求());
+	}
+
+	private void 初始化(計算目標 o計算目標, 簡單解析 o簡單解析對象, List<折点> 折点list) {
+		/*
+		 * 第一个計算目標 都来自于 第一个简单解析
+		 */
+		// 默認開始為確
+		折点 确 = turn日線點to折点(o簡單解析對象.get开始(), CommonConst.未超想象);
+		折点 假 = null;
+		折点 求 = new 折点();
+
+		// 就看最高和最低谁在前面
+		if (o簡單解析對象.get最高().get日時() > o簡單解析對象.get最低().get日時()) {
+			假 = turn日線點to折点(o簡單解析對象.get最低(), CommonConst.未超想象);
+			假.set高低(CommonConst.低点);
+			确.set高低(CommonConst.高点);
+		}
+		if (o簡單解析對象.get最高().get日時() < o簡單解析對象.get最低().get日時()) {
+			假 = turn日線點to折点(o簡單解析對象.get最高(), CommonConst.未超想象);
+			假.set高低(CommonConst.高点);
+			确.set高低(CommonConst.低点);
+		}
+
+		o計算目標.set确(确);
+		o計算目標.set假(假);
+		o計算目標.set求(編輯求點(o計算目標.get假()));
+		o計算目標.set求高低(o計算目標.get求().get高低());
+		
+		折点list.add(确);
 	}
 
 	public 計算目標  初始化(簡單解析 o, List<折点> 折点list) {// 入力=假点信息
@@ -44,6 +76,7 @@ public class 計算目標Util {
 		o計算目標.set确(确);
 		o計算目標.set假(假);
 		o計算目標.set求(編輯求點(o計算目標.get假()));
+		o計算目標.set求高低(o計算目標.get求().get高低());
 		
 		折点list.add(确);
 		

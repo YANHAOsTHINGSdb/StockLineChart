@@ -2,11 +2,11 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Documents/StockLineChart/commons-io-2.6.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Documents/StockLineChart/commons-lang3-3.8.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Documents/StockLineChart/feilong-3.0.7.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Documents/StockLineChart/hutool-all-5.5.9.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Documents/StockLineChart/jna-4.2.1.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Documents/StockLineChart/lombok.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yanhao/Documents/GitHub/StockLineChart/commons-io-2.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yanhao/Documents/GitHub/StockLineChart/commons-lang3-3.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yanhao/Documents/GitHub/StockLineChart/feilong-3.0.7.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yanhao/Documents/GitHub/StockLineChart/hutool-all-5.5.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yanhao/Documents/GitHub/StockLineChart/jna-4.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yanhao/Documents/GitHub/StockLineChart/lombok.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

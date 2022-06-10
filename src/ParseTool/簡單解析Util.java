@@ -143,7 +143,7 @@ public class 簡單解析Util {
 		日線 r = list指定数据.get(0);
 		o.set价格(r.get開盤_价格());
 		o.set位置("S");
-		o.set日時(Integer.parseInt(r.get日時()));
+		o.set日時(Integer.parseInt(r.get日時()));	
 		return o;
 	}
 
@@ -183,8 +183,28 @@ public class 簡單解析Util {
 		return index;
 	}
 
-	public static 簡單解析 取得指定区间数据制作簡單解析(List<日線> list日線,int index, int 对象个数) {
-		List<日線> list指定数据 = list日線.subList(index, index+对象个数);
+	public static 簡單解析 取得指定区间数据制作簡單解析(List<日線> list日線,int index, int 對象個數) {
+		List<日線> list指定数据 = null;
+		if(index+對象個數 >= list日線.size()) {
+			list指定数据 = list日線.subList(index, list日線.size() -1);
+		}else {
+			list指定数据 = list日線.subList(index, index  +對象個數);
+		}
+		
+		return 簡單解析Util.根据指定日线数据制作簡單解析(list指定数据);
+
+	}
+
+	public static 簡單解析 取得指定区间数据制作簡單解析2(List<日線> list日線,int index, int 對象個數) {
+		if(index >= list日線.size() -1 ) return null;
+		
+		List<日線> list指定数据 = null;
+		if(index+對象個數 >= list日線.size()) {
+			list指定数据 = list日線.subList(index+1, list日線.size() -1);
+		}else {
+			list指定数据 = list日線.subList(index+1, index + 1 + 對象個數);
+		}
+		
 		return 簡單解析Util.根据指定日线数据制作簡單解析(list指定数据);
 
 	}

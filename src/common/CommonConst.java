@@ -21,4 +21,7 @@ public class CommonConst {
 	public final static int 收盤價 = 2;
 	public final static int 最低價 = 3;
 	public final static int 最高價 = 4;
+	
+	public final static int  A模式_取得新的区间	 = 0;
+	public final static int  B模式_有限区间内再找一点 = 1;
 }

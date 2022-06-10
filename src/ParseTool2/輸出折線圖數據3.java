@@ -38,14 +38,14 @@ public class 輸出折線圖數據3 {
 				 {"20200116","12.28","12.20","12.16","12.31","22454876","274130144.00"}
 			};
 		輸出折線圖數據3 o = new 輸出折線圖數據3();
-		List<折点> l = o.輸出折線圖數據(s);
+		List<折点> l = o.輸出折線圖數據(s,18);
 		l.size();
 	}
 
 
 	計算目標Util 計算目標util =new 計算目標Util();
 
-	public List<折点> 輸出折線圖數據(String[][] arrayList日線) {
+	public List<折点> 輸出折線圖數據(String[][] arrayList日線, int 對象個數) {
 		List<日線> list日線 = new ArrayList();
 		for(String[] array日線 : arrayList日線){
 
@@ -66,38 +66,89 @@ public class 輸出折線圖數據3 {
 
 
 		計算目標 o計算目標 = new 計算目標();
+		
 		int index = 0 ;
-		int 对象个数 = 3;
+
 		List<折点> list折点 = new ArrayList();
 
-		輸出折線圖數據(o計算目標, list日線, index, 对象个数,list折点);
+		輸出折線圖數據(o計算目標, list日線, index, 對象個數, list折点);
 
 		return list折点;
 	}
 
-	private void 輸出折線圖數據( 計算目標 o計算目標, List<日線> list日線,int index, int 对象个数, List<折点> list折点) {
-//		一个区间内（假点，日线，index，对象个数）
-//	       假点以后：做成处理对象（）
-//	       判断：处理对象
-//	       处理（处理对象）：更新假点，追加折点
-//	       是否到了最后：无处理对象：返回
-//	       递归调用自己：（假点，日线，index，对象个数）
+	private void 輸出折線圖數據( 計算目標 o計算目標, List<日線> list日線,int index, int 對象個數, List<折点> list折点) {
+//		一个区间内（假点，日线，index，對象個數）
+//	       假点以后：做成處理对象（）
+//	       判断：處理对象
+//	       處理（處理对象）：更新假点，追加折点
+//	       是否到了最后：无處理对象：返回
+//	       递归调用自己：（假点，日线，index，對象個數）
 
-		簡單解析 o簡單解析 = 做成处理对象(o計算目標, list日線, index, 对象个数);
+		簡單解析 o簡單解析 = 做成處理对象(o計算目標, list日線, index, 對象個數, CommonConst.A模式_取得新的区间);
 
-		int iResult = 判断(o簡單解析, o計算目標, list日線, index, 对象个数);
-
-		处理(iResult, o簡單解析, o計算目標, list日線, list折点);
-
-		if(是否到了最后(o計算目標, list日線)) {
-			計算目標util.最后一次计算(o計算目標, o簡單解析, list折点);
+		int iResult = 判断(o簡單解析, o計算目標, list日線, index);
+		
+		if(iResult == CommonConst.如果_這是最後一次計算) {
+			最后一次计算(o計算目標, o簡單解析, list折点);
 			return;
 		}
+		
+		處理(iResult, o簡單解析, o計算目標, list日線, list折点);
+		
+		if(是否到了最后(o計算目標, list日線)) {
+			最后一次计算(o計算目標, o簡單解析, list折点);
+			return;
+		}
+		
+		// 如果还有余點，出于一个区间有两个点的考虑，再找一次
+		if(o計算目標.get假().get日時() < o簡單解析.get結束().get日時()) {
+			輸出折線圖數據_B(o計算目標, list日線, index, 對象個數, list折点);
+		}
 
+		index = 簡單解析Util.取得指定日期的index(list日線, o計算目標.get假().get日時());
 		index++;
 
-		輸出折線圖數據(o計算目標, list日線, index, 对象个数,list折点);
+		if(index == 19 ) {
+			index = 19;
+		}
+		
+//		if(最后一次计算(list日線, index)) {
+//			return;
+//		}
+		
+		輸出折線圖數據(o計算目標, list日線, index, 對象個數,list折点);
 
+	}
+	
+	
+	
+	private boolean 最后一次计算(List<日線> list日線, int index) {
+		if(index == list日線.size()-1 ) {
+			return true;
+		}
+		return false;
+	}
+
+	private void 輸出折線圖數據_B( 計算目標 o計算目標, List<日線> list日線,int index, int 對象個數, List<折点> list折点) {		
+
+		簡單解析 o簡單解析 = 做成處理对象(o計算目標, list日線, index, 對象個數, CommonConst.B模式_有限区间内再找一点);
+
+		int iResult = 判断(o簡單解析, o計算目標, list日線, index);
+		
+		if(iResult == CommonConst.如果_這是最後一次計算) {
+			最后一次计算(o計算目標, o簡單解析, list折点);
+			return;
+		}
+		
+		處理(iResult, o簡單解析, o計算目標, list日線, list折点);
+
+	}
+
+	private void 最后一次计算(計算目標 o計算目標, 簡單解析 o簡單解析, List<折点> 折点list) {
+		// 假点是否为日线的最后一个
+		// 假点变确点
+		計算目標util.追加假点(o計算目標, o簡單解析, 折点list);		
+		
 	}
 
 	private boolean 是否到了最后(計算目標 o計算目標, List<日線> list日線) {
@@ -112,7 +163,7 @@ public class 輸出折線圖數據3 {
 		return false;
 	}
 
-	private void 处理(int iResult, 簡單解析 簡單解析對象, 計算目標 o計算目標, List<日線> list日線, List<折点> 折点list) {
+	private void 處理(int iResult, 簡單解析 簡單解析對象, 計算目標 o計算目標, List<日線> list日線, List<折点> 折点list) {
 
 		switch (iResult) {
 
@@ -158,7 +209,7 @@ public class 輸出折線圖數據3 {
 
 	}
 
-	private int 判断(簡單解析 o簡單解析, 計算目標 o計算目標, List<日線> list日線, int index, int 对象个数) {
+	private int 判断(簡單解析 o簡單解析, 計算目標 o計算目標, List<日線> list日線, int index) {
 
 //		判断：
 //	      假点为空：第一次：追加确点，追加假点
@@ -169,14 +220,14 @@ public class 輸出折線圖數據3 {
 
 		//5=如果  这是第一次计算（折点list為空 ）
 		if(o計算目標.get假()==null)return CommonConst.如果_這是第一次計算;
-
+		if(index > list日線.size()-1)return CommonConst.如果_這是最後一次計算;
 
 		// 手持高低点:假是低还高
 		int 假点高低点=o計算目標.get假().get高低();//0=低 1=高
 		// 要找高低点:求是低还高
 		int 求高低点=o計算目標.get求().get高低();//0=低 1=高
 		// 下一个简单安区间的高低点(求=高，看簡單區間的低點；求=低，看簡單區間的高點)
-		int 碰見更高低點=判断是都更高低(o簡單解析, o計算目標);
+		int 碰見更高低點=判断是否更高低(o簡單解析, o計算目標);
 
 
 		//1=如果  手持低点，要找高点，但碰见一个更低的谷
@@ -188,12 +239,12 @@ public class 輸出折線圖數據3 {
 		//4=如果  手持高点，要找底点，但没碰见一个更高的谷
 		if(假点高低点==CommonConst.高点 && 求高低点==CommonConst.低点 && 碰見更高低點 != CommonConst.更高点) return CommonConst.如果_手持高点_要找底点_但没碰见一个更高的谷;
 
-
+		if(是否到了最后(o計算目標, list日線)) return CommonConst.如果_這是最後一次計算;
 
 		return 0;//啥也不是
 	}
 
-	private int 判断是都更高低(簡單解析 o簡單解析, 計算目標 o計算目標) {
+	private int 判断是否更高低(簡單解析 o簡單解析, 計算目標 o計算目標) {
 		int 碰見更高低點=CommonConst.未超想象; //0=更低 1=更高
 
 
@@ -214,26 +265,42 @@ public class 輸出折線圖數據3 {
 		return 碰見更高低點;
 	}
 
-	private 簡單解析 做成处理对象(計算目標 o計算目標, List<日線> list日線, int index, int 对象个数) {
-//		做成处理对象
+	private 簡單解析 做成處理对象(計算目標 o計算目標, List<日線> list日線, int index, int 對象個數, int iType) {
+//		做成處理对象
 //	     如果假点为空，
-//	             就是全对象（日线，index，对象个数）
+//	             就是全对象（日线，index，對象個數）
 //	     如果假点不为空，
 //	             就是假点以后的对象
 //	                  （日线，假点index，
-//	                     对象个数 - 假点index - index）
+//	                     對象個數 - 假点index - index）
+		
+		int 處理個數 = 對象個數;
 
 		簡單解析 o簡單解析 = new 簡單解析();
 		if(o計算目標.get假()==null) {
-			o簡單解析 = 簡單解析Util.取得指定区间数据制作簡單解析(list日線,index, index+对象个数);
+			o簡單解析 = 簡單解析Util.取得指定区间数据制作簡單解析(list日線,index, 對象個數);
 
 
 		}
 
-		if(o計算目標.get假()!=null) {
-			int i=簡單解析Util.取得指定日期的index(list日線, o計算目標.get假().get日時());
-			o簡單解析 = 簡單解析Util.取得指定区间数据制作簡單解析(list日線,i, index+对象个数);
+		if (o計算目標.get假() != null) {
+			int i假点index = 簡單解析Util.取得指定日期的index(list日線, o計算目標.get假().get日時());
+			
+			if( iType == CommonConst.A模式_取得新的区间) { // A模式：取得新的区间			
+			
+				if(i假点index + 1 + 對象個數 > list日線.size()-1) {
+					處理個數 = list日線.size() -1 - i假点index;
+				}
+			
+			}
+			if( iType == CommonConst.B模式_有限区间内再找一点) { // B模式：有限区间内再找一点	
+				處理個數 = index + 對象個數 - i假点index -1;
+			}
+			
+			o簡單解析 = 簡單解析Util.取得指定区间数据制作簡單解析2(list日線, i假点index, 處理個數);
 		}
+		
+		
 		return o簡單解析;
 	}
 
@@ -242,24 +309,24 @@ public class 輸出折線圖數據3 {
 
 除非是单一属性：直下。直上。否则必有波动
 
-问题在于：结合点的处理：只处理假点以后未识别的数据
+问题在于：结合点的處理：只處理假点以后未识别的数据
 理由：一个假点只代表一个高或低点。另一个点不应该被漏掉。
 
 
-一个区间内（假点，日线，index，对象个数）
-       假点以后：做成处理对象（）
-       判断：处理对象
-       处理（处理对象）：更新假点，追加折点
-       是否到了最后：无处理对象：返回
-       递归调用自己：（假点，日线，index，对象个数）
+一个区间内（假点，日线，index，對象個數）
+       假点以后：做成處理对象（）
+       判断：處理对象
+       處理（處理对象）：更新假点，追加折点
+       是否到了最后：无處理对象：返回
+       递归调用自己：（假点，日线，index，對象個數）
 
-做成处理对象
+做成處理对象
      如果假点为空，
-             就是全对象（日线，index，对象个数）
+             就是全对象（日线，index，對象個數）
      如果假点不为空，
              就是假点以后的对象
                   （日线，假点index，
-                     对象个数 - 假点index - index）
+                     對象個數 - 假点index - index）
 
 判断：
       假点为空：第一次：追加确点，追加假点
@@ -273,15 +340,15 @@ public class 輸出折線圖數據3 {
       假点是否为日线的最后一个
 
 
-处理：
+處理：
       更新假点_高：
-              新假点为属性相同的最大点（处理对象内）
+              新假点为属性相同的最大点（處理对象内）
               假点向后推移。不增加折点
 
       追加新假点_高：增加新折点
       更新假点_低：新假点为更低。
       追加新假点_低：
-              新假点为属性相反的最大点（处理对象内）
+              新假点为属性相反的最大点（處理对象内）
 
 	 */
 }
