@@ -183,7 +183,7 @@ public class 簡單解析Util {
 		return index;
 	}
 
-	public static 簡單解析 取得指定区间数据制作簡單解析(List<日線> list日線,int index, int 對象個數) {
+	public static 簡單解析 取得指定區間數據製作簡單解析(List<日線> list日線,int index, int 對象個數) {
 		List<日線> list指定数据 = null;
 		if(index+對象個數 >= list日線.size()) {
 			list指定数据 = list日線.subList(index, list日線.size() -1);
@@ -195,7 +195,7 @@ public class 簡單解析Util {
 
 	}
 
-	public static 簡單解析 取得指定区间数据制作簡單解析2(List<日線> list日線,int index, int 對象個數) {
+	public static 簡單解析 取得指定區間數據製作簡單解析2(List<日線> list日線,int index, int 對象個數) {
 		if(index >= list日線.size() -1 ) return null;
 		
 		List<日線> list指定数据 = null;
