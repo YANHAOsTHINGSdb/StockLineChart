@@ -91,26 +91,26 @@ public class 輸出折線圖數據 {
 		計算目標Util util = new 計算目標Util();
 		計算目標 o計算目標 = util.初始化(簡單解析List.get(0),  折点list);
 
-		List<折点> 折点List = 輸出折點list(簡單解析List, o計算目標,  折点list);
+		List<折点> 折点List = 輸出折點list(簡單解析List, o計算目標,  折点list, list日線);
 		return 折点List;
 
 	}
 
-	private List<折点> 輸出折點list(List<簡單解析> 簡單解析List, 計算目標 o計算目標, List<折点> 折点list) {
+	private List<折点> 輸出折點list(List<簡單解析> 簡單解析List, 計算目標 o計算目標, List<折点> 折点list, List<日線> list日線) {
 		//List<折点> 折点list = new ArrayList();
 
 		//逐次解析每个簡單解析的节点
 		int index = 0;
 		for(簡單解析 o簡單解析 : 簡單解析List) {
  
-			輸出折點list(index, o計算目標, 簡單解析List, 折点list);
+			輸出折點list(index, o計算目標, 簡單解析List, 折点list, list日線);
 			
 			index ++;
 		}
 		return 折点list;
 	}
 
-	private void 輸出折點list(int index, 計算目標 o計算目標, List<簡單解析> 簡單解析List, List<折点> 折点list) {
+	private void 輸出折點list(int index, 計算目標 o計算目標, List<簡單解析> 簡單解析List, List<折点> 折点list, List<日線> list日線) {
 
 		boolean is是否最后的簡單解析 = 簡單解析List.size()==index+1?true:false;
 		// 返回要解析的状态
@@ -133,7 +133,7 @@ public class 輸出折線圖數據 {
 			//補丁 假点是否在簡單解析的对象中的处理
 			boolean b補丁 = is假点是否在簡單解析的对象中( o計算目標,   簡單解析對象);
 			if(b補丁 == true) {
-				追加假點_針對假點以後的數據(o計算目標, 簡單解析對象, 折点list);
+				追加假點_針對假點以後的數據(o計算目標, 簡單解析對象, 折点list, list日線);
 				break;
 			}
 			
@@ -151,7 +151,7 @@ public class 輸出折線圖數據 {
 			//補丁 假点是否在簡單解析的对象中的处理
 			b補丁 = is假点是否在簡單解析的对象中( o計算目標,   簡單解析對象);
 			if(b補丁 == true) {
-				追加假點_針對假點以後的數據(o計算目標, 簡單解析對象, 折点list);
+				追加假點_針對假點以後的數據(o計算目標, 簡單解析對象, 折点list, list日線);
 				break;
 			}
 			
@@ -167,7 +167,7 @@ public class 輸出折線圖數據 {
 		}
 	}
 
-	private 計算目標 追加假點_針對假點以後的數據(計算目標 o計算目標, 簡單解析 簡單解析對象, List<折点> 折点list) {
+	private 計算目標 追加假點_針對假點以後的數據(計算目標 o計算目標, 簡單解析 簡單解析對象, List<折点> 折点list, List<日線> list日線) {
 		/*	
 		1，假点是否在簡單解析的对象中的处理
 			1、求的是高
@@ -179,7 +179,7 @@ public class 輸出折線圖數據 {
 
 		*/
 		// 重新计算高低点
-		簡單解析 o重新計算後簡單解析 = 簡單解析Util.排除指定日时之前的数据(簡單解析對象, o計算目標.get假().get日時());
+		簡單解析 o重新計算後簡單解析 = 簡單解析Util.排除指定日时之前的数据(list日線, 簡單解析對象, o計算目標.get假().get日時());
 		
 		return 計算目標util.追加假点(o計算目標, o重新計算後簡單解析, 折点list);
 	}

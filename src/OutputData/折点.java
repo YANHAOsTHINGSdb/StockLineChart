@@ -9,5 +9,5 @@ public class 折点 {
 	String 位置; //SHLE
 	int 高低; //(高。低)
 	String 价格;
-
+	int index;
 }

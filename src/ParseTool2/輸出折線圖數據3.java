@@ -38,7 +38,7 @@ public class 輸出折線圖數據3 {
 				 {"20200116","12.28","12.20","12.16","12.31","22454876","274130144.00"}
 			};
 		輸出折線圖數據3 o = new 輸出折線圖數據3();
-		List<折点> l = o.輸出折線圖數據(s,18);
+		List<折点> l = o.輸出折線圖數據(s,3);
 		l.size();
 	}
 
@@ -76,17 +76,17 @@ public class 輸出折線圖數據3 {
 		return list折点;
 	}
 
-	private void 輸出折線圖數據( 計算目標 o計算目標, List<日線> list日線,int index, int 對象個數, List<折点> list折点) {
+	private void 輸出折線圖數據( 計算目標 o計算目標, List<日線> list日線,int 假点index, int 對象個數, List<折点> list折点) {
 //		一个区间内（假点，日线，index，對象個數）
 //	       假点以后：做成處理对象（）
 //	       判断：處理对象
 //	       處理（處理对象）：更新假点，追加折点
 //	       是否到了最后：无處理对象：返回
-//	       递归调用自己：（假点，日线，index，對象個數）
+//	       遞歸調用自己：（假点，日線，index，對象個數）
 
-		簡單解析 o簡單解析 = 做成處理对象(o計算目標, list日線, index, 對象個數, CommonConst.A模式_取得新的区间);
+		簡單解析 o簡單解析 = 做成處理对象(o計算目標, list日線, 假点index, 對象個數, CommonConst.A模式_取得新的区间);
 
-		int iResult = 判断(o簡單解析, o計算目標, list日線, index);
+		int iResult = 判断(o簡單解析, o計算目標, list日線, 假点index);
 		
 		if(iResult == CommonConst.如果_這是最後一次計算) {
 			最后一次计算(o計算目標, o簡單解析, list折点);
@@ -102,21 +102,22 @@ public class 輸出折線圖數據3 {
 		
 		// 如果还有余點，出于一个区间有两个点的考虑，再找一次
 		if(o計算目標.get假().get日時() < o簡單解析.get結束().get日時()) {
-			輸出折線圖數據_B(o計算目標, list日線, index, 對象個數, list折点);
+			輸出折線圖數據_B(o計算目標, list日線, o計算目標.get假().getIndex(), 對象個數, list折点);
 		}
 
-		index = 簡單解析Util.取得指定日期的index(list日線, o計算目標.get假().get日時());
-		index++;
+		//index = 簡單解析Util.取得指定日期的index(list日線, o計算目標.get假().get日時());
+		假点index =  o計算目標.get假().getIndex();
+		//index++;
 
-		if(index == 19 ) {
-			index = 19;
+		if(假点index == 19 ) {
+			假点index = 19;
 		}
 		
 //		if(最后一次计算(list日線, index)) {
 //			return;
 //		}
 		
-		輸出折線圖數據(o計算目標, list日線, index, 對象個數,list折点);
+		輸出折線圖數據(o計算目標, list日線, 假点index, 對象個數,list折点);
 
 	}
 	
@@ -165,12 +166,19 @@ public class 輸出折線圖數據3 {
 
 	private void 處理(int iResult, 簡單解析 簡單解析對象, 計算目標 o計算目標, List<日線> list日線, List<折点> 折点list) {
 
+		簡單解析 O處理對象 = new 簡單解析(簡單解析對象);
+		// 新假点的前2天，后2天再确认
+		// 重新取得指定日的前后指定天数的最大最小值（簡單解析對象）
+		if(iResult !=  CommonConst.如果_這是第一次計算 &&  簡單解析對象.getList指定数据().size() > 1 ) {
+			int index假点 = o計算目標.get假().getIndex();
+			O處理對象 = new 簡單解析(簡單解析Util.取得指定日的前后指定天数的簡單解析(list日線, index假点, 簡單解析對象.getList指定数据().size(), o計算目標.get求高低()));
+		}
 		switch (iResult) {
 
 		case CommonConst.如果_手持低点_要找高点_但碰见一个更低的谷:
 			//1=如果  手持低点，要找高点，但碰见一个更低的谷
 			// 更新假点
-			計算目標util.更新假点(o計算目標, 簡單解析對象, 折点list);
+			計算目標util.更新假点(o計算目標, O處理對象, 折点list);
 			break;
 
 		case CommonConst.如果_手持低点_要找高点_但没有碰见一个更低的谷:
@@ -179,13 +187,13 @@ public class 輸出折線圖數據3 {
 			// 就，固定低点，假設高點，尋找下一個低點
 			// 假点是否在簡單解析的对象中
 
-			計算目標util.追加假点(o計算目標, 簡單解析對象, 折点list);
+			計算目標util.追加假点(o計算目標, O處理對象, 折点list);
 			break;
 
 		case CommonConst.如果_手持高点_要找底点_但碰见一个更高的谷:
 			//3=如果  手持高点，要找底点，但碰见一个更高的谷
 			// 更新假点
-			計算目標util.更新假点(o計算目標, 簡單解析對象, 折点list);
+			計算目標util.更新假点(o計算目標, O處理對象, 折点list);
 			break;
 
 		case CommonConst.如果_手持高点_要找底点_但没碰见一个更高的谷:
@@ -193,7 +201,7 @@ public class 輸出折線圖數據3 {
 			// 如果  碰見低點
 			// 就，固定高点，假設低點，尋找下一個高點
 
-			計算目標util.追加假点(o計算目標, 簡單解析對象, 折点list);
+			計算目標util.追加假点(o計算目標, O處理對象, 折点list);
 			break;
 
 		case CommonConst.如果_這是第一次計算:
@@ -203,7 +211,7 @@ public class 輸出折線圖數據3 {
 
 		case CommonConst.如果_這是最後一次計算:
 			//6=如果  這是最後一次計算（簡單解析结果的最后一条 ）
-			計算目標util.最后一次计算(o計算目標, 簡單解析對象, 折点list);
+			計算目標util.最后一次计算(o計算目標, O處理對象, 折点list);
 			break;
 		}
 
@@ -220,7 +228,8 @@ public class 輸出折線圖數據3 {
 
 		//5=如果  这是第一次计算（折点list為空 ）
 		if(o計算目標.get假()==null)return CommonConst.如果_這是第一次計算;
-		if(index > list日線.size()-1)return CommonConst.如果_這是最後一次計算;
+		if(index >= list日線.size()-1 )
+			return CommonConst.如果_這是最後一次計算;
 
 		// 手持高低点:假是低还高
 		int 假点高低点=o計算目標.get假().get高低();//0=低 1=高
@@ -284,7 +293,8 @@ public class 輸出折線圖數據3 {
 		}
 
 		if (o計算目標.get假() != null) {
-			int i假点index = 簡單解析Util.取得指定日期的index(list日線, o計算目標.get假().get日時());
+			//int i假点index = 簡單解析Util.取得指定日期的index(list日線, o計算目標.get假().get日時());
+			int i假点index = o計算目標.get假().getIndex();
 			
 			if( iType == CommonConst.A模式_取得新的区间) { // A模式：取得新的区间			
 			
@@ -294,7 +304,11 @@ public class 輸出折線圖數據3 {
 			
 			}
 			if( iType == CommonConst.B模式_有限区间内再找一点) { // B模式：有限区间内再找一点	
-				處理個數 = index + 對象個數 - i假点index -1;
+				if(i假点index + 1 + 對象個數 > list日線.size()-1) {
+					處理個數 = list日線.size() -1  - i假点index;
+				}else {
+					處理個數 = index + 對象個數 - i假点index -1;
+				}
 			}
 			
 			o簡單解析 = 簡單解析Util.取得指定區間數據製作簡單解析2(list日線, i假点index, 處理個數);

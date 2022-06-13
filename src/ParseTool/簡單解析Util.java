@@ -69,7 +69,7 @@ public class 簡單解析Util {
 			//2.1. 生成【簡單解析】
 
 			//2.2将生成的【簡單解析】追加到list
-			list簡單解析.add(根据指定日线数据制作簡單解析(list指定数据));
+			list簡單解析.add(根据指定日线数据制作簡單解析(list日線, list指定数据));
 			//2.3.开始位置 +1
 			i开始位置++;
 		} // end for
@@ -78,42 +78,43 @@ public class 簡單解析Util {
 		return list簡單解析;
 	}
 
-	public static 簡單解析 根据指定日线数据制作簡單解析(List<日線> list指定数据 ) {
+	public static 簡單解析 根据指定日线数据制作簡單解析(List<日線> list日線, List<日線> list指定数据 ) {
 
 		簡單解析 o簡單解析 = new 簡單解析();
 		//取开始第一个的S位的信息（XXX）作为簡單解析的开始；
 
-		o簡單解析.set开始(簡單解析Util.取得簡單解析的开始位(new ArrayList(list指定数据)));
+		o簡單解析.set开始(簡單解析Util.取得簡單解析的开始位(list日線, new ArrayList(list指定数据)));
 		//取开始第一个的S位的信息（XXX）作为簡單解析的开始；
-		o簡單解析.set最低(簡單解析Util.取得簡單解析的最低位(new ArrayList(list指定数据)));
+		o簡單解析.set最低(簡單解析Util.取得簡單解析的最低位(list日線, new ArrayList(list指定数据)));
 		//取开始第一个的S位的信息（XXX）作为簡單解析的开始；
-		o簡單解析.set最高(簡單解析Util.取得簡單解析的最高位(new ArrayList(list指定数据)));
+		o簡單解析.set最高(簡單解析Util.取得簡單解析的最高位(list日線, new ArrayList(list指定数据)));
 		//取开始第一个的S位的信息（XXX）作为簡單解析的开始；
-		o簡單解析.set結束(簡單解析Util.取得簡單解析的結束位(new ArrayList(list指定数据)));
+		o簡單解析.set結束(簡單解析Util.取得簡單解析的結束位(list日線, new ArrayList(list指定数据)));
 
 		o簡單解析.setList指定数据(list指定数据);
 
 		return o簡單解析;
 	}
 
-	private static boolean 是否有效日(日線 日线) {
-		if(日线.get開盤_价格().equals(日线.get收盤_价格()) && 日线.get最高_价格().equals(日线.get最低_价格())) {
+	private static boolean 是否有效日(日線 o日線) {
+		if(o日線.get開盤_价格().equals(o日線.get收盤_价格()) && o日線.get最高_价格().equals(o日線.get最低_价格())) {
 			return false;
 		}
 		return true;
 	}
 
-	private static 日線點 取得簡單解析的結束位(List<日線> list指定数据) {
+	private static 日線點 取得簡單解析的結束位(List<日線> list日線, List<日線> list指定数据 ) {
 		日線點 o = new 日線點();
 
 		日線 r = list指定数据.get(list指定数据.size()-1);
 		o.set价格(r.get收盤_价格());
 		o.set位置("E");
 		o.set日時(Integer.parseInt(r.get日時()));
+		o.setIndex(取得指定日期的index(list日線, Integer.parseInt(r.get日時())));
 		return o;
 	}
 
-	private static 日線點 取得簡單解析的最高位(List<日線> list指定数据) {
+	private static 日線點 取得簡單解析的最高位(List<日線> list日線, List<日線> list指定数据 ) {
 		日線點 o = new 日線點();
 
 		//SortUtil.sortList(list指定数据,newPropertyComparator<日线>("价格"));
@@ -122,11 +123,11 @@ public class 簡單解析Util {
 		o.set价格(r.get最高_价格());
 		o.set位置("H");
 		o.set日時(Integer.parseInt(r.get日時()) );
-
+		o.setIndex(取得指定日期的index(list日線, Integer.parseInt(r.get日時())));
 		return o;
 	}
 
-	private static 日線點 取得簡單解析的最低位(List<日線> list指定数据) {
+	private static 日線點 取得簡單解析的最低位(List<日線> list日線, List<日線> list指定数据 ) {
 		日線點 o = new 日線點();
 
 		List<日線> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"最低_价格");
@@ -134,16 +135,18 @@ public class 簡單解析Util {
 		o.set价格(r.get最低_价格());
 		o.set位置("L");
 		o.set日時(Integer.parseInt(r.get日時()));
+		o.setIndex(取得指定日期的index(list日線, Integer.parseInt(r.get日時())));
 		return o;
 	}
 
-	private static 日線點 取得簡單解析的开始位(List<日線> list指定数据) {
+	private static 日線點 取得簡單解析的开始位(List<日線> list日線, List<日線> list指定数据 ) {
 		日線點 o = new 日線點();
 
 		日線 r = list指定数据.get(0);
 		o.set价格(r.get開盤_价格());
 		o.set位置("S");
-		o.set日時(Integer.parseInt(r.get日時()));	
+		o.set日時(Integer.parseInt(r.get日時()));
+		o.setIndex(取得指定日期的index(list日線, Integer.parseInt(r.get日時())));
 		return o;
 	}
 
@@ -154,19 +157,19 @@ public class 簡單解析Util {
 		return l;
 	}
 
-	public static 簡單解析 排除指定日时之前的数据(簡單解析 簡單解析對象, int i指定日時) {
+	public static 簡單解析 排除指定日时之前的数据(List<日線> list日線, 簡單解析 簡單解析對象, int i指定日時) {
 		簡單解析 o = new 簡單解析();
-		List<日線> list日線 = new ArrayList();
+		List<日線> list指定数据 = new ArrayList();
 		for(日線 i : 簡單解析對象.getList指定数据()) {
 			if(Integer.parseInt(i.get日時())
 					 > i指定日時) {
-				list日線.add(i);
+				list指定数据.add(i);
 			}
 		}
 
 		// 重新计算高低点
 
-		return 根据指定日线数据制作簡單解析(list日線);
+		return 根据指定日线数据制作簡單解析(list日線, list指定数据);
 	}
 
 	public static int 取得指定日期的index(List<日線> list日線, int i指定日時) {
@@ -183,29 +186,78 @@ public class 簡單解析Util {
 		return index;
 	}
 
-	public static 簡單解析 取得指定區間數據製作簡單解析(List<日線> list日線,int index, int 對象個數) {
+	/**
+	 * 从指定index开始到對象個數的指定區間的簡單解析数据做成
+	 * 
+	 *    |--------------對象個數--------------|
+	 *  指定index
+	 * 
+	 * @param list日線
+	 * @param index
+	 * @param 對象個數
+	 * @return
+	 */
+	public static 簡單解析 取得指定區間數據製作簡單解析(List<日線> list日線, int 指定index, int 對象個數) {
 		List<日線> list指定数据 = null;
-		if(index+對象個數 >= list日線.size()) {
-			list指定数据 = list日線.subList(index, list日線.size() -1);
+		if(指定index + 對象個數 >= list日線.size()) {
+			list指定数据 = list日線.subList(指定index, list日線.size() - 1);
 		}else {
-			list指定数据 = list日線.subList(index, index  +對象個數);
+			list指定数据 = list日線.subList(指定index, 指定index  + 對象個數);
 		}
-		
-		return 簡單解析Util.根据指定日线数据制作簡單解析(list指定数据);
+		if(list指定数据.size()==0) {
+			指定index = 指定index;
+		}
+		return 根据指定日线数据制作簡單解析(list日線, list指定数据);
 
 	}
-
+	
+	/**
+	 * 从指定index的下一个单位开始到對象個數的指定區間的簡單解析数据做成
+	 * 
+	 *   |--- 1 ---|--------------對象個數--------------|
+	 *  指定index
+	 * 	 
+	 * @param list日線
+	 * @param index
+	 * @param 對象個數
+	 * @return
+	 */
 	public static 簡單解析 取得指定區間數據製作簡單解析2(List<日線> list日線,int index, int 對象個數) {
 		if(index >= list日線.size() -1 ) return null;
 		
 		List<日線> list指定数据 = null;
 		if(index+對象個數 >= list日線.size()) {
-			list指定数据 = list日線.subList(index+1, list日線.size() -1);
+			list指定数据 = list日線.subList(index+1, list日線.size() - 1);
 		}else {
 			list指定数据 = list日線.subList(index+1, index + 1 + 對象個數);
 		}
 		
-		return 簡單解析Util.根据指定日线数据制作簡單解析(list指定数据);
+		return 根据指定日线数据制作簡單解析(list日線, list指定数据);
 
 	}
+	
+	/**
+	 * 取得指定日的前后指定天数的簡單解析
+	 * 
+	 *   |--- 對象個數 - 1 ---|----對象個數 - 1 ---|
+	 *                     指定index
+	 *  
+	 * @param list日線
+	 * @param i指定日時
+	 * @param i指定天数
+	 * @param i最大最小值
+	 * @return
+	 */
+	public static 簡單解析 取得指定日的前后指定天数的簡單解析(List<日線> list日線, int index假点, int i指定天数, int i最大最小值) {
+
+		//int i开始index = i指定index - i指定天数 + 1;
+		int i开始index = index假点 + 1;
+		//int i結束index = index假点 + i指定天数;
+		i开始index = i开始index < 0 ? 0 : i开始index;
+		
+		//List<日線> list指定数据 = list日線.subList(i开始index, i結束index);
+		return 取得指定區間數據製作簡單解析(list日線, i开始index, i指定天数);
+
+	}
+
 }

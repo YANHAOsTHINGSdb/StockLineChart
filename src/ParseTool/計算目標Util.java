@@ -94,6 +94,7 @@ public class 計算目標Util {
 		o.set价格(a.get价格());
 		o.set位置(a.get位置());
 		o.set高低(i高低点);
+		o.setIndex(a.getIndex());
 		return o;
 	}
 
@@ -142,6 +143,11 @@ public class 計算目標Util {
 		
 		// 如果求高，一定是出现了高点
 		// 如果求低，一定是出现了低点
+		
+		if(簡單解析對象 == null) {
+			// 如果簡單解析對象為空，說明到了最後，假點為確定
+			return 追加确点(o計算目標, o計算目標.get假(), 折点list);
+		}
 		折点 o新假点 = null;
 		if(o計算目標.get求高低()==CommonConst.高点) {
 			o新假点 =turn日線點to折点(簡單解析對象.get最高(), CommonConst.高点);
@@ -149,6 +155,10 @@ public class 計算目標Util {
 			o新假点 =turn日線點to折点(簡單解析對象.get最低(), CommonConst.低点);
 		}
 
+
+		
+		
+		
 		// 假点确定				入力=新假点信息
 		o計算目標 = 假点确定(o計算目標, o新假点, 折点list);
 
