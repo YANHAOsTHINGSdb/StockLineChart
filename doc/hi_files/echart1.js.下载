@@ -1,0 +1,65 @@
+//JS
+$(document).ready(function() {
+
+	// 画面动作，目测需要Jquery
+	$('.box - 1.box1').click(function() {
+		let index = $(this).index();
+		k_bz = $(this).find('a').attr('value');
+		$('.box - 2.box2 a').each(function(i, n) {
+			if ($(n).hasClass('selected')) {
+				k_time = $(n).attr('value');
+			}
+		});
+		$('.box - 1.box1 a;').removeClass('selected');
+		$('.box - 1.box1 a').eq(index).addClass('selected').siblings().removeClass('selected');
+		k_key = k_bz + k_time + k_gdd;
+
+		get_k_charts();
+		get_tx_info(k_key);
+	});
+
+	$('.box-2 .box2').click(function() {
+		let index = $(this).index();
+		k_time = $(this).find('a').attr("value");
+		$('.box-1 .box1 a').each(function(i, n) {
+			if ($(n).hasClass('selected')) {
+				k_bz = $(n).attr("value");
+			}
+		});
+		$('.box-2 .box2 a').removeClass("selected");
+		$('.box-2 .box2 a').eq(index).addClass("selected").siblings().removeClass("selected");
+		k_key = k_bz + k_time + k_gdd;
+		myChart.clear();
+		//initialization();
+		get_k_charts();
+		// get_tx_info(k_key);
+	});
+});
+
+function get_StockData() {
+
+	var result = [];
+
+	$.ajax({
+		url: url,
+		type: 'GET',
+		crossDomain: true,
+		cache: false, 
+		async: false, 
+		dataType: "json",
+		success: function(data) {
+			json_data = JSON.parse(JSON.stringify(data));
+			
+			result = data;
+			
+			//data0 = splitData(json_data.values);
+			// 取得折线点
+			//gaodi_arr = json_data.polyline;
+			// 输出折线数据
+			//oMultiLines = createMultiLines(gaodi_arr);
+			
+			
+		}
+	});
+	return result;
+}

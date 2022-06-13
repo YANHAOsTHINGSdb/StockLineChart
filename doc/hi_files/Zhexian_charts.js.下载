@@ -1,0 +1,182 @@
+/**
+ * 
+ */
+ 
+ 		// 画折线
+		function get_Zhexian_charts(oMyChart) {
+			oMyChart.showLoading();
+/*		
+			$.ajax({
+				url : url,
+				type : 'GET',
+				crossDomain : true,
+				success : function(data) {
+					json_data = JSON.parse(JSON.stringify(data));
+					data0 = splitData(json_data.values);
+					// 取得折线点
+					gaodi_arr = json_data.polyline;
+					// 输出折线数据
+					oMultiLines = createMultiLines(gaodi_arr);
+*/
+
+					oMyChart.setOption({
+						title : {
+							text : '上证指数',
+							left : 0
+						},
+						tooltip : {
+							trigger : 'axis',
+							axisPointer : {
+								type : 'cross'
+							}
+						},
+						legend : {
+							data : [ '日K', 'MA5', 'MA10', 'MA20', 'MA30', 'ZZ' ]
+						},
+						grid : {
+							left : '10%',
+							right : '10%',
+							bottom : '15%'
+						},
+						xAxis : {
+							type : 'category',
+							data : data0.categoryData,
+							scale : true,
+							boundaryGap : false,
+							axisLine : {
+								onZero : false
+							},
+							splitLine : {
+								show : false
+							},
+							splitNumber : 20,
+							min : 'dataMin',
+							max : 'dataMax'
+						},
+						yAxis : {
+							scale : true,
+							splitArea : {
+								show : true
+							}
+						},
+						dataZoom : [ // 数据区域缩放
+						{
+							type : 'inside',
+							start : 50,
+							end : 100
+						}, {
+							show : true,
+							type : 'slider',
+							y : '90%',
+							start : 50,
+							end : 100
+						} ],
+
+						series : [
+							{
+								name : '日K',
+								type : 'candlestick',
+								data : data0.values,
+								itemStyle : {
+									normal : {
+										color : upColor,
+										color0 : downColor,
+										borderColor : upBorderColor,
+										borderColor0 : downBorderColor
+									}
+								},
+								markLine : {
+									symbol : [ 'none', 'none' ],
+									data: oMultiLines
+								},
+							},
+						/*	
+							{
+								name : 'upper',
+								type : 'line',
+								smooth : true,
+								symbol : 'none', //取消折点圆圈
+								lineStyle : {
+									opacity : 0.5
+								},
+								data : upper_arr_new
+							//上轨
+
+							}, {
+								name : 'lower',
+								data : lower_arr_new,//下轨
+								symbol : 'none', //取消折点圆圈
+								type : 'line',
+								smooth : true,
+								lineStyle : {
+									opacity : 0.5
+								}
+							}
+						 */
+						],
+					
+					// markPoint: {
+					// 	data: maodian //锚点，高低点
+					// }
+					
+					});
+					oMyChart.hideLoading();
+					
+		} // END get_Zhexian_charts
+//			})
+//		}
+		
+		var oNormal = 
+        {
+        	color:"red",
+        	type:"solid"
+        };
+
+       	var oLineStyle =
+        {
+       		normal:oNormal
+        };
+        
+		// 制作图形用折线
+		function createMultiLines(gaodi_arr){
+
+			 var oMultiLines =  new Array(); // 多条线
+	         var oOneLine = [];    // 一条线
+	         for (var i = 0; i < gaodi_arr.length; i++) {
+	         	// 倒数第二时退出
+	            if(i === gaodi_arr.length -1){
+	            	break;
+	            }
+
+	            // 线的开始端
+	            var oFrom = 
+	            {
+	            	yAxis: gaodi_arr[i][3], // Price
+	            	xAxis: gaodi_arr[i][0], // YYYYMMDD
+	            	//symbol: 'none',
+	            };
+
+	            // 线的结束端
+	            var oTo = 
+	            {
+	            	yAxis: gaodi_arr[i+1][3],  // Price
+	            	xAxis: gaodi_arr[i+1][0],  // YYYYMMDD
+	            	//symbol: 'none',
+	            	lineStyle: oLineStyle
+	            };		
+	            var oOneLine = new Array(2)
+	            oOneLine[0] = oFrom
+	            oOneLine[1] = oTo
+	            
+	            // 完成一条线
+	            //oOneLine.push(oFrom);
+	            //oOneLine.push(oTo);
+	            // 追加一条线
+	            
+	            //oMultiLines.push(JSON.stringify(oOneLine));
+	            oMultiLines.push(oOneLine);
+	            
+	        }
+
+			return oMultiLines;
+	    }		

@@ -1,0 +1,284 @@
+/**
+ * 
+ */
+function get_K_charts(oMyChart) {// 先输出K线图
+			
+			option = {
+				title : {
+					text : '上证指数',
+					left : 0
+				},
+				tooltip : {
+					trigger : 'axis',
+					axisPointer : {
+						type : 'cross'
+					}
+				},
+				legend : {
+					data : [ '日K', 'MA5', 'MA10', 'MA20', 'MA30', 'ZZ' ]
+				},
+				grid : {
+					left : '10%',
+					right : '10%',
+					bottom : '15%'
+				},
+				xAxis : {
+					type : 'category',
+					data : data0.categoryData,
+					scale : true,
+					boundaryGap : false,
+					axisLine : {
+						onZero : false
+					},
+					splitLine : {
+						show : false
+					},
+					splitNumber : 20,
+					min : 'dataMin',
+					max : 'dataMax'
+				},
+				yAxis : {
+					scale : true,
+					splitArea : {
+						show : true
+					}
+				},
+				dataZoom : [ // 数据区域缩放
+				{
+					type : 'inside',
+					start : 50,
+					end : 100
+				}, {
+					show : true,
+					type : 'slider',
+					y : '90%',
+					start : 50,
+					end : 100
+				} ],
+				series : [
+						{
+							name : '日K',
+							type : 'candlestick',
+							data : data0.values,
+							itemStyle : {
+								normal : {
+									color : upColor,
+									color0 : downColor,
+									borderColor : upBorderColor,
+									borderColor0 : downBorderColor
+								}
+							},
+							markPoint : {// 画点
+								label : {
+									normal : {
+										formatter : function(param) {
+											return param != null ? Math
+													.round(param.value) : '';
+										}
+									}
+								},
+								data : [ // 有几组数据就有几个标注
+									{
+										name : 'XX标点', // 标注名称,可不填,不会展示出来
+										coord : [ '2013/5/31', 2300 ],// 标注的坐标X轴, Y轴
+										value : 2300,// 标注的数字
+										itemStyle : {
+											normal : {
+												color : 'rgb(41,60,85)'// 标注的颜色
+											}
+										}
+									}, {
+										name : 'highest value',
+										// 特殊的标注类型，用于标注最大值最小值等
+										// 'min' 最小值。
+										// 'max' 最大值。
+										// 'average' 平均值
+										type : 'max',
+										valueDim : 'highest'// K线图的取值维度open, close, lowest, highest
+									}, {
+										name : 'lowest value',
+										type : 'min',
+										valueDim : 'lowest'// K线图的取值维度open, close, lowest, highest
+									}, {
+										name : 'average value on close',
+										type : 'average',
+										valueDim : 'close'// K线图的取值维度open, close, lowest, highest
+									} ,
+							          {
+							            "xAxis": "2013/1/29",
+							            "yAxis": 2358.98,
+							            value : 2358.98,// 标注的数字
+							            "itemStyle": {
+							              "color": "blue"
+							            }
+							          }
+								], // data end
+								tooltip : {
+									formatter : function(param) {
+										return param.name + '<br>'
+												+ (param.data.coord || '');
+									}
+								}
+							},// markPoint end
+							markLine : {
+								symbol : [ 'none', 'none' ],// 线段两端的图表,默认开始是圆圈,结束是箭头
+								data : [ 
+											[// 数组格式可以有两个值,表示线段的起点和终点
+												{
+													name : 'from lowest to highest',
+													type : 'average',
+													valueDim : 'lowest',// K线图的取值维度open, close, lowest, highest
+													symbol : 'circle',
+													symbolSize : 10,
+													label : {
+														normal : {
+															show : false
+														},
+														emphasis : {
+															show : false
+														}
+													}
+												},//  lowest最低点
+												
+												{
+													type : 'max',
+													valueDim : 'highest',// K线图的取值维度open, close, lowest, highest
+													symbol : 'circle',
+													symbolSize : 10,
+													label : {
+														normal : {
+															show : false
+														},
+														emphasis : {
+															show : false
+														}
+													}
+												} //  从 average 到 highest
+											], 
+											[ 
+												{
+													name : 'from lowest to highest',
+													type : 'min',
+													valueDim : 'lowest',// K线图的取值维度open, close, lowest, highest
+													symbol : 'circle',
+													symbolSize : 10,
+													label : {
+														normal : {
+															show : false
+														},
+														emphasis : {
+															show : false
+														}
+													}
+												}, {
+													type : 'max',
+													valueDim : 'highest',// K线图的取值维度open, close, lowest, highest
+													symbol : 'circle',
+													symbolSize : 10,
+													label : {
+														normal : {
+															show : false
+														},
+														emphasis : {
+															show : false
+														}
+													}
+												} //  从 lowest 到 highest
+											],
+									          [
+									              {
+									                "yAxis": 2332.08,
+									                "xAxis": "2013/3/4",
+									                "symbol": "none"
+									              },
+									              {
+									                "yAxis":2352.02,
+									                "xAxis": "2013/3/7",
+									                "symbol": "none",
+									                "lineStyle": {
+									                  "normal": {
+									                    "color": "red",
+									                    "type": "solid"
+									                  }
+									                }
+									              }
+									            ],
+									            [
+									              {
+									                "yAxis": 2326.72,
+									                "xAxis": "2013/3/25",
+									                "symbol": "none"
+									              },
+									              {
+									                "yAxis": 2228.81,
+									                "xAxis": "2013/3/29",
+									                "symbol": "none",
+									                "lineStyle": {
+									                  "normal": {
+									                    "color": "grey",
+									                    "type": "solid"
+									                  }
+									                }
+									              }
+									            ],
+											{ //横线 收盘最低 对象形式为直线
+												name : 'min line on close',
+												type : 'min',
+												valueDim : 'close'// K线图的取值维度open, close, lowest, highest
+											},
+											{ //横线 收盘最高 对象形式为直线
+												name : 'max line on close',
+												type : 'max',
+												valueDim : 'close'// K线图的取值维度open, close, lowest, highest
+											},
+											{ //横线 收盘平均 对象形式为直线
+												name : 'average value on close',
+												type : 'average',
+												valueDim : 'close'// K线图的取值维度open, close, lowest, highest
+											},
+								            {
+								                name: 'Y 轴值为 100 的水平线',
+								                yAxis: 2304.95
+								            }
+											,
+									          [
+									              {
+									                "yAxis": 2304.95,
+									                "xAxis": "2013/3/4",
+									                "symbol": "none"
+									              },
+									              {
+									                "yAxis":2304.95,
+									                "xAxis": "2013/5/7",
+									                "symbol": "none",
+									                "lineStyle": {
+									                  "normal": {
+									                    "color": "red",
+									                    "type": "solid"
+									                  }
+									                }
+									              }
+									            ],
+										] //DATA END
+									} // markLine end
+							}
+	
+				]
+			};
+	
+			oMyChart.setOption(option);
+		
+		}
+		
+		function splitData(rawData) {
+			var categoryData = [];
+			var values = []
+			for (var i = 0; i < rawData.length; i++) {
+				categoryData.push(rawData[i].splice(0, 1)[0]);//取得日期
+				values.push(rawData[i])
+			}
+			return {
+				categoryData : categoryData,
+				values : values
+			};
+		}		
