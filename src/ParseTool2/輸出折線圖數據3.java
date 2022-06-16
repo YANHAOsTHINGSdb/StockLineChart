@@ -94,7 +94,7 @@ public class 輸出折線圖數據3 {
 		List<折点> list折点 = new ArrayList();
 
 		輸出折線圖數據3.對象個數 = 對象個數;
-				
+		輸出折線圖數據3.debugMode =CommonConst.debugMode;
 		輸出折線圖數據(o計算目標, list日線, index, 對象個數, list折点);
 
 		return list折点;
@@ -128,10 +128,11 @@ public class 輸出折線圖數據3 {
 			return;
 		}
 		
-		// 如果还有余點，出于一个区间有两个点的考虑，再找一次
-		if(o計算目標.get假().get日時() < o簡單解析.get結束().get日時()) {
-			輸出折線圖數據_B(o計算目標, list日線, o計算目標.get假().getIndex(), 對象個數, list折点);
-		}
+//		// 如果还有余點，出于一个区间有两个点的考虑，再找一次
+//		if(o計算目標.get假().get日時() < o簡單解析2.get結束().get日時()) {
+//			int i對象個數 = o簡單解析2.get結束().getIndex() - o計算目標.get假().getIndex();
+//			輸出折線圖數據_B(o計算目標, list日線, o計算目標.get假().getIndex(), i對象個數, list折点);
+//		}
 
 		//index = 簡單解析Util.取得指定日期的index(list日線, o計算目標.get假().get日時());
 		假点index =  o計算目標.get假().getIndex();
@@ -204,7 +205,7 @@ public class 輸出折線圖數據3 {
 		// 新假点的前2天，后2天再确认
 		// 重新取得指定日的前后指定天数的最大最小值（簡單解析對象）
 		if(iResult !=  CommonConst.如果_這是第一次計算 &&  簡單解析對象.getList指定数据().size() > 1 ) {
-			if(o計算目標.get确().get日時() >= 20190530) {
+			if(o計算目標.get确().get日時() >= 20190927) {
 				iResult = iResult;
 			}
 			int index假点 = o計算目標.get假().getIndex();
@@ -315,7 +316,8 @@ public class 輸出折線圖數據3 {
 		}
 		
 		
-		// iResult为2和4的时候，判断一下更合适的点是否满足需求：周围极致点
+		// iResult為2和4的時候，判斷一下更合適的點是否滿足需求：周圍極致點
+		// 只對【i前次判断结果=2】和【i前次判断结果=4】有效
 		boolean b是否極限點 = 判斷2是否是周圍的極限點(i前次判断结果, o計算目標, list日線, o處理對象);
 		
 		
@@ -383,19 +385,28 @@ public class 輸出折線圖數據3 {
 			//　落差：最低--最高的價格差
 			//　寬度：最低--最高--最低的單位個數
 			
-			if(o處理對象.get最低().getIndex() <= o處理對象.get最高().getIndex()) {
+			
+			// 如果高低在同一天，還是維持原判
+			if(o處理對象.get最低().getIndex() < o處理對象.get最高().getIndex()) {
 				int i寬度 = o處理對象.get最高().getIndex() - 假index + 1;
 			
 				
 				
-				float f落差_最高_最低 = f最高_處理對象 - f最低_處理對象;
+				//float f落差_最高_最低 = f最高_處理對象 - f最低_處理對象;
 				float f落差_假_最低 = f假 - f最低_處理對象;
-				float f落差_假_确   = f假 - Float.parseFloat(o計算目標.get确().get价格());
+				//float f落差_假_确   = f假 - Float.parseFloat(o計算目標.get确().get价格());
+				float f落差_高_假   = f最高_處理對象 - f假;
+				
 				
 				//且高低谷的寬度不小於 1.5倍對象個數
 				//且高低谷的落差不小於 確與假的0.75 高度
-				if(f落差_最高_最低 >= f落差_假_确 * 0.75 && f落差_假_最低 > f落差_假_确 * 0.75) {
-					
+				
+				//if(f落差_最高_最低 >= f落差_假_确 * 0.75 && f落差_假_最低 > f落差_假_确 * 0.75) {	
+				
+				
+				if(f落差_假_最低 >= f落差_高_假) {
+					// o處理對象 = 低点---最后
+					o處理對象 = 簡單解析Util.取得指定區間數據製作簡單解析3(o處理對象, list日線, o處理對象.get最低().getIndex(), o處理對象.get結束().getIndex());
 					return CommonConst.如果_手持高点_要找底点_但没碰见一个更高的谷;
 				}
 			}
@@ -419,17 +430,21 @@ public class 輸出折線圖數據3 {
 			//　落差：最低--最高的價格差
 			//　寬度：最低--最高--最低的單位個數
 			
-			if(o處理對象.get最高().getIndex() <= o處理對象.get最低().getIndex()) {
+			if(o處理對象.get最高().getIndex() < o處理對象.get最低().getIndex()) {
 				int i寬度 = o處理對象.get最低().getIndex() - 假index + 1;
 			
-				float f落差_最高_最低 = f最高_處理對象 - f最低_處理對象;
-				float f落差_假_确 =   Float.parseFloat(o計算目標.get确().get价格()) - f假;
+				// float f落差_最高_最低 = f最高_處理對象 - f最低_處理對象;
+				// float f落差_假_确 =   Float.parseFloat(o計算目標.get确().get价格()) - f假;
 				float f落差_假_最高 = f最高_處理對象 - f假;
+				float f落差_低_假   = f假 -f最低_處理對象;
 				
 				//且高低谷的寬度不小於 1.5倍對象個數
 				//且高低谷的落差不小於 確與假的0.75 高度
-				if(f落差_最高_最低 >= f落差_假_确 * 0.75 && f落差_假_最高 > f落差_假_确 * 0.75) {
-					
+				
+				//if(f落差_最高_最低 >= f落差_假_确 * 0.75 && f落差_假_最高 > f落差_假_确 * 0.75) {
+				if(f落差_假_最高 >= f落差_低_假) {
+					// o處理對象 = 低点---最后
+					o處理對象 = 簡單解析Util.取得指定區間數據製作簡單解析3(o處理對象, list日線, o處理對象.get最高().getIndex(), o處理對象.get結束().getIndex());
 					return CommonConst.如果_手持低点_要找高点_但没有碰见一个更低的谷;
 				}
 			}
@@ -568,7 +583,7 @@ public class 輸出折線圖數據3 {
 				if(i假点index + 1 + 對象個數 > list日線.size()-1) {
 					處理個數 = list日線.size() -1  - i假点index;
 				}else {
-					處理個數 = index + 對象個數 - i假点index -1;
+					處理個數 = index + 對象個數 - i假点index;
 				}
 			}
 			

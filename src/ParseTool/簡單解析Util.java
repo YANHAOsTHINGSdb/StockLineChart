@@ -250,6 +250,27 @@ public class 簡單解析Util {
 
 	}
 	
+	
+	public static 簡單解析 取得指定區間數據製作簡單解析3(簡單解析 o處理對象, List<日線> list日線,int 開始index, int 結束index) {
+		if(開始index >= list日線.size() -1 ) return null;
+		
+		List<日線> list指定数据 = null;
+		if(結束index >= list日線.size()) {
+			list指定数据 = list日線.subList(開始index, list日線.size() - 1);
+		}else {
+			list指定数据 = list日線.subList(開始index, 結束index+1);
+		}
+		
+		簡單解析 o簡單解析 = 根据指定日线数据制作簡單解析(list日線, list指定数据);
+
+		o處理對象.setList指定数据(o簡單解析.getList指定数据());
+		o處理對象.set开始(o簡單解析.get开始());
+		o處理對象.set最低(o簡單解析.get最低());
+		o處理對象.set最高(o簡單解析.get最高());
+		o處理對象.set結束(o簡單解析.get結束());		
+		
+		return o處理對象;
+	}
 	/**
 	 * 取得指定日的前后指定天数的簡單解析
 	 * 
