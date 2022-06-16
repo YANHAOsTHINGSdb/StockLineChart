@@ -32,15 +32,31 @@ public class 計算目標Util {
 		折点 求 = new 折点();
 
 		// 就看最高和最低谁在前面
+		
 		if (o簡單解析對象.get最高().get日時() > o簡單解析對象.get最低().get日時()) {
+			// 最低在前
 			假 = turn日線點to折点(o簡單解析對象.get最低(), CommonConst.未超想象);
-			假.set高低(CommonConst.低点);
-			确.set高低(CommonConst.高点);
+			
+			if(Float.parseFloat(确.get价格()) >  Float.parseFloat(o簡單解析對象.get最低().get价格())) {
+				假.set高低(CommonConst.低点);
+				确.set高低(CommonConst.高点);
+			}else {
+				假.set高低(CommonConst.高点);
+				确.set高低(CommonConst.低点);
+			}
 		}
 		if (o簡單解析對象.get最高().get日時() < o簡單解析對象.get最低().get日時()) {
+			// 最低在后
 			假 = turn日線點to折点(o簡單解析對象.get最高(), CommonConst.未超想象);
-			假.set高低(CommonConst.高点);
-			确.set高低(CommonConst.低点);
+			
+			if(Float.parseFloat(确.get价格()) <  Float.parseFloat(o簡單解析對象.get最高().get价格())) {
+				假.set高低(CommonConst.高点);
+				确.set高低(CommonConst.低点);
+			}else {
+				假.set高低(CommonConst.低点);
+				确.set高低(CommonConst.高点);
+			}
+
 		}
 
 		o計算目標.set确(确);

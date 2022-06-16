@@ -6,6 +6,8 @@ import InputData.日線;
 import InputData.簡單解析;
 import InputData.計算目標;
 import OutputData.折点;
+import ParseTool2.輸出折線圖數據3;
+import common.CommonConst;
 
 public class 輸出debug信息Util {
 	
@@ -20,6 +22,9 @@ public class 輸出debug信息Util {
 	public static void print(List<折点> list折点, 計算目標 l計算目標, List<日線> list日線,int 日線index, 簡單解析 簡單解析對象, String s處理模式) {
 		計算目標 o計算目標1  = new 計算目標(l計算目標);
 		計算目標 o計算目標2  = new 計算目標(l計算目標);	
+		
+		// 只有debugMode 才输出
+		if(輸出折線圖數據3.debugMode != CommonConst.debugMode) return ;
 		
 		
 		if(計算目標_确 == null || 計算目標_假 == null) {
@@ -52,12 +57,13 @@ public class 輸出debug信息Util {
 //				list日線 == null || list日線.get(日線index).get最高_价格()==null ? "----": list日線.get(日線index).get最高_价格() + "",
 //				list日線 == null || list日線.get(日線index).get最低_价格()==null ? "----": list日線.get(日線index).get最低_价格() + "",
 
-				o計算目標1 == null || o計算目標1.get确() == null || o計算目標1.get确().get日時()==0 ? "----": o計算目標1.get确().get日時() + "",
-				o計算目標1 == null || o計算目標1.get确() == null || o計算目標1.get确().get价格()==null ? "----": o計算目標1.get确().get价格() + "",
-						o計算目標1 == null || o計算目標1.get确()==null ? "--" : o計算目標1.get确().get高低()==0?"低":"高",
-				o計算目標2 == null || o計算目標2.get假() == null || o計算目標2.get假().get日時()==0 ? "----": o計算目標2.get假().get日時() + "",
-				o計算目標2 == null || o計算目標2.get假() == null || o計算目標2.get假().get价格()==null ? "----": o計算目標2.get假().get价格() + "",
-						o計算目標2 == null || o計算目標2.get求高低()==0 ? "---" : o計算目標2.get求高低()==0?"低 ":"高 ",
+				o計算目標1 == null || o計算目標1.get确() == null || o計算目標1.get确().get日時()==0 ? "    ": o計算目標1.get确().get日時() + "",
+				o計算目標1 == null || o計算目標1.get确() == null || o計算目標1.get确().get价格()==null ? "    ": o計算目標1.get确().get价格() + "",
+				o計算目標1 == null || o計算目標1.get确()==null ? "  " : o計算目標1.get确().get高低()==0?"低":"高",
+				o計算目標2 == null || o計算目標2.get假() == null || o計算目標2.get假().get日時()==0 ? "    ": o計算目標2.get假().get日時() + "",
+				o計算目標2 == null || o計算目標2.get假() == null || o計算目標2.get假().get价格()==null ? "    ": o計算目標2.get假().get价格() + "",
+				o計算目標2 == null || o計算目標2.get假()==null ? "  " : o計算目標2.get假().get高低()==0?"低":"高",
+				o計算目標2 == null ? "  " : o計算目標2.get求高低()==0?"低":"高",
 				簡單解析對象 == null || 簡單解析對象.get开始().get日時()==0 ? "----": 簡單解析對象.get开始().get日時() + "",
 				簡單解析對象 == null || 簡單解析對象.get开始().get价格()==null ? "----": 簡單解析對象.get开始().get价格() + "",
 				簡單解析對象 == null || 簡單解析對象.get最高().get日時()==0 ? "----": 簡單解析對象.get最高().get日時() + "",
@@ -72,7 +78,7 @@ public class 輸出debug信息Util {
 			 };
 		
 		
-		System.out.printf("計・確%10s(%6s)(%1s)    假%10s(%6s)   求(%1s)    簡・開%10s(%6s)    高%10s(%6s)    低%10s(%6s)    收%10s(%6s)   處%1s   處%1s %n", 
+		System.out.printf("計・確%10s(%6s)(%1s)    假%10s(%6s)(%1s)   求(%1s)    簡・開%10s(%6s)    高%10s(%6s)    低%10s(%6s)    收%10s(%6s)   處%1s   處%1s %n", 
 				s[0],
 				s[1],
 				s[2],
@@ -88,7 +94,8 @@ public class 輸出debug信息Util {
 				s[12],
 				s[13],
 				s[14],
-				s[15]
+				s[15],
+				s[16]
 				);
 
 	}

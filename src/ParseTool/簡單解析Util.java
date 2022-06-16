@@ -119,11 +119,21 @@ public class 簡單解析Util {
 
 		//SortUtil.sortList(list指定数据,newPropertyComparator<日线>("价格"));
 		List<日線> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"最高_价格");
-		日線 r = l.get(l.size()-1);
-		o.set价格(r.get最高_价格());
+		日線 最高r = l.get(l.size()-1);
+		String s最高价格 = 最高r.get最高_价格();
+		
+		// 如果最高价格一样，以最先出现的为准
+		for( 日線 r : l) {
+			if( r.get最高_价格().equals(s最高价格)) {
+				最高r = r;
+				break;
+			}
+		}
+		
+		o.set价格(s最高价格);
 		o.set位置("H");
-		o.set日時(Integer.parseInt(r.get日時()) );
-		o.setIndex(取得指定日期的index(list日線, Integer.parseInt(r.get日時())));
+		o.set日時(Integer.parseInt(最高r.get日時()) );
+		o.setIndex(取得指定日期的index(list日線, Integer.parseInt(最高r.get日時())));
 		return o;
 	}
 
@@ -132,6 +142,10 @@ public class 簡單解析Util {
 
 		List<日線> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"最低_价格");
 		日線 r = l.get(0);
+		
+		// 如果最低价格一样，以最后出现的为准
+		
+		
 		o.set价格(r.get最低_价格());
 		o.set位置("L");
 		o.set日時(Integer.parseInt(r.get日時()));
@@ -250,6 +264,9 @@ public class 簡單解析Util {
 	 */
 	public static 簡單解析 取得指定日的前后指定天数的簡單解析(List<日線> list日線, int index假点, int i指定天数, int i最大最小值) {
 
+		// |index假点 ----(對象個數)----|
+		
+		
 		//int i开始index = i指定index - i指定天数 + 1;
 		int i开始index = index假点 + 1;
 		//int i結束index = index假点 + i指定天数;
@@ -258,6 +275,20 @@ public class 簡單解析Util {
 		//List<日線> list指定数据 = list日線.subList(i开始index, i結束index);
 		return 取得指定區間數據製作簡單解析(list日線, i开始index, i指定天数);
 
+	}
+
+	public static 簡單解析 取得指定日的前后指定天数的簡單解析2(List<日線> list日線, int index假点, int 對象個數, int get高低) {
+		
+		// | ---(對象個數)---- index假点 ----(對象個數)----|
+		//i开始index
+		
+		//int i开始index = i指定index - i指定天数 + 1;
+		int i开始index = index假点 - 對象個數;
+		//int i結束index = index假点 + i指定天数;
+		i开始index = i开始index < 0 ? 0 : i开始index;
+		
+		//List<日線> list指定数据 = list日線.subList(i开始index, i結束index);
+		return 取得指定區間數據製作簡單解析(list日線, i开始index, 對象個數 * 2);
 	}
 
 }
