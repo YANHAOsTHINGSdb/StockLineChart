@@ -25,11 +25,15 @@ public class 輸出折線圖數據3 {
 				 
 				 
 		List<折点> l = o.輸出折線圖數據2(s, 3);
+		
 		l.size();
+		
+		輸出頸線圖數據1 k = new 輸出頸線圖數據1();
+		k.輸出頸線圖數據(l, (float)0.02);
+
 	}
 	
-	public static int 對象個數 = 0;
-	public static int debugMode = CommonConst.本番mode; // 0:本番  1:debug
+
 
 	public List<折点> 輸出折線圖數據2(String[][] arrayList日線, int 對象個數) {
 		List<日線> list日線 = new ArrayList();
@@ -57,8 +61,8 @@ public class 輸出折線圖數據3 {
 
 		List<折点> list折点 = new ArrayList();
 		
-		輸出折線圖數據3.對象個數 = 對象個數;
-		輸出折線圖數據3.debugMode =CommonConst.debugMode;
+		CommonConst.對象個數 = 對象個數;
+		CommonConst.debugMode =CommonConst.debugMode;
 
 		輸出折線圖數據(o計算目標, list日線, index, 對象個數, list折点);
 
@@ -93,8 +97,8 @@ public class 輸出折線圖數據3 {
 
 		List<折点> list折点 = new ArrayList();
 
-		輸出折線圖數據3.對象個數 = 對象個數;
-		輸出折線圖數據3.debugMode =CommonConst.debugMode;
+		CommonConst.對象個數 = 對象個數;
+		CommonConst.debugMode =CommonConst.調試mode;
 		輸出折線圖數據(o計算目標, list日線, index, 對象個數, list折点);
 
 		return list折点;
@@ -209,7 +213,7 @@ public class 輸出折線圖數據3 {
 				iResult = iResult;
 			}
 			int index假点 = o計算目標.get假().getIndex();
-			O處理對象 = new 簡單解析(簡單解析Util.取得指定日的前后指定天数的簡單解析(list日線, index假点, 輸出折線圖數據3.對象個數, o計算目標.get求高低()));
+			O處理對象 = new 簡單解析(簡單解析Util.取得指定日的前后指定天数的簡單解析(list日線, index假点, CommonConst.對象個數, o計算目標.get求高低()));
 			
 			
 			//  判斷2是否是周圍的極限點(int iResult, 簡單解析 o處理對象, 計算目標 o計算目標, List<日線> list日線, int 假index) 
@@ -283,7 +287,7 @@ public class 輸出折線圖數據3 {
 			index = o處理對象.get最低().getIndex();
 		}
 			
-		簡單解析 O處理對象 = 簡單解析Util.取得指定日的前后指定天数的簡單解析2(list日線, index, 輸出折線圖數據3.對象個數, o計算目標.get假().get高低());
+		簡單解析 O處理對象 = 簡單解析Util.取得指定日的前后指定天数的簡單解析2(list日線, index, CommonConst.對象個數, o計算目標.get假().get高低());
 		
 		if(o計算目標.get假().get高低() == CommonConst.高点) {
 			if(O處理對象.get最高().getIndex() != index) {

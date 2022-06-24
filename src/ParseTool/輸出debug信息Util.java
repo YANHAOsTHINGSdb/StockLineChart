@@ -6,7 +6,6 @@ import InputData.日線;
 import InputData.簡單解析;
 import InputData.計算目標;
 import OutputData.折点;
-import ParseTool2.輸出折線圖數據3;
 import common.CommonConst;
 
 public class 輸出debug信息Util {
@@ -24,7 +23,7 @@ public class 輸出debug信息Util {
 		計算目標 o計算目標2  = new 計算目標(l計算目標);	
 		
 		// 只有debugMode 才输出
-		if(輸出折線圖數據3.debugMode != CommonConst.debugMode) return ;
+		if(CommonConst.debugMode != CommonConst.調試mode) return ;
 		
 		
 		if(計算目標_确 == null || 計算目標_假 == null) {

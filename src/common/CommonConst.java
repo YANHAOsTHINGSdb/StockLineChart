@@ -24,6 +24,17 @@ public class CommonConst {
 	
 	public final static int  A模式_取得新的区间	 = 0;
 	public final static int  B模式_有限区间内再找一点 = 1;
-	public final static int debugMode = 1;
+
 	public final static int  本番mode = 0;
+	public final static int  調試mode = 1;
+
+	
+	public static int 對象個數 = 0;
+	public static int debugMode = CommonConst.本番mode; // 0:本番  1:debug
+	public final static int 平臺類型_高平台 = 0;
+	public final static int 平臺類型_低平台 = 1;
+	public static final int 平臺類型_上坡 = 2;
+	public static final int 平臺類型_下坡 = 3;	
+	
+
 }
