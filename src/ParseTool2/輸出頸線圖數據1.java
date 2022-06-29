@@ -47,7 +47,7 @@ public class 輸出頸線圖數據1 {
 		平台Util pUtil = new 平台Util();
 		
 		// 
-		List<平台> plist = pUtil.取得平台信息(折点list);
+		List<平台> plist = pUtil.取得平台信息(折点list, 誤差範圍);
 		
 		// 是不是存在頸線
 		//boolean b = pUtil.是否存在颈线(plist.get(0), 折点list);

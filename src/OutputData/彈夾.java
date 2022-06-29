@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ParseTool.輸出debug信息Util;
 import common.CommonConst;
 import lombok.Data;
 
@@ -32,8 +33,10 @@ public class 彈夾 {
 		i最高价格index =0;
 	}
 	
-	public void 初始化(){
+	public void 初始化(折点 開始折點){
 		折点list =  new ArrayList();
+		折点list.add(開始折點);
+		
 		低點趨勢list =  new ArrayList();
 		
 		i最低价格index =0;
@@ -44,13 +47,14 @@ public class 彈夾 {
 
 		高点list = new ArrayList();
 		低点list = new ArrayList();
+		低点list.add(開始折點);
 		
 		// 重置平臺開始日期
 		// 下一个开始点是上一个结束点
-		平臺開始日期 = 0;	
+		平臺開始日期 = 開始折點.get日時();	
 	}
 
-	public boolean 追加折点(折点 z) {
+	public boolean 追加折点(折点 z, float 誤差範圍) {
 
 		追加低点list(z);
 	    追加高点list(z);
@@ -70,8 +74,6 @@ public class 彈夾 {
 		if(z.get高低() != CommonConst.低点)return false;
 		if(低点list.isEmpty())return false;
 
-		
-	    float 誤差範圍 = (float) 0.1;
 	    
 	    String[] 低點趨勢log = 取得低點趨勢log( z, 誤差範圍);
 	    
@@ -84,26 +86,77 @@ public class 彈夾 {
 		
 	}
 
-	private String[] 取得低點趨勢log(折点 z低点, float 誤差範圍) {
+	private String[] 取得低點趨勢log(折点 z新低点, float 誤差範圍) {
 
 		
 		折点 s高 = new 折点(低点list.get(0), 誤差範圍);
-	    折点 e高 = new 折点(z低点, 誤差範圍);
+	    折点 e高 = new 折点(z新低点, 誤差範圍);
 	    折点 s低 = new 折点(低点list.get(0), 誤差範圍 * -1);
-	    折点 e低 = new 折点(z低点, 誤差範圍 * -1);
+	    折点 e低 = new 折点(z新低点, 誤差範圍 * -1);
 	    
 	    //對於新的點，現在所有的點是否在範圍內
 	    List<String > 結果list = new ArrayList();
+	    List<折点> 趨勢折点list = new ArrayList();
+	    List<String > 各点风格list = new ArrayList();
+	    
+	    // 針對所有低點進行統計
 	    for(int i = 1;i<折点list.size();i++) {
-	    	結果list.add(指定折点是在范围内(s高, e高, s低, e低, 折点list.get(i)));	    			
+	    	if(折点list.get(i).get高低() == CommonConst.低点) {
+	    		String s是否在范围内 = 指定折点是否在范围内(s高, e高, s低, e低, 折点list.get(i));
+	    		String s折点输出风格 = 指定折點輸出風格(低点list.get(0), z新低点, 折点list.get(i));
+	    		
+	    		結果list.add(判断结果(s是否在范围内, 各点风格list, s折点输出风格));
+	    		趨勢折点list.add(折点list.get(i));
+	    		各点风格list.add(s折点输出风格);
+	    	}
 	    }
 	    
 		// 1、輸出低點趨勢log
-		String[] 低點趨勢log = 輸出低點趨勢log(結果list, 折点list);
+		String[] 低點趨勢log = 輸出低點趨勢log(結果list, 趨勢折点list, 低点list.get(0));
 		return 低點趨勢log;
 	}
+	
 
 
+
+	private String 判断结果(String s是否在范围内, List<String> 各点风格list, String s折点输出风格) {
+		String s判断结果 = "N";
+		
+		int i上 = 0;
+		int i下 = 0;
+		
+		for(String s : 各点风格list) {
+			if(s.equals("上")) {
+				i上++;
+				
+			}else if(s.equals("下")) {
+				i下++;
+			}
+		}
+		
+		if(!s是否在范围内.equals("Y")) {
+			return "N";
+		}
+		if(s折点输出风格.equals("上")) {
+			if(i上 > i下) return "Y";
+		}
+		if(s折点输出风格.equals("下")) {
+			if(i下 > i上) return "Y";
+		}
+		
+		return s判断结果;
+	}
+
+	private String 指定折點輸出風格(折点 开始折点, 折点 結束低點, 折点 折点) {
+
+		
+		float f = 取得某条线上某点价格(开始折点, 結束低點,  折点);
+		float x价格 = Float.parseFloat(折点.get价格());
+		
+		boolean b = x价格 >= f;
+		
+		return b == true ? "上" : "下" ;
+	}
 
 	private boolean 是否打破原来模式(String[] 低點趨勢log, List<String[]> 低點趨勢list) {
 		if(null == 低點趨勢list || 低點趨勢list.isEmpty())return false;
@@ -129,7 +182,7 @@ public class 彈夾 {
 		return iR/size;
 	}
 
-	private String[] 輸出低點趨勢log(List<String> 結果list, List<折点> 折点list) {
+	private String[] 輸出低點趨勢log(List<String> 結果list, List<折点> 趨勢折点list, 折点 開始折點) {
 		/*
 		开始点与结束点的直线平面上，其他点都在的
         1【S】，2【E】
@@ -142,15 +195,17 @@ public class 彈夾 {
 	    int j = 0;
 	    for(int i = 0;i<結果list.size();i++) {
 	    	String s = "";
-	    	s = s.concat(i+" ").concat("【").concat(結果list.get(i)).concat("】");	    	
+	    	s = s.concat(i+" ").concat("【").concat(結果list.get(i)).concat("】");
+	    	
 	    	list.add(s);	    			
 	    }
+	    輸出debug信息Util.print(結果list, 趨勢折点list, 開始折點);
 	    list.toArray(myArray);
 	    
 		return myArray;
 	}
 
-	private String 指定折点是在范围内(折点 s高, 折点 e高, 折点 s低, 折点 e低, 折点 折点) {
+	private String 指定折点是否在范围内(折点 s高, 折点 e高, 折点 s低, 折点 e低, 折点 折点) {
 		// 算出指定日期的上限值	
 		float x上限 = 取得某条线上某点价格( s高,  e高, 折点);		
 				

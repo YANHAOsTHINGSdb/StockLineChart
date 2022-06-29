@@ -11,7 +11,7 @@ import common.CommonConst;
 
 public class 平台Util {
 
-	public List<平台> 取得平台信息(List<折点> 折点list) {
+	public List<平台> 取得平台信息(List<折点> 折点list, float 誤差範圍) {
 		/*
 		 * 【直到碰见一个比前面所有高低点都高或者都死的点。】
 
@@ -25,11 +25,11 @@ public class 平台Util {
 		for(折点 z : 折点list) {
 
 			
-			if(o彈夾.追加折点(z)) {
+			if(o彈夾.追加折点(z, 誤差範圍)) {
 				
 				p = o彈夾.取得平台信息(p);
 				
-				o彈夾.初始化();
+				o彈夾.初始化(折点list.get(p.getI結束index()));
 				
 				plist.add(new 平台(p));
 			}

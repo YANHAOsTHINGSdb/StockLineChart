@@ -98,4 +98,39 @@ public class 輸出debug信息Util {
 				);
 
 	}
+	
+	static 折点 前回開始折點;
+
+	
+	public static void print(List<String> list, List<折点> 趨勢折点list, 折点 開始折點) {
+		
+
+		String r ="";
+		int i = 0;
+		for(String s :list) {
+			if(趨勢折点list.get(i).get高低() == CommonConst.低点) {
+				r = r + 趨勢折点list.get(i).get日時()+"【"+ s +"】";
+			}
+			i = i+1;
+			
+		}
+		
+		String s開始折點 = 開始折點.get日時() + "";;
+		if(前回開始折點 == null) {
+			前回開始折點 = 開始折點;
+			
+		}else {
+			if(前回開始折點.get日時() == 開始折點.get日時()) {
+				s開始折點 = "--------";
+			}else {
+				
+			}
+			
+		}
+		System.out.printf("开始（%s） 結束（%s）%s %n", s開始折點,  趨勢折点list.get(趨勢折点list.size()-1).get日時(), r);
+
+		前回開始折點 = 開始折點;
+	}
+
+	
 }
