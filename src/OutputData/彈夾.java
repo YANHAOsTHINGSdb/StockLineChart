@@ -157,6 +157,17 @@ public class 彈夾 {
 		
 		return b == true ? "上" : "下" ;
 	}
+	
+	/**
+	 * 是否打破原来模式()
+	 *   本次低點趨勢Y比率 小于 上一次低點趨勢Y比率
+	 *   且
+	 *   本次低點趨勢Y比率 小于 0.5
+	 *   
+	 * @param 低點趨勢log
+	 * @param 低點趨勢list
+	 * @return
+	 */
 
 	private boolean 是否打破原来模式(String[] 低點趨勢log, List<String[]> 低點趨勢list) {
 		if(null == 低點趨勢list || 低點趨勢list.isEmpty())return false;
