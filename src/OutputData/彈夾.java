@@ -21,6 +21,7 @@ public class 彈夾 {
 	int 平臺開始日期;
 	List<String[]> 低點趨勢list;
 	List<折点> 折点list;
+
 	
 	public 彈夾(){
 		對象日期list = new ArrayList();
@@ -52,8 +53,22 @@ public class 彈夾 {
 		// 重置平臺開始日期
 		// 下一个开始点是上一个结束点
 		平臺開始日期 = 開始折點.get日時();	
+
 	}
 
+	/**
+	 * 
+	 *  #取得期间每个低点与最新低点的关系：
+	 *		#是否在颈线范围内
+	 *
+	 *	#判断是否打破原来模式：
+	 *
+	 *	return 上面的结果;	
+	 *
+	 * @param z
+	 * @param 誤差範圍
+	 * @return
+	 */
 	public boolean 追加折点(折点 z, float 誤差範圍) {
 
 		追加低点list(z);
@@ -63,17 +78,16 @@ public class 彈夾 {
 	    更新最低点(z, 對象日期list);
 	    對象日期list.add(z.get日時());
 	    
-	    // 初次追加。設置平臺開始日期
-	    if(平臺開始日期 == 0) {
-	    	平臺開始日期 = z.get日時();
-	    	return false;
-	    }
-	    	    
 
 		//非低點不計算
 		if(z.get高低() != CommonConst.低点)return false;
 		if(低点list.isEmpty())return false;
+		
 
+	    // 初次追加。設置平臺開始日期
+	    if(平臺開始日期 == 0) {
+	    	平臺開始日期 = z.get日時();
+	    }
 	    
 	    String[] 低點趨勢log = 取得低點趨勢log( z, 誤差範圍);
 	    
@@ -88,39 +102,92 @@ public class 彈夾 {
 
 	private String[] 取得低點趨勢log(折点 z新低点, float 誤差範圍) {
 
-		
-		折点 s高 = new 折点(低点list.get(0), 誤差範圍);
+		折点 開始低點 = 低点list.get(0);
+		折点 s高 = new 折点(開始低點, 誤差範圍);
 	    折点 e高 = new 折点(z新低点, 誤差範圍);
-	    折点 s低 = new 折点(低点list.get(0), 誤差範圍 * -1);
+	    折点 s低 = new 折点(開始低點, 誤差範圍 * -1);
 	    折点 e低 = new 折点(z新低点, 誤差範圍 * -1);
 	    
 	    //對於新的點，現在所有的點是否在範圍內
 	    List<String > 結果list = new ArrayList();
-	    List<折点> 趨勢折点list = new ArrayList();
+	    List<折点> 對象低点list = new ArrayList();
 	    List<String > 各点风格list = new ArrayList();
+	    boolean b = true;
 	    
 	    // 針對所有低點進行統計
+	    // 主要是测试其中的低折点是否满足条件，所以 i 从 1 开始
 	    for(int i = 1;i<折点list.size();i++) {
 	    	if(折点list.get(i).get高低() == CommonConst.低点) {
-	    		String s是否在范围内 = 指定折点是否在范围内(s高, e高, s低, e低, 折点list.get(i));
-	    		String s折点输出风格 = 指定折點輸出風格(低点list.get(0), z新低点, 折点list.get(i));
+	    		折点 對象低点 = 折点list.get(i);
+	    		/*
+				  #指定折點是否在範圍內
+				  	|--開始高點-----------------結束高點
+				  	|               對象低點
+				  	|--開始低點-----------------結束低點
+	    		 */
+	    		//String s是否在范围内 = 指定折点是否在范围内(s高, e高, s低, e低, 對象低点);
+	    		/*
+			 	  #指定折點輸出風格
+				    |                        對象低點
+				  	|--對象低點的頸線價格-----------------
+				  	                         對象低點
+	    		 */
+	    		String s折点输出风格 = 指定折點輸出風格(開始低點, z新低点, 對象低点);	    		
 	    		
-	    		結果list.add(判断结果(s是否在范围内, 各点风格list, s折点输出风格));
-	    		趨勢折点list.add(折点list.get(i));
+	    		if (b == false) {
+	    			// 如果判负就直接淘汰
+	    			// 判負條件：1，是否在范围内 = false
+	    			//           2, 輸出風格改變 = true
+	    			結果list.add("N");
+	    			continue;
+	    		}else {
+	    			// b = 判断结果(s是否在范围内, 各点风格list, s折点输出风格);
+	    			 b = 判断结果(各点风格list, s折点输出风格);
+	    			 if (b == true) {
+	    				 結果list.add("Y");	    			 
+	    			 }else {
+	    				 結果list.add("N");
+	    			 }
+	    		}
+	    		
+	    		對象低点list.add(對象低点);
 	    		各点风格list.add(s折点输出风格);
 	    	}
 	    }
 	    
 		// 1、輸出低點趨勢log
-		String[] 低點趨勢log = 輸出低點趨勢log(結果list, 趨勢折点list, 低点list.get(0));
+		String[] 低點趨勢log = 輸出低點趨勢log(結果list, 對象低点list, 開始低點);
 		return 低點趨勢log;
 	}
 	
 
 
 
-	private String 判断结果(String s是否在范围内, List<String> 各点风格list, String s折点输出风格) {
-		String s判断结果 = "N";
+	private boolean 判断结果(List<String> 各点风格list, String s折点输出风格) {
+		int i上 = 0;
+		int i下 = 0;
+		
+		for(String s : 各点风格list) {
+			if(s.equals("上")) {
+				i上++;
+				
+			}else if(s.equals("下")) {
+				i下++;
+			}
+		}
+		
+		if(s折点输出风格.equals("上")) {
+			if(i上 > i下 || 各点风格list.isEmpty()) return true;
+		}
+		if(s折点输出风格.equals("下")) {
+			if(i下 > i上) return true;
+		}
+		
+		return false;
+	}
+
+	private boolean 判断结果(String s是否在范围内, List<String> 各点风格list, String s折点输出风格) {
+
 		
 		int i上 = 0;
 		int i下 = 0;
@@ -135,22 +202,22 @@ public class 彈夾 {
 		}
 		
 		if(!s是否在范围内.equals("Y")) {
-			return "N";
+			return false;
 		}
 		if(s折点输出风格.equals("上")) {
-			if(i上 > i下) return "Y";
+			if(i上 > i下 || 各点风格list.isEmpty()) return true;
 		}
 		if(s折点输出风格.equals("下")) {
-			if(i下 > i上) return "Y";
+			if(i下 > i上) return true;
 		}
 		
-		return s判断结果;
+		return false;
 	}
 
 	private String 指定折點輸出風格(折点 开始折点, 折点 結束低點, 折点 折点) {
 
 		
-		float f = 取得某条线上某点价格(开始折点, 結束低點,  折点);
+		float f = 取得某条线上某点价格(开始折点, 結束低點,  折点.getIndex());
 		float x价格 = Float.parseFloat(折点.get价格());
 		
 		boolean b = x价格 >= f;
@@ -193,7 +260,7 @@ public class 彈夾 {
 		return iR/size;
 	}
 
-	private String[] 輸出低點趨勢log(List<String> 結果list, List<折点> 趨勢折点list, 折点 開始折點) {
+	private String[] 輸出低點趨勢log(List<String> 結果list, List<折点> 對象低点list, 折点 開始折點) {
 		/*
 		开始点与结束点的直线平面上，其他点都在的
         1【S】，2【E】
@@ -210,32 +277,35 @@ public class 彈夾 {
 	    	
 	    	list.add(s);	    			
 	    }
-	    輸出debug信息Util.print(結果list, 趨勢折点list, 開始折點);
+	    輸出debug信息Util.print(結果list, 對象低点list, 開始折點);
 	    list.toArray(myArray);
 	    
 		return myArray;
 	}
 
 	private String 指定折点是否在范围内(折点 s高, 折点 e高, 折点 s低, 折点 e低, 折点 折点) {
+		
 		// 算出指定日期的上限值	
-		float x上限 = 取得某条线上某点价格( s高,  e高, 折点);		
+		float x上限 = 取得某条线上某点价格( s高,  e高, 折点.getIndex());		
 				
 		// 算出指定日期的下限值
-		float x下限 = 取得某条线上某点价格( s低,  e低, 折点);
+		float x下限 = 取得某条线上某点价格( s低,  e低, 折点.getIndex());
 		
 		float x价格 = Float.parseFloat(折点.get价格());
 		
 		boolean b = x价格 <= x上限 && x价格 >= x下限;
+		
 		return  b == true ? "Y" : "N" ;
 	}
 
-	private float 取得某条线上某点价格(折点 s高, 折点 e高, 折点 折点) {
-		
+	private float 取得某条线上某点价格(折点 s高, 折点 e高, int i對象Index) {		
 
-		int x = 折点.get日時();
-		int x1 = s高.get日時();
-		int x2 = e高.get日時();	
-	
+		
+		int x1 = s高.getIndex();
+		int x2 = e高.getIndex();	
+		
+		if(i對象Index == x1) return  Float.parseFloat(s高.get价格());
+		
 		float y1 = Float.parseFloat(s高.get价格());
 		float y2 = Float.parseFloat(e高.get价格());
 		// y - y1      x - x1
@@ -245,7 +315,7 @@ public class 彈夾 {
 		// y - y1  = ( x - x1) * (y2- y1) / ( x2 -x1)
 		// y  = ( x - x1) * (y2- y1) / ( x2 -x1) + y1
 	
-		return ( x - x1) * (y2- y1) / ( x2 -x1) + y1;
+		return ( i對象Index - x1) * (y2- y1) / ( x2 -x1) + y1;
 	}
 
 	private void 更新最低点(折点 z, List<Integer> 對象日期list) {
@@ -279,7 +349,10 @@ public class 彈夾 {
 	}
 
 	private void 追加低点list(折点 z) {
-		低点list.add(z);
+		
+		if(z.get高低() == CommonConst.低点) {
+			低点list.add(z);
+		}
 		
 	}
 
@@ -318,7 +391,11 @@ public class 彈夾 {
 			n.setI開始日時(平臺開始日期);
 			n.setI開始index(對象日期list.indexOf(平臺開始日期));
 		}
-		int i結束日時 = 對象日期list.get(對象日期list.size()-1);
+		// 倒数第二位置的低点为结束点
+		int i結束日時 = 0;
+		if((低点list.size()-2) >= 0 ) {
+			i結束日時 = 低点list.get(低点list.size()-2).get日時();
+		}
 		n.setI結束日時(i結束日時);
 		n.setI結束index(對象日期list.indexOf(i結束日時));
 		

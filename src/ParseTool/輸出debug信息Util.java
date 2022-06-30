@@ -102,14 +102,17 @@ public class 輸出debug信息Util {
 	static 折点 前回開始折點;
 
 	
-	public static void print(List<String> list, List<折点> 趨勢折点list, 折点 開始折點) {
+	public static void print(List<String> 結果list, List<折点> 對象低点list, 折点 開始折點) {
 		
-
+		if(null == 結果list || 結果list.isEmpty()) return;
 		String r ="";
 		int i = 0;
-		for(String s :list) {
-			if(趨勢折点list.get(i).get高低() == CommonConst.低点) {
-				r = r + 趨勢折点list.get(i).get日時()+"【"+ s +"】";
+		for(String s :結果list) {
+			
+			if(i == 對象低点list.size()) return;
+			
+			if(對象低点list.get(i).get高低() == CommonConst.低点) {
+				r = r + 對象低点list.get(i).get日時()+"【"+ s +"】";
 			}
 			i = i+1;
 			
@@ -127,7 +130,7 @@ public class 輸出debug信息Util {
 			}
 			
 		}
-		System.out.printf("开始（%s） 結束（%s）%s %n", s開始折點,  趨勢折点list.get(趨勢折点list.size()-1).get日時(), r);
+		System.out.printf("开始（%s） 結束（%s）%s %n", s開始折點,  對象低点list.get(對象低点list.size()-1).get日時(), r);
 
 		前回開始折點 = 開始折點;
 	}
