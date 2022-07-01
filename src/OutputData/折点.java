@@ -25,6 +25,13 @@ public class 折点 {
 	public 折点() {
 		
 	}
+	public 折点(String s日時, String s高低, String s位置, String s价格) {
+		日時 = Integer.parseInt(s日時);
+		位置 = s位置;
+		高低 = Integer.parseInt(s高低);
+		价格 = s价格;
+
+	}
 	int 日時; // YYYYMMDD
 	String 位置; //SHLE
 	int 高低; //(高。低)
