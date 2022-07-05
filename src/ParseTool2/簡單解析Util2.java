@@ -115,7 +115,7 @@ public class 簡單解析Util2 {
 		日線點 o = new 日線點();
 
 		//SortUtil.sortList(list指定数据,newPropertyComparator<日线>("价格"));
-		List<折点> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"最高_价格");
+		List<折点> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"价格");
 		折点 最高r = l.get(l.size()-1);
 		String s最高价格 = 最高r.get价格();
 		
@@ -137,7 +137,7 @@ public class 簡單解析Util2 {
 	private static 日線點 取得簡單解析的最低位(List<折点> list日線_折点, List<折点> list指定数据) {
 		日線點 o = new 日線點();
 
-		List<折点> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"最低_价格");
+		List<折点> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"价格");
 		折点 r = l.get(0);
 		
 		// 如果最低价格一样，以最后出现的为准
