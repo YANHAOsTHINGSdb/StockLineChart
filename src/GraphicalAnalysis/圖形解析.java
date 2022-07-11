@@ -66,7 +66,7 @@ public class 圖形解析 {
 	public List<頸線> 輸出頸線圖數據(List<圖形> 圖形list, float 誤差範圍) {
 		平台Util2 pUtil = new 平台Util2();
 		
-		// 
+		
 	//	List<平台> plist = pUtil.取得平台信息(圖形list, 誤差範圍);
 		
 		// 取得頸線信息
