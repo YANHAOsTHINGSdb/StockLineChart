@@ -2,7 +2,7 @@ package GraphicalAnalysis.Graphical;
 
 import java.util.List;
 
-import GraphicalAnalysis.圖形;
+import OutputData.圖形;
 import OutputData.平台;
 import OutputData.折点;
 

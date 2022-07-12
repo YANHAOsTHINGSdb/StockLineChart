@@ -3,6 +3,8 @@ package ParseTool2;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.feilong.core.util.SortUtil;
+
 import OutputData.平台;
 import OutputData.折点;
 import OutputData.頸線;
@@ -74,4 +76,94 @@ public class 平台Util2 {
 		return 頸線list;
 	}
 
+	public static float 取得折点差价范围(折点 p1, 折点 p2) {
+		float p1价格 = Float.parseFloat(p1.get价格());
+		float p2价格 = Float.parseFloat(p2.get价格());
+		return p1价格/p2价格;
+	}
+
+	public static boolean is高点收缩(List<折点> 三个低点list) {
+		List<折点> 折点list高點 = new ArrayList();
+		List<折点> 折点list低點 = new ArrayList();
+		for(折点 z : 三个低点list) {
+			if(z.get高低() == CommonConst.高点) {
+				折点list高點.add(z);
+			}
+		}
+		
+		 List<折点> 折点list = SortUtil.sortListByPropertyNamesValue(折点list高點,"价格");
+		 boolean b1 =折点list高點.get(0).get日時() == 折点list.get(0).get日時();
+		 boolean b2 =折点list高點.get(折点list高點.size()-1).get日時() == 折点list.get(折点list.size()-1).get日時();
+		 if(b1 && b2) {
+			 return true;
+		 }
+		
+		return false;
+	}
+
+	public static boolean is低点不创新低(List<折点> 三个低点list) {
+		List<折点> 折点list高點 = new ArrayList();
+		List<折点> 折点list低點 = new ArrayList();
+		for(折点 z : 三个低点list) {
+			if(z.get高低() == CommonConst.高点) {
+				折点list高點.add(z);
+			}
+		}
+		
+		// 从折点list3 取得所有低点
+		for(折点 z : 三个低点list) {
+			if(z.get高低() == CommonConst.低点) {
+				折点list低點.add(z);
+			}
+		}
+		
+		float f开始价格 = Float.parseFloat(折点list低點.get(0).get价格());
+		for(折点 z : 折点list低點) {
+			float f价格 = Float.parseFloat(z.get价格());
+			if(f价格 < f开始价格) {
+				// 創新低
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	
+	public static List<折点> 取得三个低点(List<折点> 折点list23, int i) {
+		List<折点> 三个低点list = new ArrayList();
+		
+		List<折点> 折点list高點 = new ArrayList();
+		List<折点> 折点list低點 = new ArrayList();
+		for(折点 z : 三个低点list) {
+			if(z.get高低() == CommonConst.高点) {
+				折点list高點.add(z);
+			}
+		}
+		
+		// 从折点list3 取得所有低点
+		for(折点 z : 三个低点list) {
+			if(z.get高低() == CommonConst.低点) {
+				折点list低點.add(z);
+			}
+		}
+		
+		if(折点list低點.size() < i + 3) {
+			return null;
+		}
+		
+		
+		return 平台Util2.取得两点之间的折点List(折点list23, 折点list低點.get(i), 折点list低點.get(i+3));
+	}
+
+	public static List<折点> 取得两点之间的折点List(List<折点> 折点list23, 折点 開始折點, 折点 結束折點) {
+		List<折点> 折点list = new ArrayList();
+		for(折点 z : 折点list23) {
+			if(z.get日時() >= 開始折點.get日時() || z.get日時() <= 結束折點.get日時()) {
+				折点list.add(z);
+			}
+		}
+		
+		return 折点list;
+	}
 }

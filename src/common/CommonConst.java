@@ -36,5 +36,14 @@ public class CommonConst {
 	public static final int 平臺類型_上坡 = 2;
 	public static final int 平臺類型_下坡 = 3;	
 	
+	
+	
+	public final static int 全不滿足 = 0;
+	public final static int 前面两个都成立 = 2;
+	
+	public final static int 平台_類型_高点 = 0;
+	public final static int 平台_類型_高台 = 1;
+	
+	
 
 }

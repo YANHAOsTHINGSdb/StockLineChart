@@ -8,6 +8,7 @@ import GraphicalAnalysis.Graphical.impl.圖形計算_M頭_頭肩頂;
 import GraphicalAnalysis.Graphical.impl.圖形計算_收縮三角形;
 import GraphicalAnalysis.Graphical.impl.圖形計算_收縮三角形上升;
 import GraphicalAnalysis.Graphical.impl.圖形計算_高台下跌;
+import OutputData.圖形;
 import OutputData.平台;
 import OutputData.折点;
 import OutputData.頸線;
@@ -134,7 +135,7 @@ public class 圖形解析 {
 		
 		// 高臺計算
 		高臺計算 o高臺計算 = new 高臺計算();
-		List<平台> 平台list = o高臺計算.計算(折点list3);
+		List<平台> 平台list = o高臺計算.解析出高臺信息(折点list1, 折点list2, 折点list3);
 		
 		// 排除幹擾
 		List<折点>折點list_優化後 = o高臺計算.排除幹擾(折点list2, 折点list3, 平台list);
