@@ -166,4 +166,14 @@ public class 平台Util2 {
 		
 		return 折点list;
 	}
+
+	public static List<折点> 取得三个低点(List<折点> 折点list23, int i, List<折点> 三个低点list) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
+	public static boolean is是否打破三角形(List<折点> 三个低点list) {
+		// TODO 自動生成されたメソッド・スタブ
+		return false;
+	}
 }

@@ -67,14 +67,44 @@ public class 圖形計算_收縮三角形  implements 圖形計算{
 		// 每次取得 三个低点(含两个高点)
 		int i = 0;
 		List<折点> 三个低点list = 平台Util2.取得三个低点(折点list23, i);
+		int i狀態 = 0; // 建立三角形
 		while(三个低点list != null) {
 			
 			
-			//  高点收缩
-			boolean b1 = 平台Util2.is高点收缩(三个低点list);
-			boolean b2 = 平台Util2.is低点不创新低(三个低点list);
+			
+			if(i狀態 == 0) { // 尋找三角形
+				//  高点收缩
+				boolean b1 = 平台Util2.is高点收缩(三个低点list);
+				boolean b2 = 平台Util2.is低点不创新低(三个低点list);
+				if(b1 && b2) {
+					//繼續取得 看是否會有打破三角形的時候
+					i狀態 = 1;// 打破三角形
+					三个低点list = 平台Util2.取得三个低点(折点list23, i, 三个低点list);
+					continue;
+					
+				}
+				
+			}else if(i狀態 == 1) { // 尋找打破三角形		
+				
+			
+				boolean b1 = 平台Util2.is是否打破三角形(三个低点list);
+				if(b1 == false) { // 没有打破三角形
+					//繼續取得 看是否會有打破三角形的時候
+					i狀態 = 0;// 尋找三角形
+					三个低点list = 平台Util2.取得三个低点(折点list23, i, 三个低点list);
+					continue;
+					
+				}else {
+					// 打破三角形
+					// 完成三角形信息
+					
+					
+				}
+				
+			}
 			
 			
+			// 未找到三角形
 			i++;
 			三个低点list = 平台Util2.取得三个低点(折点list23, i);
 		}
