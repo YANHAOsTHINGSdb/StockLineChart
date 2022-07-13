@@ -130,7 +130,11 @@ public class 平台Util2 {
 	}
 	
 	
-	public static List<折点> 取得三个低点(List<折点> 折点list23, int i) {
+	public static List<折点> 取得三个低点(List<折点> 折点list23, int i开始index) {
+		
+		// 三个低点就是一高一低三个折点
+		
+		
 		List<折点> 三个低点list = new ArrayList();
 		
 		List<折点> 折点list高點 = new ArrayList();
@@ -148,12 +152,12 @@ public class 平台Util2 {
 			}
 		}
 		
-		if(折点list低點.size() < i + 3) {
+		if(折点list低點.size() < i开始index + 3) {
 			return null;
 		}
 		
 		
-		return 平台Util2.取得两点之间的折点List(折点list23, 折点list低點.get(i), 折点list低點.get(i+3));
+		return 平台Util2.取得两点之间的折点List(折点list23, 折点list低點.get(i开始index), 折点list低點.get(i开始index+3));
 	}
 
 	public static List<折点> 取得两点之间的折点List(List<折点> 折点list23, 折点 開始折點, 折点 結束折點) {
@@ -167,13 +171,56 @@ public class 平台Util2 {
 		return 折点list;
 	}
 
-	public static List<折点> 取得三个低点(List<折点> 折点list23, int i, List<折点> 三个低点list) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	public static List<折点> 取得三个低点2(List<折点> 折点list23, int i开始index, List<折点> 三个低点list) {
+		// 在既有基礎上再取得（一高一低）一對兒折點
+		// 三个低点就是（一高一低）三个折点
+		// 
+		
+		int i个数 = 三个低点list.size();
+		List<折点> 折点list低點 = new ArrayList();
+		
+		// 从折点list3 取得所有低点
+		for(折点 z : 三个低点list) {
+			if(z.get高低() == CommonConst.低点) {
+				折点list低點.add(z);
+			}
+		}
+		
+		int 對象個數 = i开始index + i个数 + 1;
+		
+		if(折点list低點.size() < 對象個數) {
+			return null;
+		}
+		
+		return 平台Util2.取得两点之间的折点List(折点list23, 折点list低點.get(i开始index), 折点list低點.get(對象個數));
 	}
 
 	public static boolean is是否打破三角形(List<折点> 三个低点list) {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		// 新高点打破高点收缩趋势
+		// 新低点创了新低，打破了最低价格
+		
+		List<折点> 折点list高點 = new ArrayList();
+		List<折点> 折点list低點 = new ArrayList();
+		
+		for(折点 z : 三个低点list) {
+			if(z.get高低() == CommonConst.高点) {
+				折点list高點.add(z);
+			}
+		}
+		
+		// 从折点list3 取得所有低点
+		for(折点 z : 三个低点list) {
+			if(z.get高低() == CommonConst.低点) {
+				折点list低點.add(z);
+			}
+		}
+		
+		boolean b1 = is低点不创新低(三个低点list);
+		boolean b2 = is高点收缩(三个低点list);
+		if(b1 && b2) {
+			return false;
+		}
+		
+		return true;
 	}
 }
