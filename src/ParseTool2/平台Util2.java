@@ -14,7 +14,7 @@ import common.CommonConst;
 /**
  * 平台信息：
  * 每个低点之间
- * 中間有個最高點v +69*-
+ * 中間有個最高點
  * @author yanhao
  *
  */
@@ -34,7 +34,7 @@ public class 平台Util2 {
 					
 					// 設置平臺開始
 					p.setI開始日時(o.get日時());
-					
+					p.setI開始index(o.getIndex());
 					// 調整為結束狀態
 					i开始 = 1;
 					
@@ -44,7 +44,9 @@ public class 平台Util2 {
 					
 					// 設置平臺結束
 					p.setI結束日時(o.get日時());
+					p.setI結束index(o.getIndex());
 					
+					p.set平台折点list(平台Util2.取得两点之间的折点List(折点list, 折点list.get(p.getI結束index()), 折点list.get(p.getI結束index())));
 					// 重置開始狀態
 					i开始 = 0;
 					
@@ -199,22 +201,9 @@ public class 平台Util2 {
 		// 新高点打破高点收缩趋势
 		// 新低点创了新低，打破了最低价格
 		
-		List<折点> 折点list高點 = new ArrayList();
-		List<折点> 折点list低點 = new ArrayList();
-		
-		for(折点 z : 三个低点list) {
-			if(z.get高低() == CommonConst.高点) {
-				折点list高點.add(z);
-			}
-		}
-		
-		// 从折点list3 取得所有低点
-		for(折点 z : 三个低点list) {
-			if(z.get高低() == CommonConst.低点) {
-				折点list低點.add(z);
-			}
-		}
-		
+		List<折点> 折点list高點 = 取得指定list的高點list(三个低点list);
+		List<折点> 折点list低點 = 取得指定list的低點list(三个低点list);		
+
 		boolean b1 = is低点不创新低(三个低点list);
 		boolean b2 = is高点收缩(三个低点list);
 		if(b1 && b2) {
@@ -223,4 +212,73 @@ public class 平台Util2 {
 		
 		return true;
 	}
+
+	public static List<折点> 取得指定list的低點list(List<折点> 折点list3) {
+		List<折点> 折点list低點 = new ArrayList();
+		
+		// 从折点list3 取得所有低点
+		for(折点 z : 折点list3) {
+			if(z.get高低() == CommonConst.低点) {
+				折点list低點.add(z);
+			}
+		}
+		return 折点list低點;
+	}
+
+	public static List<折点> 取得指定list的高點list(List<折点> 折点list3) {
+		List<折点> 折点list高點 = new ArrayList();
+		
+		for(折点 z : 折点list3) {
+			if(z.get高低() == CommonConst.高点) {
+				折点list高點.add(z);
+			}
+		}
+		return 折点list高點;
+	}
+
+	public static boolean is折点是否在指定list中(折点 z對象, List<折点> 折点list3) {
+		for(折点 z : 折点list3) {
+			if(z.get日時() == z對象.get日時()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static 折点 取得指定list中指定折点之前的高点(折点 z指定折点, List<折点> 折点list3) {
+		List<折点> 高点list = 取得指定list的高點list(折点list3);
+		
+		for(折点 z : 高点list) {
+			if(z.get日時() > z指定折点.get日時()) {
+				return 折点list3.get(z.getIndex()-1);
+			}
+		}
+		
+		return null;
+	}
+
+	public static 折点 取得指定list中指定折点之后的高点(折点 z指定折点, List<折点> 折点list3) {
+		List<折点> 高点list = 取得指定list的高點list(折点list3);
+		
+		for(折点 z : 高点list) {
+			if(z.get日時() > z指定折点.get日時()) {
+				return z;
+			}
+		}
+		
+		return null;
+	}
+
+	public static 折点 取得折点list中指定点之间最低折点(List<折点> 折点list, int i開始index, int i結束index) {
+		// SortUtil.sortListByPropertyNamesValue(目標list,"日時");
+		折点 p1 = 折点list.get(i開始index+1);
+		折点 p2 = 折点list.get(i結束index-1);
+		
+		List<折点> l = 取得两点之间的折点List(折点list, p1, p2);
+		
+		List<折点> 低点list = 取得指定list的低點list(l);		
+		
+		return SortUtil.sortListByPropertyNamesValue(低点list,"价格").get(0);
+	}	
+	
 }

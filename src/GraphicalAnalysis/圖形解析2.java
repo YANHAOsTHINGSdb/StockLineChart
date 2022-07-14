@@ -4,20 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import GraphicalAnalysis.Graphical.圖形計算;
-import GraphicalAnalysis.Graphical.impl.圖形計算_M頭_頭肩頂;
 import GraphicalAnalysis.Graphical.impl.圖形計算_收縮三角形;
-import GraphicalAnalysis.Graphical.impl.圖形計算_收縮三角形上升;
-import GraphicalAnalysis.Graphical.impl.圖形計算_高台下跌;
+import GraphicalAnalysis.Platform.平臺計算;
 import GraphicalAnalysis.Platform.高臺計算Util;
+import GraphicalAnalysis.Platform.impl.低臺計算;
+import GraphicalAnalysis.Platform.impl.高臺計算;
 import OutputData.圖形;
 import OutputData.平台;
 import OutputData.折点;
 import OutputData.頸線;
-import ParseTool2.平台Util2;
 import ParseTool2.輸出頸線圖數據2;
+import common.CommonConst;
 
-public class 圖形解析 {
-
+public class 圖形解析2 {
 	public static void main(String[] args) {
 		String[][] arrayList折点 =
 			{
@@ -113,7 +112,7 @@ public class 圖形解析 {
 				));
 		}
 		
-		List<頸線> 頸線list =  new 圖形解析().輸出圖形解析結果(折点list1,折点list2);
+		List<頸線> 頸線list =  new 圖形解析2().輸出圖形解析結果(折点list1,折点list2);
 		
 
 	}
@@ -121,73 +120,132 @@ public class 圖形解析 {
 	
 	List<頸線> 輸出圖形解析結果(List<折点> 折点list1, List<折点> 折点list2) {
 		
-		List<圖形> 圖形list = new 圖形解析().o圖形解析(折点list1, 折点list2);
 		
-		List<頸線> 頸線list = new 圖形解析().輸出頸線圖數據(圖形list, (float)0.1);
+		List<圖形> 圖形list = new 圖形解析2().o圖形解析(折点list1, 折点list2);
+		
+		List<頸線> 頸線list = new 圖形解析2().輸出頸線圖數據(圖形list, (float)0.1);
 		
 		return 頸線list;
 		
 	}
 
 
+	private List<頸線> 輸出頸線圖數據(List<圖形> 圖形list, float f) {		
+		
+		
+		return null;
+	}
+
+
 	private List<圖形> o圖形解析(List<折点> 折点list1, List<折点> 折点list2) {
+		
+		 List<圖形> o圖形解析list = new ArrayList();
+		
 		// 第三次折点计算
 		List<折点> 折点list3 = new 輸出頸線圖數據2().輸出折線圖數據(折点list2);
 		
-		// 高臺計算
-		高臺計算Util o高臺計算 = new 高臺計算Util();
-		List<平台> 平台list = o高臺計算.解析出高低臺信息(折点list1, 折点list2, 折点list3);
-		
-		// 排除幹擾
-		List<折点>折點list_優化後 = o高臺計算.排除幹擾(折点list2, 折点list3, 平台list);
-		
-		// 高台充实
-		折點list_優化後 = o高臺計算.高台充实(折点list1, 折點list_優化後, 平台list);
-		
+		List<平台> 平台list = new 高臺計算Util().解析出高低臺信息(折点list1, 折点list2, 折点list3);
 		
 		/*
 		 * 是高臺還是低臺，在圖形計算時再去解析，
 		 * 還是在最初平臺計算時就清楚的標記
 		 * 問題
 		 * 		1、是否解决了低台上升的需求
+		 * 			答：在开始只是解析了平台，并未与其他平台比较就无法得知是高还是低
+		 * 
 		 *      2、如何解决低台上升的图形计算（提取图形数据，驗證指標圖）
+		 *      	答：先解决低台的识别（与其他平台比较）后再计算图形
+		 *      
 		 *      3、如何解决低位三角形要下降的图形计算
+		 *      	答：先解决三角形的识别后再计算上或下的图形计算
+		 *      
 		 *      4、如何真的要重写，如何解决三角形与高低台同时计算的需求
+		 *      	答：各算个的。
 		 */	
+		
+		 List<圖形> 圖形_高低平台list = o圖形解析_高低平台(折点list1, 折点list2, 折点list3, 平台list);
+		 
+		 List<圖形> 圖形_三角形list = o圖形解析_三角形(折点list1, 折点list2, 折点list3, 平台list);
+		
+		 o圖形解析list.addAll(圖形_高低平台list);
+		 
+		 o圖形解析list.addAll(圖形_三角形list);
+		 
+		return o圖形解析list;
+	}
 
+
+	private List<圖形> o圖形解析_三角形(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折点list3, List<平台> 平台list) {
+		// 設置高低平臺(与其他平台比较就无法得知是高还是低)
 		
+		List<圖形> o圖形解析_三角形list = new ArrayList();
+		平台list = new 高臺計算Util().設置高低平臺(平台list, 折点list3);
+		平臺計算 o平臺計算 = null;
 		
-		// 圖形計算_M頭_頭肩頂
-		圖形計算 o圖形計算_M頭_頭肩頂 = new 圖形計算_M頭_頭肩頂();		
-		List<圖形> 圖形_M頭_頭肩頂圖形list = o圖形計算_M頭_頭肩頂.計算(折點list_優化後, 平台list, 折点list3);
+		// 高臺計算
+		高臺計算Util o高臺計算Util = new 高臺計算Util();
+		
+		// 排除幹擾
+		List<折点>折點list_優化後 = o高臺計算Util.排除幹擾(折点list2, 折点list3, 平台list);		
 		
 		// 圖形計算_收縮三角形
 		圖形計算 o圖形計算_收縮三角形 = new 圖形計算_收縮三角形();		
 		List<圖形> 圖形_收縮三角形list = o圖形計算_收縮三角形.計算(折點list_優化後, 平台list, 折点list3);
 		
-		// 圖形計算_高台下跌
-		圖形計算 o圖形計算_高台下跌 = new 圖形計算_高台下跌();		
-		List<圖形> 圖形list = o圖形計算_高台下跌.圖形計算_下跌(折點list_優化後, 平台list, 圖形_M頭_頭肩頂圖形list);
+		// 
+		圖形_收縮三角形list = new 高臺計算Util().設置高低三角形(圖形_收縮三角形list, 折点list3);
 		
-		// 圖形計算_收縮三角形上升
-		圖形計算 o圖形計算_收縮三角形上升 = new 圖形計算_收縮三角形上升();	
-		圖形list.addAll(o圖形計算_收縮三角形上升.圖形計算_上升(折點list_優化後, 平台list, 圖形_收縮三角形list));
+		圖形計算1 o圖形計算_收縮三角形1 = new o圖形計算_收縮三角形1();
 		
-		return 圖形list;
+		// 圖形計算
+		for(圖形 t : 圖形_收縮三角形list) {
+			
+			圖形 o圖形 =  o圖形計算_收縮三角形1.趨勢計算(t, 折点list1, 折点list2, 折点list3);
+			o圖形解析_三角形list.add(o圖形);
+		}
+		
+		return o圖形解析_三角形list;
 	}
-	
 
-	public List<頸線> 輸出頸線圖數據(List<圖形> 圖形list, float 誤差範圍) {
-		平台Util2 pUtil = new 平台Util2();
+
+	private List<圖形> o圖形解析_高低平台(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折点list3, List<平台> 平台list) {
+		// 設置高低平臺(与其他平台比较就无法得知是高还是低)
+		List<圖形> 圖形_高低平台List = new ArrayList();
+		平台list = 高臺計算Util.設置高低平臺(平台list, 折点list3);
+		平臺計算 o平臺計算 = null;
 		
+		List<折点>折點list_優化後 = new ArrayList();
+		for(平台 p : 平台list) {
+			// 由于是各算个的。所以只有高点的类型为对象外
+			//		if(p.getI類型() == CommonConst.平台_類型_高点) {
+			//			折點list_優化後.addAll(平台Util2.取得指定平台内折点(p, 折点list3));
+			//		}
+			//int 高低; // 0=高 1=低	
+			if(p.get高低() == CommonConst.平台_高低_高) {
+				o平臺計算 = new 高臺計算();
+			}
+			if(p.get高低() == CommonConst.平台_高低_低) {
+				o平臺計算 = new 低臺計算();
+			}
+			List<折点>單一平臺優化後 = o平臺計算.排除幹擾(折点list2, 折点list3, p);
+			單一平臺優化後 = o平臺計算.平台充实(折点list1, 單一平臺優化後, p);
+			p.set平台折点list(單一平臺優化後);
+			
+		}
 		
-	//	List<平台> plist = pUtil.取得平台信息(圖形list, 誤差範圍);
+		// 圖形計算
+		for(平台 p : 平台list) {
+			
+			圖形計算1 o圖形計算_M頭_頭肩頂 = new 圖形計算_M頭_頭肩頂1();
+			
+			圖形 o圖形 =o圖形計算_M頭_頭肩頂.圖形判别(p, 折點list_優化後, 折点list3);
+			
+			o圖形 = o圖形計算_M頭_頭肩頂.趨勢計算(o圖形, 折点list1, 折点list2, 折点list3);
+			
+			圖形_高低平台List.add(o圖形);
+			
+		}
 		
-		// 取得頸線信息
-	//	List<頸線> 頸線list = pUtil.取得頸線信息(plist, 圖形list, 誤差範圍, null);
-		
-		List<頸線> 頸線list = null;
-		return 頸線list;
-		
+		return 圖形_高低平台List;
 	}
 }

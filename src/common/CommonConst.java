@@ -31,6 +31,8 @@ public class CommonConst {
 	
 	public static int 對象個數 = 0;
 	public static int debugMode = CommonConst.本番mode; // 0:本番  1:debug
+	
+	
 	public final static int 平臺類型_高平台 = 0;
 	public final static int 平臺類型_低平台 = 1;
 	public static final int 平臺類型_上坡 = 2;
@@ -41,9 +43,11 @@ public class CommonConst {
 	public final static int 全不滿足 = 0;
 	public final static int 前面两个都成立 = 2;
 	
-	public final static int 平台_類型_高点 = 0;
-	public final static int 平台_類型_高台 = 1;
-	
+//	public final static int 平台_類型_高点 = 0;
+//	public final static int 平台_類型_高台 = 1;
+//	public final static int 平台_類型_低台 = 2;
+	public static final int 平台_高低_高 = 0;
+	public static final int 平台_高低_低 = 1;
 	
 
 }

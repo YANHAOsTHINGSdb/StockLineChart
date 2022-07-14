@@ -7,6 +7,7 @@ import OutputData.平台;
 import OutputData.彈夾;
 import OutputData.折点;
 import OutputData.頸線;
+import ParseTool2.平台Util2;
 import common.CommonConst;
 
 public class 平台Util {
@@ -94,7 +95,8 @@ public class 平台Util {
 		case(CommonConst.平臺類型_高平台):
 		case(CommonConst.平臺類型_低平台):
 			//頸線 =  最低低點位的平線
-			折点 o折点 = 折点list.get(o平台.getI最低价格index());
+			
+			折点 o折点 = 平台Util2.取得折点list中指定点之间最低折点(折点list,o平台.getI開始index(), o平台.getI結束index() );
 			float f折点价格 = Float.parseFloat(o折点.get价格());
 			o頸線.set開始价格(f折点价格);
 			o頸線.setI開始日時(o平台.getI開始日時());

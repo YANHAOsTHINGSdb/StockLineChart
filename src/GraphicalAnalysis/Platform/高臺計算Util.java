@@ -1,18 +1,19 @@
-package GraphicalAnalysis;
+package GraphicalAnalysis.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.feilong.core.util.SortUtil;
 
+import OutputData.圖形;
 import OutputData.平台;
 import OutputData.折点;
 import ParseTool2.平台Util2;
 import common.CommonConst;
 
-public class 高臺計算 {
+public class 高臺計算Util {
 
-	public List<平台> 解析出高臺信息(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折点list3) {
+	public List<平台> 解析出高低臺信息(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折点list3) {
 		
 		List<平台> 平台list = new ArrayList();
 		List<折点> 折点list3高點 = new ArrayList();
@@ -76,21 +77,21 @@ public class 高臺計算 {
 			
 		}
 		
-		// 从折点list3 取得所有低点
-		for(折点 z : 折点list3) {
-			if(z.get高低() == CommonConst.低点) {
-				折点list3低點.add(z);
-			}
-		}
-		for(折点 z : 折点list3低點) {
-			// 取得折點list2裏該點相鄰左右兩個高點
-			折点 left = 折点list2.get(z.getIndex()-2);
-			折点 mid = 折点list2.get(z.getIndex());
-			折点 right = 折点list2.get(z.getIndex()+2);
-			条件结果list3 = 解析出低臺信息_条件结果(left, mid, right, 折点list1);
-			
-			
-		}
+//		// 从折点list3 取得所有低点
+//		for(折点 z : 折点list3) {
+//			if(z.get高低() == CommonConst.低点) {
+//				折点list3低點.add(z);
+//			}
+//		}
+//		for(折点 z : 折点list3低點) {
+//			// 取得折點list2裏該點相鄰左右兩個高點
+//			折点 left = 折点list2.get(z.getIndex()-2);
+//			折点 mid = 折点list2.get(z.getIndex());
+//			折点 right = 折点list2.get(z.getIndex()+2);
+//			条件结果list3 = 解析出低臺信息_条件结果(left, mid, right, 折点list1);
+//			
+//			
+//		}
 		
 		return 平台list;
 		
@@ -144,7 +145,7 @@ public class 高臺計算 {
 			p.setI結束index(mid.getIndex());
 		}
 		
-		p.setI類型(CommonConst.平台_類型_高台);
+		//p.setI類型(CommonConst.平台_類型_高台);
 		p.set平台折点list(平台_折点list);
 		
 		return p;
@@ -223,7 +224,8 @@ public class 高臺計算 {
 	public List<折点> 排除幹擾(List<折点> 折点list2, List<折点> 折点list3, List<平台> 平台list) {
 
 		List<折点> 折点list23 = new ArrayList(折点list3);
-		List<折点> 折点list3低點 = new ArrayList();
+		//List<折点> 折点list3低點 = new ArrayList();
+		List<折点> 折点list3低點 = 平台Util2.取得指定list的低點list(折点list3);
 		//-----------------------------------------------
 		// 从折点list3 取得所有低点
 		
@@ -240,34 +242,32 @@ public class 高臺計算 {
 		//        如果是高台：保留最高位的那对儿
 		//-----------------------------------------------
 		
-		// 从折点list3 取得所有低点
-		for(折点 z : 折点list3) {
-			if(z.get高低() == CommonConst.低点) {
-				折点list3低點.add(z);
-			}
-		}
 		
-		for(折点 z : 折点list3低點) {
+
+		
+		for(折点 z低點 : 折点list3低點) {
 			
 			//------------------------------
 			//  低点之后是高点还是高台
 			//------------------------------
 			
-			// 低点之后的高点
-			int index = 取得指定List中的index(z, 折点list3);
+			// 折點list3裏該低點之後的高點
+			int index = 取得指定List中的index(z低點, 折点list3);
 			
 			折点 g = 折点list3.get(index + 1);
 			
-			boolean r = 該点是否在高臺內(g, 平台list, 折点list2);
+			boolean b該点是否在高臺內 = 該点是否在高臺內(g, 平台list, 折点list2);
 			
-			if(r == true) {
+			if(b該点是否在高臺內 == true) {
 				//  如果是高台：保留最高位的那对儿
 				// (将最后的折点加到 折点list23 中)
 				
 				// 取得目标折点（一高一低）
-				List<折点> 折点_高_低_list = 取得目标折点_一高_一低(z, 折点list3.get(index+1), 折点list2);
+				List<折点> 折点_高_低_list = 取得目标折点_一高_一低(z低點, 折点list3.get(index+1), 折点list2);
 				
 				// 将目标折点加入到目标折点list
+				// 這對高點不在折點list3對象範圍內
+				// 特点是，它在最后，且不在折點list3内
 				折点list23 = 将目标折点加入到目标折点list(折点list3, 折点_高_低_list);
 				
 			}else {
@@ -366,12 +366,8 @@ public class 高臺計算 {
 		
 		
 		// 从折点list1 取得所有高点
-		List<折点> 折点list1高點 = new ArrayList();
-		for(折点 z : 折点list1) {
-			if(z.get高低() == CommonConst.高点) {
-				折点list1高點.add(z);
-			}
-		}
+		List<折点> 折点list1高點 = 平台Util2.取得指定list的高點list(折点list1);
+
 		
 		// 該高點在允許範圍內 90-110%
 		折点 p1 = SortUtil.sortListByPropertyNamesValue(p.get平台折点list(),"价格").get(0);
@@ -418,6 +414,63 @@ public class 高臺計算 {
 		}		
 		
 		return l;
+	}
+
+	public static List<平台> 設置高低平臺(List<平台> 平台list, List<折点> 折点list3) {
+		// 如果这个平台高于两旁高点，就是高台
+		// 如果这个平台低于两旁任一高点，就是低台
+		List<平台> 平台list1 = new ArrayList();
+		
+		for(平台 p平台 : 平台list) {
+			int size = p平台.get平台折点list().size();
+			折点 z之前高点 =  平台Util2.取得指定list中指定折点之前的高点(p平台.get平台折点list().get(0), 折点list3);
+			折点 z之后高点 =  平台Util2.取得指定list中指定折点之后的高点(p平台.get平台折点list().get(size-1), 折点list3);
+			float  f之前高点价格 = Float.parseFloat(z之前高点.get价格());
+			float  f之后高点价格 = Float.parseFloat(z之后高点.get价格());
+			float f平台最高价格 = p平台.getF最高价格();
+//			int 高低; // 0=高 1=低	
+//			int 形状; // 0=M形 1=頭肩形 2=收縮三角形
+			if(f之前高点价格 > f平台最高价格 && f之后高点价格 > f平台最高价格 ) {
+				// 如果这个平台高于两旁高点，就是高三角形
+				p平台.set高低(1);
+			}else {
+				// 如果这个平台低于两旁任一高点，就是低三角形
+				p平台.set高低(0);
+			}
+			平台list1.add(p平台);
+		}
+		
+		
+		return 平台list1;
+	}
+
+	public List<圖形> 設置高低三角形(List<圖形> 圖形_收縮三角形list, List<折点> 折点list3) {
+		// 如果这个平台高于两旁高点，就是高三角形
+		// 如果这个平台低于两旁任一高点，就是低三角形
+		List<圖形> 圖形_收縮三角形list_ = new ArrayList();
+		
+		
+		for(圖形 t三角形 : 圖形_收縮三角形list) {
+			
+			折点 z之前高点 =  平台Util2.取得指定list中指定折点之前的高点(t三角形.get三角形_第一折点(), 折点list3);
+			折点 z之后高点 =  平台Util2.取得指定list中指定折点之后的高点(t三角形.get三角形_破点折点(), 折点list3);
+			float f之前高点价格 = Float.parseFloat(z之前高点.get价格());
+			float f之后高点价格 = Float.parseFloat(z之后高点.get价格());
+			float f三角形最高价格 = t三角形.get三角形_大邊最高價格();
+//			int 高低; // 0=高 1=低	
+//			int 形状; // 0=M形 1=頭肩形 2=收縮三角形
+			if(f之前高点价格 > f三角形最高价格 && f之后高点价格 > f三角形最高价格 ) {
+				// 如果这个平台高于两旁高点，就是高三角形
+				t三角形.set高低(1);
+			}else {
+				// 如果这个平台低于两旁任一高点，就是低三角形
+				t三角形.set高低(0);
+			}
+			
+			圖形_收縮三角形list_.add(t三角形);
+		}
+		
+		return 圖形_收縮三角形list_;
 	}
 
 }

@@ -10,13 +10,14 @@ public class 圖形 extends 平台{
 		this.i結束index = p.getI結束index();
 		this.i開始日時 = p.getI開始日時();
 		this.i結束日時 = p.getI結束日時();
-		this.i類型 = p.getI類型();
+		this.高低 = p.get高低();
 	}
 	public 圖形() {
 		// TODO 自動生成されたコンストラクター・スタブ
 	}
-	int 属性; // 10=高臺M頭  11=高臺頭肩頂   20=收縮三角形
-	int 方向; // 0=向上 1=向下
+
+	int 形状; // 0=M形 1=頭肩形 2=收縮三角形
+	
 	float 高台_頸部最高價格;
 	float 高台_頸線價格;
 	折点  高台_第一折点;

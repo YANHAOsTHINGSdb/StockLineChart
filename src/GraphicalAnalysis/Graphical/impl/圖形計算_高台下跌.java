@@ -9,7 +9,7 @@ import OutputData.折点;
 
 public class 圖形計算_高台下跌  implements 圖形計算{
 	
-	public List<圖形> 圖形計算_下跌(List<折点> 折点list23, List<平台> 平台list, List<圖形> 圖形_M頭_頭肩頂圖形list) {
+	public List<圖形> 圖形計算_下跌(List<折点> 折點list_優化後, List<平台> 平台list, List<圖形> 圖形_M頭_頭肩頂圖形list) {
 		
 		//-----------------------------------------------
 		// 目的：豐富圖形信息，計算差價，驗證教科书圖形是否有效
@@ -24,17 +24,27 @@ public class 圖形計算_高台下跌  implements 圖形計算{
 		// 高台_第二折点
 		//-----------------------------------------------
 		
+		// 折點list_優化後 是帶上行下行折點的
+		
+		//t圖形.set属性(11);                              // 10=高臺M頭  11=高臺頭肩頂   20=收縮三角形
+		//t圖形.set高台_頸線價格(f高台_頸線價格);         // 中間低點的價格
+		//t圖形.set高台_頸部最高價格(f高台_頸部最高價格); // 折点list23高点价格
+		
+		
+		
 		return 圖形_M頭_頭肩頂圖形list;
 	}
 
+
+
 	@Override
-	public List<圖形> 計算(List<折点> 折点list23, List<平台> 平台list) {
+	public List<圖形> 圖形計算_上升(List<折点> 折點list_優化後, List<平台> 平台list, List<圖形> 圖形_收縮三角形list) {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@Override
-	public List<圖形> 圖形計算_上升(List<折点> 折点list23, List<平台> 平台list, List<圖形> 圖形_收縮三角形list) {
+	public List<圖形> 計算(List<折点> 折點list_優化後, List<平台> 平台list, List<折点> 折点list3) {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
