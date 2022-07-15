@@ -62,7 +62,7 @@ public class 圖形計算_M頭_頭肩頂 implements 圖形計算{
 		return 圖形list;
 	}
 	
-	private 圖形 取得頭肩頂信息(平台 p, List<折点> 折点list23, List<折点> 折点list高點, List<折点> 折点list低點, List<折点> 折点list3) {
+	public 圖形 取得頭肩頂信息(平台 p, List<折点> 折点list23, List<折点> 折点list高點, List<折点> 折点list低點, List<折点> 折点list3) {
 		List<折点> 折点list = p.get平台折点list();
 		
 		圖形 t圖形 = new 圖形(p);
@@ -122,7 +122,7 @@ public class 圖形計算_M頭_頭肩頂 implements 圖形計算{
 		return 折点list高點;
 	}
 
-	private 圖形 取得M頭信息(平台 p, List<折点> 折点list23, List<折点> 折点list高點, List<折点> 折点list低點) {
+	public 圖形 取得M頭信息(平台 p, List<折点> 折点list23, List<折点> 折点list高點, List<折点> 折点list低點) {
 		List<折点> 折点list = p.get平台折点list();
 		圖形 t圖形 = new 圖形(p);
 		//-----------------------------------------------

@@ -5,10 +5,13 @@ import java.util.List;
 
 import GraphicalAnalysis.Graphical.圖形計算;
 import GraphicalAnalysis.Graphical.impl.圖形計算_收縮三角形;
+import GraphicalAnalysis.Platform.圖形計算_新;
 import GraphicalAnalysis.Platform.平臺計算;
 import GraphicalAnalysis.Platform.高臺計算Util;
-import GraphicalAnalysis.Platform.impl.低臺計算;
-import GraphicalAnalysis.Platform.impl.高臺計算;
+import GraphicalAnalysis.Platform.impl.圖形計算_新_M頭_頭肩頂;
+import GraphicalAnalysis.Platform.impl.圖形計算_新_收縮三角形;
+import GraphicalAnalysis.Platform.impl.平臺計算_低臺;
+import GraphicalAnalysis.Platform.impl.平臺計算_高臺;
 import OutputData.圖形;
 import OutputData.平台;
 import OutputData.折点;
@@ -188,19 +191,19 @@ public class 圖形解析2 {
 		// 排除幹擾
 		List<折点>折點list_優化後 = o高臺計算Util.排除幹擾(折点list2, 折点list3, 平台list);		
 		
-		// 圖形計算_收縮三角形
+		// 圖形計算_收縮三角形【旧】
 		圖形計算 o圖形計算_收縮三角形 = new 圖形計算_收縮三角形();		
 		List<圖形> 圖形_收縮三角形list = o圖形計算_收縮三角形.計算(折點list_優化後, 平台list, 折点list3);
 		
 		// 
 		圖形_收縮三角形list = new 高臺計算Util().設置高低三角形(圖形_收縮三角形list, 折点list3);
 		
-		圖形計算1 o圖形計算_收縮三角形1 = new o圖形計算_收縮三角形1();
+		圖形計算_新 o圖形計算_收縮三角形1 = new 圖形計算_新_收縮三角形();
 		
 		// 圖形計算
 		for(圖形 t : 圖形_收縮三角形list) {
 			
-			圖形 o圖形 =  o圖形計算_收縮三角形1.趨勢計算(t, 折点list1, 折点list2, 折点list3);
+			圖形 o圖形 =  o圖形計算_收縮三角形1.趨勢計算(t, 折点list1, 折点list2, 折点list3,折點list_優化後);
 			o圖形解析_三角形list.add(o圖形);
 		}
 		
@@ -222,10 +225,10 @@ public class 圖形解析2 {
 			//		}
 			//int 高低; // 0=高 1=低	
 			if(p.get高低() == CommonConst.平台_高低_高) {
-				o平臺計算 = new 高臺計算();
+				o平臺計算 = new 平臺計算_高臺();
 			}
 			if(p.get高低() == CommonConst.平台_高低_低) {
-				o平臺計算 = new 低臺計算();
+				o平臺計算 = new 平臺計算_低臺();
 			}
 			List<折点>單一平臺優化後 = o平臺計算.排除幹擾(折点list2, 折点list3, p);
 			單一平臺優化後 = o平臺計算.平台充实(折点list1, 單一平臺優化後, p);
@@ -236,11 +239,11 @@ public class 圖形解析2 {
 		// 圖形計算
 		for(平台 p : 平台list) {
 			
-			圖形計算1 o圖形計算_M頭_頭肩頂 = new 圖形計算_M頭_頭肩頂1();
+			圖形計算_新 o圖形計算_M頭_頭肩頂 = new 圖形計算_新_M頭_頭肩頂();
 			
 			圖形 o圖形 =o圖形計算_M頭_頭肩頂.圖形判别(p, 折點list_優化後, 折点list3);
 			
-			o圖形 = o圖形計算_M頭_頭肩頂.趨勢計算(o圖形, 折点list1, 折点list2, 折点list3);
+			o圖形 = o圖形計算_M頭_頭肩頂.趨勢計算(o圖形, 折点list1, 折点list2, 折点list3,折點list_優化後);
 			
 			圖形_高低平台List.add(o圖形);
 			

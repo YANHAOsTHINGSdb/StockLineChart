@@ -453,7 +453,7 @@ public class 高臺計算Util {
 		for(圖形 t三角形 : 圖形_收縮三角形list) {
 			
 			折点 z之前高点 =  平台Util2.取得指定list中指定折点之前的高点(t三角形.get三角形_第一折点(), 折点list3);
-			折点 z之后高点 =  平台Util2.取得指定list中指定折点之后的高点(t三角形.get三角形_破点折点(), 折点list3);
+			折点 z之后高点 =  平台Util2.取得指定list中指定折点之后的高点(t三角形.get三角形_優化後破点折点(), 折点list3);
 			float f之前高点价格 = Float.parseFloat(z之前高点.get价格());
 			float f之后高点价格 = Float.parseFloat(z之后高点.get价格());
 			float f三角形最高价格 = t三角形.get三角形_大邊最高價格();

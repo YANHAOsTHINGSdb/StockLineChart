@@ -46,7 +46,7 @@ public class 簡單解析Util {
 
 		 */
 		List<簡單解析> list簡單解析 = new ArrayList();
-		list日線 = 取得顺序日线数据(list日線);
+		list日線 = 取得順序日線數據(list日線);
 
 		// 1，设置【开始位置】=0
 		int i开始位置 = 0;
@@ -164,7 +164,7 @@ public class 簡單解析Util {
 		return o;
 	}
 
-	private static List<日線> 取得顺序日线数据(List<日線> list指定数据) {
+	private static List<日線> 取得順序日線數據(List<日線> list指定数据) {
 		日線點 o = new 日線點();
 		List<日線> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"日時");
 

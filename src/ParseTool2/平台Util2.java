@@ -84,14 +84,8 @@ public class 平台Util2 {
 		return p1价格/p2价格;
 	}
 
-	public static boolean is高点收缩(List<折点> 三个低点list) {
-		List<折点> 折点list高點 = new ArrayList();
-		List<折点> 折点list低點 = new ArrayList();
-		for(折点 z : 三个低点list) {
-			if(z.get高低() == CommonConst.高点) {
-				折点list高點.add(z);
-			}
-		}
+	public static boolean is高点收缩(List<折点> 三個低點之間折點list) {
+		List<折点> 折点list高點 = 取得指定list的高點list(三個低點之間折點list);
 		
 		 List<折点> 折点list = SortUtil.sortListByPropertyNamesValue(折点list高點,"价格");
 		 boolean b1 =折点list高點.get(0).get日時() == 折点list.get(0).get日時();
@@ -103,21 +97,9 @@ public class 平台Util2 {
 		return false;
 	}
 
-	public static boolean is低点不创新低(List<折点> 三个低点list) {
-		List<折点> 折点list高點 = new ArrayList();
-		List<折点> 折点list低點 = new ArrayList();
-		for(折点 z : 三个低点list) {
-			if(z.get高低() == CommonConst.高点) {
-				折点list高點.add(z);
-			}
-		}
-		
-		// 从折点list3 取得所有低点
-		for(折点 z : 三个低点list) {
-			if(z.get高低() == CommonConst.低点) {
-				折点list低點.add(z);
-			}
-		}
+	public static boolean is低点不创新低(List<折点> 三個低點之間折點list) {
+
+		List<折点> 折点list低點 = 取得指定list的低點list(三個低點之間折點list);
 		
 		float f开始价格 = Float.parseFloat(折点list低點.get(0).get价格());
 		for(折点 z : 折点list低點) {
@@ -132,28 +114,13 @@ public class 平台Util2 {
 	}
 	
 	
-	public static List<折点> 取得三个低点(List<折点> 折点list23, int i开始index) {
+	public static List<折点> 取得三個低點之間折點(List<折点> 折点list23, int i开始index) {
 		
 		// 三个低点就是一高一低三个折点
 		
 		
-		List<折点> 三个低点list = new ArrayList();
-		
-		List<折点> 折点list高點 = new ArrayList();
-		List<折点> 折点list低點 = new ArrayList();
-		for(折点 z : 三个低点list) {
-			if(z.get高低() == CommonConst.高点) {
-				折点list高點.add(z);
-			}
-		}
-		
-		// 从折点list3 取得所有低点
-		for(折点 z : 三个低点list) {
-			if(z.get高低() == CommonConst.低点) {
-				折点list低點.add(z);
-			}
-		}
-		
+		List<折点> 折点list低點 = 取得指定list的低點list(折点list23);
+
 		if(折点list低點.size() < i开始index + 3) {
 			return null;
 		}
@@ -173,7 +140,7 @@ public class 平台Util2 {
 		return 折点list;
 	}
 
-	public static List<折点> 取得三个低点2(List<折点> 折点list23, int i开始index, List<折点> 三个低点list) {
+	public static List<折点> 追加取得三個低點之間折點(List<折点> 折点list23, int i开始index, List<折点> 三个低点list) {
 		// 在既有基礎上再取得（一高一低）一對兒折點
 		// 三个低点就是（一高一低）三个折点
 		// 

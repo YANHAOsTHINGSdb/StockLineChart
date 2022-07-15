@@ -154,8 +154,6 @@ public class 輸出折線圖數據3 {
 
 	}
 	
-	
-	
 	private boolean 最后一次计算(List<日線> list日線, int index) {
 		if(index == list日線.size()-1 ) {
 			return true;
@@ -358,7 +356,6 @@ public class 輸出折線圖數據3 {
 		
 
 	}
-
 	
 	int  判斷_是否存在更合適的點(int iResult, 簡單解析 o處理對象, 計算目標 o計算目標, List<日線> list日線, int 假index) {
 		// 如果 两次判断的结果不一样， ●

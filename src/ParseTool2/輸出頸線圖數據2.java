@@ -77,13 +77,14 @@ public class 輸出頸線圖數據2 {
 	}
 
 	public List<頸線> 輸出頸線圖數據(List<折点> 折点list, float 誤差範圍) {
-		平台Util2 pUtil = new 平台Util2();
+		// 取一个高台子
+		// 最低点画横线就是颈线
 		
 		// 
-		List<平台> plist = pUtil.取得平台信息(折点list, 誤差範圍);
+		List<平台> plist = new 平台Util2().取得平台信息(折点list, 誤差範圍);
 		
 		// 取得頸線信息
-		List<頸線> 頸線list = pUtil.取得頸線信息(plist, 折点list, 誤差範圍, null);
+		List<頸線> 頸線list = new 平台Util2().取得頸線信息(plist, 折点list, 誤差範圍, null);
 		
 		return 頸線list;
 		
