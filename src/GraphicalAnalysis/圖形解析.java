@@ -6,8 +6,6 @@ import java.util.List;
 import GraphicalAnalysis.Graphical.圖形計算;
 import GraphicalAnalysis.Graphical.impl.圖形計算_M頭_頭肩頂;
 import GraphicalAnalysis.Graphical.impl.圖形計算_收縮三角形;
-import GraphicalAnalysis.Graphical.impl.圖形計算_收縮三角形上升;
-import GraphicalAnalysis.Graphical.impl.圖形計算_高台下跌;
 import GraphicalAnalysis.Platform.高臺計算Util;
 import OutputData.圖形;
 import OutputData.平台;
@@ -135,14 +133,13 @@ public class 圖形解析 {
 		List<折点> 折点list3 = new 輸出頸線圖數據2().輸出折線圖數據(折点list2);
 		
 		// 高臺計算
-		高臺計算Util o高臺計算 = new 高臺計算Util();
-		List<平台> 平台list = o高臺計算.解析出高低臺信息(折点list1, 折点list2, 折点list3);
+		List<平台> 平台list = new 高臺計算Util().解析出高低臺信息(折点list1, 折点list2, 折点list3);
 		
 		// 排除幹擾
-		List<折点>折點list_優化後 = o高臺計算.排除幹擾(折点list2, 折点list3, 平台list);
+		List<折点>折點list_優化後 = new 高臺計算Util().排除幹擾(折点list2, 折点list3, 平台list);
 		
 		// 高台充实
-		折點list_優化後 = o高臺計算.高台充实(折点list1, 折點list_優化後, 平台list);
+		折點list_優化後 = new 高臺計算Util().高台充实(折点list1, 折點list_優化後, 平台list);
 		
 		
 		/*
@@ -165,13 +162,14 @@ public class 圖形解析 {
 		圖形計算 o圖形計算_收縮三角形 = new 圖形計算_收縮三角形();		
 		List<圖形> 圖形_收縮三角形list = o圖形計算_收縮三角形.計算(折點list_優化後, 平台list, 折点list3);
 		
-		// 圖形計算_高台下跌
-		圖形計算 o圖形計算_高台下跌 = new 圖形計算_高台下跌();		
-		List<圖形> 圖形list = o圖形計算_高台下跌.圖形計算_下跌(折點list_優化後, 平台list, 圖形_M頭_頭肩頂圖形list);
-		
-		// 圖形計算_收縮三角形上升
-		圖形計算 o圖形計算_收縮三角形上升 = new 圖形計算_收縮三角形上升();	
-		圖形list.addAll(o圖形計算_收縮三角形上升.圖形計算_上升(折點list_優化後, 平台list, 圖形_收縮三角形list));
+//		// 圖形計算_高台下跌
+//		圖形計算 o圖形計算_高台下跌 = new 圖形計算_高台下跌();		
+//		List<圖形> 圖形list = o圖形計算_高台下跌.圖形計算_下跌(折點list_優化後, 平台list, 圖形_M頭_頭肩頂圖形list);
+//		
+//		// 圖形計算_收縮三角形上升
+//		圖形計算 o圖形計算_收縮三角形上升 = new 圖形計算_收縮三角形上升();	
+//		圖形list.addAll(o圖形計算_收縮三角形上升.圖形計算_上升(折點list_優化後, 平台list, 圖形_收縮三角形list));
+		List<圖形> 圖形list = null;
 		
 		return 圖形list;
 	}

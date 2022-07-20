@@ -88,7 +88,7 @@ public class 簡單解析Util2 {
 		return o;
 	}
 
-	private static  int 取得指定日期的index(List<折点> list日線_折点, int i指定日時) {
+	public static  int 取得指定日期的index(List<折点> list日線_折点, int i指定日時) {
 		int index =0;
 		for(折点 i : list日線_折点) {
 				if(i.get日時() == i指定日時) {

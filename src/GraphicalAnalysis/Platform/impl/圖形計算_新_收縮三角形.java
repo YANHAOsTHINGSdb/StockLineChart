@@ -2,6 +2,7 @@ package GraphicalAnalysis.Platform.impl;
 
 import java.util.List;
 
+import GraphicalAnalysis.Graphical.impl.頸線Util;
 import GraphicalAnalysis.Platform.圖形計算_新;
 import OutputData.圖形;
 import OutputData.平台;
@@ -85,9 +86,25 @@ public class 圖形計算_新_收縮三角形 implements 圖形計算_新 {
 		//		計算該日期颈线價格
 		//		與實際價格比較
 		//		低于实际价格的折点就是【三角形_破位折点】
+		
+		int i開始日時 = o圖形.getI開始日時();
+		int i開始index= o圖形.getI開始index();
+		int i破位index = i開始index;
+				
+		for( int i = i開始index;;i++) {
+			
+			float f該日頸線價格 = 頸線Util.取得该日颈线价格(o圖形.get三角形_第一折点(), o圖形.get三角形_第三折点(), 折点list1, 折点list1.get(i).get日時());
+			float f該日價格 = Float.parseFloat(折点list1.get(i).get价格());
+			if(f該日價格 > f該日頸線價格) {
+				i破位index = i;
+				break;
+			}
+			
+		}
+		o圖形.set三角形_破位折点(折点list1.get(i破位index));
 
 		
-		return null;
+		return o圖形;
 	}
 
 	private 圖形 趨勢計算_底三角形_向上(圖形 o圖形, List<折点> 折点list1, List<折点> 折点list2, List<折点> 折点list3, List<折点> 折點list_優化後) {

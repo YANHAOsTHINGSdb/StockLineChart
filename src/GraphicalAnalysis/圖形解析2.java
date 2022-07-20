@@ -3,7 +3,6 @@ package GraphicalAnalysis;
 import java.util.ArrayList;
 import java.util.List;
 
-import GraphicalAnalysis.Graphical.圖形計算;
 import GraphicalAnalysis.Graphical.impl.圖形計算_收縮三角形;
 import GraphicalAnalysis.Platform.圖形計算_新;
 import GraphicalAnalysis.Platform.平臺計算;
@@ -182,18 +181,14 @@ public class 圖形解析2 {
 		// 設置高低平臺(与其他平台比较就无法得知是高还是低)
 		
 		List<圖形> o圖形解析_三角形list = new ArrayList();
-		平台list = new 高臺計算Util().設置高低平臺(平台list, 折点list3);
-		平臺計算 o平臺計算 = null;
 		
-		// 高臺計算
-		高臺計算Util o高臺計算Util = new 高臺計算Util();
+		平台list = new 高臺計算Util().設置高低平臺(平台list, 折点list3);
 		
 		// 排除幹擾
-		List<折点>折點list_優化後 = o高臺計算Util.排除幹擾(折点list2, 折点list3, 平台list);		
+		List<折点>折點list_優化後 =new 高臺計算Util().排除幹擾(折点list2, 折点list3, 平台list);		
 		
 		// 圖形計算_收縮三角形【旧】
-		圖形計算 o圖形計算_收縮三角形 = new 圖形計算_收縮三角形();		
-		List<圖形> 圖形_收縮三角形list = o圖形計算_收縮三角形.計算(折點list_優化後, 平台list, 折点list3);
+		List<圖形> 圖形_收縮三角形list = new 圖形計算_收縮三角形().計算(折點list_優化後, 平台list, 折点list3);
 		
 		// 
 		圖形_收縮三角形list = new 高臺計算Util().設置高低三角形(圖形_收縮三角形list, 折点list3);
@@ -204,6 +199,7 @@ public class 圖形解析2 {
 		for(圖形 t : 圖形_收縮三角形list) {
 			
 			圖形 o圖形 =  o圖形計算_收縮三角形1.趨勢計算(t, 折点list1, 折点list2, 折点list3,折點list_優化後);
+			
 			o圖形解析_三角形list.add(o圖形);
 		}
 		
@@ -214,11 +210,14 @@ public class 圖形解析2 {
 	private List<圖形> o圖形解析_高低平台(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折点list3, List<平台> 平台list) {
 		// 設置高低平臺(与其他平台比较就无法得知是高还是低)
 		List<圖形> 圖形_高低平台List = new ArrayList();
+		
 		平台list = 高臺計算Util.設置高低平臺(平台list, 折点list3);
+		
 		平臺計算 o平臺計算 = null;
 		
 		List<折点>折點list_優化後 = new ArrayList();
 		for(平台 p : 平台list) {
+			
 			// 由于是各算个的。所以只有高点的类型为对象外
 			//		if(p.getI類型() == CommonConst.平台_類型_高点) {
 			//			折點list_優化後.addAll(平台Util2.取得指定平台内折点(p, 折点list3));
@@ -230,8 +229,11 @@ public class 圖形解析2 {
 			if(p.get高低() == CommonConst.平台_高低_低) {
 				o平臺計算 = new 平臺計算_低臺();
 			}
+			
 			List<折点>單一平臺優化後 = o平臺計算.排除幹擾(折点list2, 折点list3, p);
+			
 			單一平臺優化後 = o平臺計算.平台充实(折点list1, 單一平臺優化後, p);
+			
 			p.set平台折点list(單一平臺優化後);
 			
 		}
