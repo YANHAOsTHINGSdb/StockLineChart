@@ -150,8 +150,18 @@ public class 簡單解析Util2 {
 		return o;
 	}
 
+	public static 折点 取得指定折点List的最低点(List<折点> list指定数据){
+		List<折点> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"价格");
+		折点 r = l.get(0);
+		return r;
+	}
 
-
+	public static 折点 取得指定折点List的最高点(List<折点> list指定数据){
+		List<折点> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"价格");
+		折点 r = l.get(l.size() - 1);
+		return r;
+	}
+	
 	public static 簡單解析2 取得指定區間數據製作簡單解析(List<折点> list日線_折点, int 指定index, int 對象個數) {
 		List<折点> list指定数据 = null;
 		if(指定index + 對象個數 >= list日線_折点.size()) {

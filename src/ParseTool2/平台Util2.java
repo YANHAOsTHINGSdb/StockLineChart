@@ -246,6 +246,20 @@ public class 平台Util2 {
 		List<折点> 低点list = 取得指定list的低點list(l);		
 		
 		return SortUtil.sortListByPropertyNamesValue(低点list,"价格").get(0);
+	}
+
+	public static int 取得指定日期后的第一index(List<折点> 折点list, int i指定日時) {
+
+		int index =0;
+		for(折点 i : 折点list) {
+				if(i.get日時() >= i指定日時) {
+					return index;
+				}
+				index++;
+
+		}
+		return index;
+		
 	}	
 	
 }

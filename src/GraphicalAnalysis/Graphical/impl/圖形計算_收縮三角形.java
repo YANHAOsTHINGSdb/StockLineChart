@@ -68,18 +68,18 @@ public class 圖形計算_收縮三角形  implements 圖形計算{
 					continue;
 					
 				}else {
-					// 打破三角形
-					// 完成三角形信息
-					圖形 t = new 圖形();
+					 // 打破三角形
+					 // 完成三角形信息
+					 圖形 t = new 圖形();
 					
-					List<折点> 三角形对象折点list = 平台Util2.取得两点之间的折点List(折點list_優化後, 三個低點之間折點list.get(0), 三個低點之間折點list.get(三個低點之間折點list.size()-1));
+					 List<折点> 三角形对象折点list = 平台Util2.取得两点之间的折点List(折點list_優化後, 三個低點之間折點list.get(0), 三個低點之間折點list.get(三個低點之間折點list.size()-1));
 					
-					// t.setI最低价格index(i开始index);
+					 // t.setI最低价格index(i开始index);
 					 t.setI開始index(三角形对象折点list.get(0).getIndex());
 					 t.setI開始日時(三角形对象折点list.get(0).get日時());
 					 t.setI結束index(三角形对象折点list.get(三角形对象折点list.size()-2).getIndex());
 					 t.setI結束日時(三角形对象折点list.get(三角形对象折点list.size()-2).get日時());
-					// t.setI類型(i狀態);// 10=高臺M頭  11=高臺頭肩頂   20=收縮三角形
+					 // t.setI類型(i狀態);// 10=高臺M頭  11=高臺頭肩頂   20=收縮三角形
 					 t.set形状(2); // int 形状; // 0=M形 1=頭肩形 2=收縮三角形
 					 t.set三角形_大邊最低價格(i狀態); // 第一低点的价格
 					 t.set三角形_大邊最高價格(i狀態); // 第一高点的价格
@@ -117,19 +117,7 @@ public class 圖形計算_收縮三角形  implements 圖形計算{
 		return 圖形list;
 	}
 
-
 	
-	@Override
-	public List<圖形> 圖形計算_下跌(List<折点> 折点list23, List<平台> 平台list, List<圖形> 圖形_M頭_頭肩頂圖形list) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-
-	@Override
-	public List<圖形> 圖形計算_上升(List<折点> 折点list23, List<平台> 平台list, List<圖形> 圖形_收縮三角形list) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
 	@Override
 	public List<圖形> 計算(List<折点> 折點list_優化後, List<平台> 平台list, List<折点> 折点list3) {
 

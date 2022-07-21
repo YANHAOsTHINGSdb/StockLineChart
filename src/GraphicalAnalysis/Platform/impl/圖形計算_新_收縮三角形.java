@@ -7,6 +7,7 @@ import GraphicalAnalysis.Platform.圖形計算_新;
 import OutputData.圖形;
 import OutputData.平台;
 import OutputData.折点;
+import ParseTool2.平台Util2;
 
 public class 圖形計算_新_收縮三角形 implements 圖形計算_新 {
 
@@ -87,7 +88,7 @@ public class 圖形計算_新_收縮三角形 implements 圖形計算_新 {
 		//		與實際價格比較
 		//		低于实际价格的折点就是【三角形_破位折点】
 		
-		int i開始日時 = o圖形.getI開始日時();
+
 		int i開始index= o圖形.getI開始index();
 		int i破位index = i開始index;
 				
@@ -95,15 +96,28 @@ public class 圖形計算_新_收縮三角形 implements 圖形計算_新 {
 			
 			float f該日頸線價格 = 頸線Util.取得该日颈线价格(o圖形.get三角形_第一折点(), o圖形.get三角形_第三折点(), 折点list1, 折点list1.get(i).get日時());
 			float f該日價格 = Float.parseFloat(折点list1.get(i).get价格());
-			if(f該日價格 > f該日頸線價格) {
+			if(f該日價格 < f該日頸線價格) {
 				i破位index = i;
 				break;
 			}
 			
 		}
-		o圖形.set三角形_破位折点(折点list1.get(i破位index));
-
 		
+		折点 p2 =折点list1.get(i破位index);
+		o圖形.set高台_破位折点(p2);
+		
+		int index =  平台Util2.取得指定日期后的第一index(折點list_優化後, p2.get日時());		
+		
+		// 三角形_破位折点;      //（折点list1  上 三角形_破点日期）
+		// 三角形_破位前折点;    //（折点list23 上 三角形_破位前折点）
+		// 三角形_破位后半路折点;//（折点list23 上 三角形_半路折点）
+		// 三角形_破位后底部折点;//（折点list23 上 三角形_底部折点）
+		
+
+		o圖形.set三角形_破位前折点(折點list_優化後.get(index-1));
+		o圖形.set三角形_破位后半路折点(折點list_優化後.get(index));
+		o圖形.set三角形_破位后底部折点(折點list_優化後.get(index+2));
+
 		return o圖形;
 	}
 
@@ -122,7 +136,38 @@ public class 圖形計算_新_收縮三角形 implements 圖形計算_新 {
 		//		與實際價格比較
 		//		高于实际价格的折点就是【三角形_破位折点】
 		
-		return null;
+		int i開始index= o圖形.getI開始index();
+		int i破位index = i開始index;
+				
+		for( int i = i開始index;;i++) {
+			
+			float f該日頸線價格 = 頸線Util.取得该日颈线价格(o圖形.get高台_第二折点(), o圖形.get三角形_第四折点(), 折点list1, 折点list1.get(i).get日時());
+			float f該日價格 = Float.parseFloat(折点list1.get(i).get价格());
+			if(f該日價格 > f該日頸線價格) {
+				i破位index = i;
+				break;
+			}
+			
+		}
+		
+		
+		折点 p2 =折点list1.get(i破位index);
+		o圖形.set高台_破位折点(p2);
+		
+		int index =  平台Util2.取得指定日期后的第一index(折點list_優化後, p2.get日時());		
+		
+		// 三角形_破位折点;      //（折点list1  上 三角形_破点日期）
+		// 三角形_破位前折点;    //（折点list23 上 三角形_破位前折点）
+		// 三角形_破位后半路折点;//（折点list23 上 三角形_半路折点）
+		// 三角形_破位后底部折点;//（折点list23 上 三角形_底部折点）
+		
+
+		o圖形.set三角形_破位前折点(折點list_優化後.get(index-1));
+		o圖形.set三角形_破位后半路折点(折點list_優化後.get(index));
+		o圖形.set三角形_破位后底部折点(折點list_優化後.get(index+2));
+
+		
+		return o圖形;
 	}
 
 
