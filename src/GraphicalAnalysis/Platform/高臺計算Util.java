@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.feilong.core.util.SortUtil;
 
+import InputData.日線;
 import OutputData.圖形;
 import OutputData.平台;
 import OutputData.折点;
@@ -14,7 +15,7 @@ import common.CommonConst;
 
 public class 高臺計算Util {
 
-	public List<平台> 解析出高低臺信息(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折点list3) {
+	public List<平台> 解析出高低臺信息(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折点list3, List<日線> 日線list) {
 
 		List<平台> 平台list = new ArrayList();
 		List<折点> 折点list3高點 = 平台Util2.取得指定list的高點list(折点list3);
@@ -70,10 +71,10 @@ public class 高臺計算Util {
 			折点 left = 折点list2.get(zIndex-2);
 			折点 mid = 折点list2.get(zIndex);
 			折点 right = 折点list2.get(zIndex+2);
-			条件结果list3 = 解析出高臺信息_条件结果(left, mid, right, 折点list1);
+			条件结果list3 = 解析出高臺信息_条件结果(left, mid, right, 折点list1, 日線list);
 
 
-			if (条件结果判定_条件结果_全不滿足(条件结果list3)) {
+			if (is条件结果判定_条件结果_滿足(条件结果list3)) {
 				// 如果条件AB与C同時滿足
 				// 上記兩個高點就是一個平臺
 				平台 p = 設置平臺信息(left, mid, right, 条件结果list3, 折点list1, 折点list3);
@@ -102,9 +103,9 @@ public class 高臺計算Util {
 
 	}
 
-	private List<Integer> 解析出低臺信息_条件结果(折点 left, 折点 mid, 折点 right, List<折点> 折点list1) {
+	private List<Integer> 解析出低臺信息_条件结果(折点 left, 折点 mid, 折点 right, List<折点> 折点list1, List<日線> 日線list) {
 
-		return 解析出高臺信息_条件结果(left, mid, right, 折点list1);
+		return 解析出高臺信息_条件结果(left, mid, right, 折点list1, 日線list);
 	}
 
 	private 平台 設置平臺信息(折点 left, 折点 mid, 折点 right, List<Integer> 条件结果list3, List<折点> 折点list1, List<折点> 折点list3) {
@@ -156,7 +157,7 @@ public class 高臺計算Util {
 		return p;
 	}
 
-	private boolean 条件结果判定_条件结果_全不滿足(List<Integer> 条件list3) {
+	private boolean is条件结果判定_条件结果_滿足(List<Integer> 条件list3) {
 
 		for(Integer 条件结果 : 条件list3) {
 			// 有任何一个条件全部满足就out
@@ -167,14 +168,17 @@ public class 高臺計算Util {
 		return true ;
 	}
 
-	private List<Integer> 解析出高臺信息_条件结果(折点 left, 折点 mid, 折点 right, List<折点> 折点list1) {
+	private List<Integer> 解析出高臺信息_条件结果(折点 left, 折点 mid, 折点 right, List<折点> 折点list1, List<日線> 日線list) {
 		List<Integer> 条件结果list = new ArrayList();
 
-		int 条件结果1 = CommonConst.高臺信息_条件结果_条件结果1_全不滿足; // 条件结果1 0：left與mid相鄰  1：mid與right相鄰  2：前面两个都成立  9：全不滿足
-		int 条件结果2 = CommonConst.高臺信息_条件结果_条件结果2_全不滿足; // 条件结果2 0：left與mid不超過10個單位  1：mid與right不超過10個單位  2：前面两个都成立  9：全不滿足
-		int 条件结果3 = CommonConst.高臺信息_条件结果_条件结果3_全不滿足; // 条件结果3 0：left與mid在對方90%-110%之間  1：mid與right在對方90%-110%之間  2：前面两个都成立  9：全不滿足
-
+		int 条件结果A = CommonConst.高臺信息_条件结果_条件结果1_全不滿足; // 条件结果1 0：left與mid相鄰  1：mid與right相鄰  2：前面两个都成立  9：全不滿足
+		int 条件结果B = CommonConst.高臺信息_条件结果_条件结果2_全不滿足; // 条件结果2 0：left與mid不超過10個單位  1：mid與right不超過10個單位  2：前面两个都成立  9：全不滿足
+		int 条件结果C = CommonConst.高臺信息_条件结果_条件结果3_全不滿足; // 条件结果3 0：left與mid在對方90%-110%之間  1：mid與right在對方90%-110%之間  2：前面两个都成立  9：全不滿足
+		
+		
+		//-------------------------------------------------------------------------------
 		// 条件A：上記3个折點至少有2个高点在list1裏也是相邻的（最多2個高点间隔以內）
+		//-------------------------------------------------------------------------------
 		int 折点list1_left_index = 0;
 		int 折点list1_mid_index = 0;
 		int 折点list1_right_index = 0;
@@ -184,27 +188,37 @@ public class 高臺計算Util {
 		折点list1_right_index = 取得指定List中的index(right, 折点list1);
 
 		if((折点list1_mid_index - 折点list1_left_index <=  4) && (折点list1_right_index - 折点list1_mid_index <=  4)) {
-			条件结果1 = CommonConst.高臺信息_条件结果_条件结果1_前面两个都成立;
+			条件结果A = CommonConst.高臺信息_条件结果_条件结果1_前面两个都成立;
 		}else if(折点list1_mid_index - 折点list1_left_index <=  4) {
-			条件结果1 = CommonConst.高臺信息_条件结果_条件结果1_left與mid相鄰; // 条件结果1 0：left與mid相鄰  1：mid與right相鄰  2：前面两个都成立  9：全不滿足
+			条件结果A = CommonConst.高臺信息_条件结果_条件结果1_left與mid相鄰; // 条件结果1 0：left與mid相鄰  1：mid與right相鄰  2：前面两个都成立  9：全不滿足
 		}else if(折点list1_right_index - 折点list1_mid_index <=  4) {
-			条件结果1 = CommonConst.高臺信息_条件结果_条件结果1_mid與right相鄰; // 条件结果1 0：left與mid相鄰  1：mid與right相鄰  2：前面两个都成立  9：全不滿足
+			条件结果A = CommonConst.高臺信息_条件结果_条件结果1_mid與right相鄰; // 条件结果1 0：left與mid相鄰  1：mid與right相鄰  2：前面两个都成立  9：全不滿足
 		}
 
-
+		
+		//-------------------------------------------------------------------------------
 		// 条件B：上記折點的日期间隔不超過10個單位（暫定）
-		if((mid.getIndex() - left.getIndex() <=  10) && (right.getIndex() - mid.getIndex() <=  10)) {
-			条件结果2 = CommonConst.高臺信息_条件结果_条件结果2_前面两个都成立;
-		}else if(mid.getIndex() - left.getIndex() <=  10) {
-			条件结果2 = CommonConst.高臺信息_条件结果_条件结果2_left與mid不超過10個單位;// 0 条件结果2 0：left與mid不超過10個單位  1：mid與right不超過10個單位  2：前面两个都成立  9：全不滿足
-		}else if(right.getIndex() - mid.getIndex() <=  10) {
-			条件结果2 = CommonConst.高臺信息_条件结果_条件结果2_mid與right不超過10個單位;// 1 条件结果2 0：left與mid不超過10個單位  1：mid與right不超過10個單位  2：前面两个都成立  9：全不滿足
+		//-------------------------------------------------------------------------------
+		int left_index = 取得日線list中的index(left, 日線list);
+		int mid_index = 取得日線list中的index(mid, 日線list);
+		int right_index = 取得日線list中的index(right, 日線list);
+		
+		if((mid_index - left_index <=  10) && (right_index - mid_index <=  10)) {
+			条件结果B = CommonConst.高臺信息_条件结果_条件结果2_前面两个都成立;
+		}else if(mid_index - left.getIndex() <=  10) {
+			条件结果B = CommonConst.高臺信息_条件结果_条件结果2_left與mid不超過10個單位;// 0 条件结果2 0：left與mid不超過10個單位  1：mid與right不超過10個單位  2：前面两个都成立  9：全不滿足
+		}else if(right_index - mid_index <=  10) {
+			条件结果B = CommonConst.高臺信息_条件结果_条件结果2_mid與right不超過10個單位;// 1 条件结果2 0：left與mid不超過10個單位  1：mid與right不超過10個單位  2：前面两个都成立  9：全不滿足
 		}
 
-		// 条件C：判断上记两个高点是不是在对方90%-110%之間
+		
+		//-------------------------------------------------------------------------------
+		// 条件C：判断上记两个高点是不是在对方90%-110%之間，且在【標準價差】之内
+		// 標準價差:不超过高低点差额1/5範圍
 		// float left价格 = Float.parseFloat(left.get价格());
 		// float mid价格 = Float.parseFloat(mid.get价格());
 		// float right价格 = Float.parseFloat(right.get价格());
+		//-------------------------------------------------------------------------------
 
 		//float mid_left_rate = left价格 / mid价格;
 		float mid_left_rate = 平台Util2.取得折点差价范围(left, mid);
@@ -217,29 +231,40 @@ public class 高臺計算Util {
 		//
 		折点 h = 簡單解析Util2.取得指定折点List的最高点(折点list1);
 		折点 l = 簡單解析Util2.取得指定折点List的最低点(折点list1);
-		//标准价差= 不超过高低点差额1/5范围
-		float f标准价差 = 平台Util2.取得指定两点价差(h, l);
+		//標準價差 = 不超过高低点差额1/5範圍
+		float f標準價差 = 平台Util2.取得指定两点价差(h, l);
 
 		if((mid_left_rate >= 0.9 && mid_left_rate <= 1.1) && (mid_right_rate >= 0.9 && mid_right_rate <= 1.1) ){
-			if( f标准价差 > f_right_mid价差 && f标准价差 > f_left_mid价差) {
-				条件结果3 = CommonConst.高臺信息_条件结果_条件结果3_前面两个都成立;
+			if( f標準價差 > f_right_mid价差 && f標準價差 > f_left_mid价差) {
+				条件结果C = CommonConst.高臺信息_条件结果_条件结果3_前面两个都成立;
 			}
 		}else if(mid_left_rate >= 0.9 && mid_left_rate <= 1.1 ) {
-			if( f标准价差 > f_left_mid价差) {
-				条件结果3 = CommonConst.高臺信息_条件结果_条件结果3_left與mid在對方90_110之間;// 0 条件结果3 0：left與mid在對方90%-110%之間  1：mid與right在對方90%-110%之間  2：前面两个都成立  9：全不滿足
+			if( f標準價差 > f_left_mid价差) {
+				条件结果C = CommonConst.高臺信息_条件结果_条件结果3_left與mid在對方90_110之間;// 0 条件结果3 0：left與mid在對方90%-110%之間  1：mid與right在對方90%-110%之間  2：前面两个都成立  9：全不滿足
 			}
 
 		}else if(mid_right_rate >= 0.9 && mid_right_rate <= 1.1) {
-			if( f标准价差 > f_right_mid价差) {
-				条件结果3 = CommonConst.高臺信息_条件结果_条件结果3_mid與right在對方90_110之間;// 1 条件结果3 0：left與mid在對方90%-110%之間  1：mid與right在對方90%-110%之間  2：前面两个都成立  9：全不滿足
+			if( f標準價差 > f_right_mid价差) {
+				条件结果C = CommonConst.高臺信息_条件结果_条件结果3_mid與right在對方90_110之間;// 1 条件结果3 0：left與mid在對方90%-110%之間  1：mid與right在對方90%-110%之間  2：前面两个都成立  9：全不滿足
 			}
 		}
 
-		条件结果list.add(条件结果1);
-		条件结果list.add(条件结果2);
-		条件结果list.add(条件结果3);
+		条件结果list.add(条件结果A);
+		条件结果list.add(条件结果B);
+		条件结果list.add(条件结果C);
 
 		return 条件结果list;
+	}
+
+	private int 取得日線list中的index(折点 o, List<日線> 日線list) {
+		int i =0;
+		for(日線 z : 日線list) {
+			if(o.get日時()==Integer.parseInt(z.get日時())) {
+				return i;
+			}
+			i++;
+		}
+		return 9999999;
 	}
 
 	public List<折点> 排除幹擾(List<折点> 折点list2, List<折点> 折点list3, List<平台> 平台list) {

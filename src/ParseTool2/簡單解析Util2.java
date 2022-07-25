@@ -5,10 +5,33 @@ import java.util.List;
 
 import com.feilong.core.util.SortUtil;
 
+import InputData.日線;
 import InputData.日線點;
 import OutputData.折点;
+import common.CommonConst;
 
 public class 簡單解析Util2 {
+	
+	public static List<日線> 取得日線Array_by_List(String[][] o日線Array) {
+		List<日線> list日線 = new ArrayList();
+		for(String[] array日線 : o日線Array){
+	
+			// 0:
+			// 1:
+			// 2:
+			// 3:
+			// 4:
+	
+			list日線.add(new 日線(
+					array日線[CommonConst.日時],
+					array日線[CommonConst.開盤價],
+					array日線[CommonConst.收盤價],
+					array日線[4],
+					array日線[3]					
+					));
+		}
+		return list日線;
+	}
 
 	public static 簡單解析2 取得指定日的前后指定天数的簡單解析2(List<折点> list日線_折点, int index假点, int 對象個數, int get高低) {
 		// | ---(對象個數)---- index假点 ----(對象個數)----|
