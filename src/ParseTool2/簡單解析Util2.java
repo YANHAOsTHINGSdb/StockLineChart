@@ -174,13 +174,14 @@ public class 簡單解析Util2 {
 	}
 
 	public static 折点 取得指定折点List的最低点(List<折点> list指定数据){
-		List<折点> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"价格");
+		List<折点> l = SortUtil.sortListByPropertyNamesValue(new ArrayList(list指定数据),"价格");
 		折点 r = l.get(0);
 		return r;
 	}
 
 	public static 折点 取得指定折点List的最高点(List<折点> list指定数据){
-		List<折点> l = SortUtil.sortListByPropertyNamesValue(list指定数据,"价格");
+		
+		List<折点> l = SortUtil.sortListByPropertyNamesValue(new ArrayList(list指定数据),"价格");
 		折点 r = l.get(l.size() - 1);
 		return r;
 	}

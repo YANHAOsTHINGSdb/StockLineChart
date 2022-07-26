@@ -264,12 +264,25 @@ public class 平台Util2 {
 
 	public static float 取得指定两点价差(折点 right, 折点 left) {
 
-		if(Float.parseFloat(right.get价格()) >= Float.parseFloat(left.get价格())) {
-			return (Float.parseFloat(right.get价格())-Float.parseFloat(left.get价格()) )/ 5;
+		float fRight = Float.parseFloat(right.get价格());
+		float fLeft = Float.parseFloat(left.get价格());
+		if(fRight >= fLeft) {
+			return fRight - fLeft;
 		}else {
-			return (Float.parseFloat(left.get价格())-Float.parseFloat(right.get价格()) )/ 5;
+			return fLeft - fRight;
 		}
 
+	}
+
+	public static float 取得視覺圖上最多不能跨過的誤差範圍(折点 high, 折点 low) {
+		// 就是视觉图上最多不能跨过的误差范围
+		float fHight = Float.parseFloat(high.get价格());
+		float fLow = Float.parseFloat(low.get价格());
+		if(fHight >= fLow) {
+			return (fHight - fLow)/10;
+		}else {
+			return (fLow - fHight)/10;
+		}
 	}
 
 }
