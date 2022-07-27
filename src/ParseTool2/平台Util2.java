@@ -217,7 +217,10 @@ public class 平台Util2 {
 
 		for(折点 z : 高点list) {
 			if(z.get日時() > z指定折点.get日時()) {
-				return 折点list3.get(z.getIndex()-1);
+				int index = 簡單解析Util2.取得指定日期的index(折点list3, z.get日時());
+				index = index - 1;
+				index = index>=0?index:0;
+				return 折点list3.get(index);
 			}
 		}
 

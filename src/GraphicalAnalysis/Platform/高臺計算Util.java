@@ -330,7 +330,7 @@ public class 高臺計算Util {
 		//        如果是高台：保留最高位的那对儿
 		//-----------------------------------------------
 
-
+		List<折点> 平台内折点list = new ArrayList();
 
 
 		for(折点 z低點 : 折点list3低點) {
@@ -342,6 +342,9 @@ public class 高臺計算Util {
 			// 折點list3裏該低點之後的高點
 			int index = 取得指定List中的index(z低點, 折点list3);
 
+			if((index + 1 ) >= 折点list3.size()){
+				break;
+			}
 			折点 g = 折点list3.get(index + 1);
 
 			boolean b該点是否在高臺內 = 該点是否在高臺內(g, 平台list, 折点list2);
@@ -351,12 +354,12 @@ public class 高臺計算Util {
 				// (将最后的折点加到 折点list23 中)
 
 				// 取得目标折点（一高一低）
-				List<折点> 折点_高_低_list = 取得目标折点_一高_一低(z低點, 折点list3.get(index+1), 折点list2);
+				List<折点> 折点_高_低_list = 取得目标折点_一高_一低(z低點, 折点list3.get(index + 1), 折点list2);
 
 				// 将目标折点加入到目标折点list
 				// 這對高點不在折點list3對象範圍內
 				// 特点是，它在最后，且不在折點list3内
-				折点list23 = 将目标折点加入到目标折点list(折点list3, 折点_高_低_list);
+				折点list23 = 将目标折点加入到目标折点list(折点list23, 折点_高_低_list);
 
 			}else {
 				//  如果是高點：去掉折點list2裏對應的折點（高低一對）
@@ -365,6 +368,7 @@ public class 高臺計算Util {
 			}
 		}
 		return 折点list23;
+		
 	}
 
 	private List<折点> 将目标折点加入到目标折点list(List<折点> 折点list3, List<折点> 折点_高_低_list) {
@@ -513,8 +517,15 @@ public class 高臺計算Util {
 			int size = p平台.get平台折点list().size();
 			折点 z之前高点 =  平台Util2.取得指定list中指定折点之前的高点(p平台.get平台折点list().get(0), 折点list3);
 			折点 z之后高点 =  平台Util2.取得指定list中指定折点之后的高点(p平台.get平台折点list().get(size-1), 折点list3);
-			float  f之前高点价格 = Float.parseFloat(z之前高点.get价格());
-			float  f之后高点价格 = Float.parseFloat(z之后高点.get价格());
+			
+			float  f之前高点价格 = 0;
+			float  f之后高点价格 =0;
+			if(z之前高点 != null) {
+				f之前高点价格=		Float.parseFloat(z之前高点.get价格());
+			}
+			if(z之后高点 != null) {
+				f之后高点价格 = Float.parseFloat(z之后高点.get价格());
+			}
 			float f平台最高价格 = p平台.getF最高价格();
 //			int 高低; // 0=高 1=低
 //			int 形状; // 0=M形 1=頭肩形 2=收縮三角形

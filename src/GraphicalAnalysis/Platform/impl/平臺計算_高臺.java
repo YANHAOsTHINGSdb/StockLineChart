@@ -11,10 +11,8 @@ import OutputData.折点;
 public class 平臺計算_高臺 implements 平臺計算 {
 
 	@Override
-	public List<折点> 排除幹擾(List<折点> 折点list2, List<折点> 折点list3, 平台 p) {
+	public List<折点> 排除幹擾(List<折点> 折点list2, List<折点> 折点list3, List<平台> 平台list) {
 		
-		List<平台> 平台list = new ArrayList();
-		平台list.add(p);
 		
 		return new 高臺計算Util().排除幹擾(折点list2, 折点list3, 平台list);
 	}

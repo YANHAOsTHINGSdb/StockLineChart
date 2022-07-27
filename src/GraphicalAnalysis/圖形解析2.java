@@ -220,7 +220,10 @@ public class 圖形解析2 {
 		
 		平臺計算 o平臺計算 = null;
 		
-		List<折点>折點list_優化後 = new ArrayList();
+		List<折点>平台折点list = new ArrayList();
+		
+		List<折点>折點list_優化後 = new 高臺計算Util().排除幹擾(折点list2, 折点list3, 平台list);
+
 		for(平台 p : 平台list) {
 			
 			// 由于是各算个的。所以只有高点的类型为对象外
@@ -235,11 +238,13 @@ public class 圖形解析2 {
 				o平臺計算 = new 平臺計算_低臺();
 			}
 			
-			List<折点>單一平臺優化後 = o平臺計算.排除幹擾(折点list2, 折点list3, p);
+			//List<折点>單一平臺優化後 = o平臺計算.排除幹擾(折点list2, 折点list3, p);
 			
-			單一平臺優化後 = o平臺計算.平台充实(折点list1, 單一平臺優化後, p);
+			//平台折点list = o平臺計算.平台充实(折点list1, 折點list_優化後, p);
 			
-			p.set平台折点list(單一平臺優化後);
+			平台折点list = new 高臺計算Util().高台充实(折点list1, 折點list_優化後, 平台list);
+			
+			p.set平台折点list(平台折点list);
 			
 		}
 		
