@@ -132,7 +132,18 @@ public class 平台Util2 {
 	public static List<折点> 取得两点之间的折点List(List<折点> 折点list23, 折点 開始折點, 折点 結束折點) {
 		List<折点> 折点list = new ArrayList();
 		for(折点 z : 折点list23) {
-			if(z.get日時() >= 開始折點.get日時() || z.get日時() <= 結束折點.get日時()) {
+			if(z.get日時() >= 開始折點.get日時() && z.get日時() <= 結束折點.get日時()) {
+				折点list.add(z);
+			}
+		}
+
+		return 折点list;
+	}
+	
+	public static List<折点> 取得两日期之间的折点List(List<折点> 折点list23, int 開始日期, int 結束日期) {
+		List<折点> 折点list = new ArrayList();
+		for(折点 z : 折点list23) {
+			if(z.get日時() >= 開始日期 && z.get日時() <= 結束日期) {
 				折点list.add(z);
 			}
 		}

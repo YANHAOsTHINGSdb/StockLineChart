@@ -29,8 +29,8 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 	
 	public 圖形 圖形判别_向下(平台 p, List<折点> 折點list_優化後, List<折点> 折点list3) {
 		
-		List<折点> 折点list高點 = 平台Util2.取得指定list的高點list(折點list_優化後);
-		List<折点> 折点list低點 = 平台Util2.取得指定list的低點list(折点list高點);
+		List<折点> 折点list高點 = 平台Util2.取得指定list的高點list(p.get平台折点list());
+		List<折点> 折点list低點 = 平台Util2.取得指定list的低點list(p.get平台折点list());
 		
 		圖形 t = new 圖形計算_M頭_頭肩頂().取得M頭信息(p, 折點list_優化後, 折点list高點, 折点list低點);
 		if(t != null) {
@@ -52,8 +52,8 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 	}
 	
 	public 圖形 圖形判别_向上(平台 p, List<折点> 折點list_優化後, List<折点> 折点list3) {
-		List<折点> 折点list高點 = 平台Util2.取得指定list的高點list(折點list_優化後);
-		List<折点> 折点list低點 = 平台Util2.取得指定list的低點list(折点list高點);
+		List<折点> 折点list高點 = 平台Util2.取得指定list的高點list(p.get平台折点list());
+		List<折点> 折点list低點 = 平台Util2.取得指定list的低點list(p.get平台折点list());
 		
 		圖形 t = new 圖形計算_M頭_頭肩頂().取得M底信息(p, 折點list_優化後, 折点list高點, 折点list低點);
 		if(t != null) {

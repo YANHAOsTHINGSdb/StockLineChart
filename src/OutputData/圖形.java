@@ -6,6 +6,8 @@ import lombok.Data;
 public class 圖形 extends 平台{
 	
 	public 圖形(平台 p) {
+
+		this.平台折点list=p.get平台折点list();
 		this.i開始index = p.getI開始index();
 		this.i結束index = p.getI結束index();
 		this.i開始日時 = p.getI開始日時();
@@ -13,7 +15,7 @@ public class 圖形 extends 平台{
 		this.高低 = p.get高低();
 	}
 	public 圖形() {
-		// TODO 自動生成されたコンストラクター・スタブ
+		
 	}
 
 	int 形状; // 0=M形 1=頭肩形 2=收縮三角形

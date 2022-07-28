@@ -428,7 +428,7 @@ public class 高臺計算Util {
 
 	}
 
-	public List<折点> 高台充实(List<折点> 折点list1, List<折点> 折点list23, List<平台> 平台list) {
+	public List<折点> 高台充实(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折點list_優化後, List<平台> 平台list) {
 
 		//-----------------------------------------------
 		// 循環處理平台list里的每一個高台.
@@ -444,21 +444,24 @@ public class 高臺計算Util {
 
 		for(平台 p : 平台list) {
 			// 取得高台的两端之间所有折点list1的高点
-			List<折点> 目標list = 取得高台的两端之间所有折点(p, 折点list1);
+			List<折点> 目標list = 取得高台的两端之间所有折点(p, 折点list2);
 
-			目標list = 解析出高臺信息_条件结果(目標list, 折点list1, p);
+			目標list = 解析出高臺信息_条件结果(目標list, 折点list1, 折点list2, p);
 
-			折点list23 = 将目标折点加入到目标折点list(折点list23, 目標list);
+			折點list_優化後 = 将目标折点加入到目标折点list(折點list_優化後, 目標list);
 		}
 
-		return 折点list23;
+		return 折點list_優化後;
 	}
 
-	private List<折点> 解析出高臺信息_条件结果(List<折点> 目標list, List<折点> 折点list1, 平台 p) {
+	private List<折点> 解析出高臺信息_条件结果(List<折点> 目標list, List<折点> 折点list1, List<折点> 折点list2, 平台 p) {
+		// 充實目標list
+		// 充實平臺的平臺折點list
 
-
+		//
+		List<折点> 折点list21 = 平台Util2.取得两日期之间的折点List(折点list1, p.getI開始日時(), p.getI結束日時());
 		// 从折点list1 取得所有高点
-		List<折点> 折点list1高點 = 平台Util2.取得指定list的高點list(折点list1);
+		List<折点> 折点list1高點 = 平台Util2.取得指定list的高點list(折点list21);
 
 
 		// 該高點在允許範圍內 90-110%
@@ -467,14 +470,31 @@ public class 高臺計算Util {
 
 
 		for(折点 z : 折点list1高點) {
-			float z价格 = Float.parseFloat(z.get价格());
-			//float p_rate = p1价格 / z价格;
-
+			if(z.get日時() >= p.getI結束日時()) {
+				break;
+			}
+			
 			float p_rate =平台Util2.取得折点差价范围(p1, z);
+			
 			if(p_rate >= 0.9 && p_rate <= 1.1) {
-				p.get平台折点list().add(z);
-				目標list.add(z);
-				目標list.add(取得下一点(z, 折点list1));
+				
+				if( !p.get平台折点list().contains(z)) {
+					p.get平台折点list().add(z);
+				}				
+				
+				if( !目標list.contains(z)) {
+					目標list.add(z);
+				}
+				
+				折点 z1 = 取得下一点(z, 折点list1);
+				
+				if( !p.get平台折点list().contains(z1)) {
+					p.get平台折点list().add(z1);
+				}				
+				if( !目標list.contains(z1)) {
+					目標list.add(z1);
+				}
+
 			}
 		}
 
@@ -500,7 +520,7 @@ public class 高臺計算Util {
 		int i結束日時 = p.getI結束日時();
 
 		for(折点 z : 折点list1) {
-			if(z.get日時() >= i開始日時 || z.get日時() <= i結束日時) {
+			if(z.get日時() >= i開始日時 && z.get日時() <= i結束日時) {
 				l.add(z);
 			}
 		}
@@ -570,6 +590,13 @@ public class 高臺計算Util {
 		}
 
 		return 圖形_收縮三角形list_;
+	}
+
+	public List<折点> 取得平台折点list(List<折点> 折点list1, List<折点> 折點list_優化後, 平台 p) {
+		int indexFrom = 簡單解析Util2.取得指定日期的index(折点list1,  p.getI開始日時());
+		int indexTo = 簡單解析Util2.取得指定日期的index(折点list1,  p.getI結束日時());
+		
+		return 平台Util2.取得两点之间的折点List(折点list1,折点list1.get(indexFrom), 折点list1.get(indexTo));
 	}
 
 }

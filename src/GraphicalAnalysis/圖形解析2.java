@@ -9,8 +9,6 @@ import GraphicalAnalysis.Platform.平臺計算;
 import GraphicalAnalysis.Platform.高臺計算Util;
 import GraphicalAnalysis.Platform.impl.圖形計算_新_M頭_頭肩頂;
 import GraphicalAnalysis.Platform.impl.圖形計算_新_收縮三角形;
-import GraphicalAnalysis.Platform.impl.平臺計算_低臺;
-import GraphicalAnalysis.Platform.impl.平臺計算_高臺;
 import InputData.日線;
 import OutputData.圖形;
 import OutputData.平台;
@@ -18,7 +16,6 @@ import OutputData.折点;
 import OutputData.頸線;
 import ParseTool2.簡單解析Util2;
 import ParseTool2.輸出頸線圖數據2;
-import common.CommonConst;
 
 public class 圖形解析2 {
 	public static void main(String[] args) {
@@ -220,29 +217,24 @@ public class 圖形解析2 {
 		
 		平臺計算 o平臺計算 = null;
 		
-		List<折点>平台折点list = new ArrayList();
+		List<折点>平台折点list = new ArrayList();		
 		
+		// 排除幹擾
 		List<折点>折點list_優化後 = new 高臺計算Util().排除幹擾(折点list2, 折点list3, 平台list);
+		
+		// 高台充实
+		折點list_優化後 = new 高臺計算Util().高台充实(折点list1, 折点list2, 折點list_優化後, 平台list);
 
+		// 取得平台折点list
 		for(平台 p : 平台list) {
 			
 			// 由于是各算个的。所以只有高点的类型为对象外
 			//		if(p.getI類型() == CommonConst.平台_類型_高点) {
 			//			折點list_優化後.addAll(平台Util2.取得指定平台内折点(p, 折点list3));
 			//		}
-			//int 高低; // 0=高 1=低	
-			if(p.get高低() == CommonConst.平台_高低_高) {
-				o平臺計算 = new 平臺計算_高臺();
-			}
-			if(p.get高低() == CommonConst.平台_高低_低) {
-				o平臺計算 = new 平臺計算_低臺();
-			}
-			
-			//List<折点>單一平臺優化後 = o平臺計算.排除幹擾(折点list2, 折点list3, p);
-			
-			//平台折点list = o平臺計算.平台充实(折点list1, 折點list_優化後, p);
-			
-			平台折点list = new 高臺計算Util().高台充实(折点list1, 折點list_優化後, 平台list);
+			//int 高低; // 0=高 1=低			
+	
+			平台折点list = new 高臺計算Util().取得平台折点list(折点list1, 折點list_優化後, p);
 			
 			p.set平台折点list(平台折点list);
 			
@@ -254,6 +246,10 @@ public class 圖形解析2 {
 			圖形計算_新 o圖形計算_M頭_頭肩頂 = new 圖形計算_新_M頭_頭肩頂();
 			
 			圖形 o圖形 =o圖形計算_M頭_頭肩頂.圖形判别(p, 折點list_優化後, 折点list3);
+			
+			if(o圖形 == null) {
+				continue;
+			}
 			
 			o圖形 = o圖形計算_M頭_頭肩頂.趨勢計算(o圖形, 折点list1, 折点list2, 折点list3,折點list_優化後);
 			
