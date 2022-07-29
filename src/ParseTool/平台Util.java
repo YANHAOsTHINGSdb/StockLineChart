@@ -96,7 +96,7 @@ public class 平台Util {
 		case(CommonConst.平臺類型_低平台):
 			//頸線 =  最低低點位的平線
 			
-			折点 o折点 = 平台Util2.取得折点list中指定点之间最低折点(折点list,o平台.getI開始index(), o平台.getI結束index() );
+			折点 o折点 = 平台Util2.取得折点list中指定点之間最低折点(折点list,o平台.getI開始index(), o平台.getI結束index() );
 			float f折点价格 = Float.parseFloat(o折点.get价格());
 			o頸線.set開始价格(f折点价格);
 			o頸線.setI開始日時(o平台.getI開始日時());

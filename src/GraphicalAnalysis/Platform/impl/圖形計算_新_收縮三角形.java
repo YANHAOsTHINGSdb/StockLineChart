@@ -12,7 +12,7 @@ import ParseTool2.平台Util2;
 public class 圖形計算_新_收縮三角形 implements 圖形計算_新 {
 
 	@Override
-	public 圖形 圖形判别(平台 p, List<折点> 折點list_優化後, List<折点> 折点list3) {
+	public 圖形 圖形判别(平台 p, List<折点> 折点list1, List<折点> 折點list_優化後, List<折点> 折点list3) {
 		// 由于 三角形是复数平台的结合，但是新设计是按平台单位返回【圖形】的
 		// 所以还要在原来的设计计算
 		// 在這裏【割愛】了

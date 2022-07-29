@@ -24,7 +24,7 @@ public class 平台 {
 	public 平台() {
 		// TODO 自動生成されたコンストラクター・スタブ
 	}
-	int 高低; // 0=高 1=低	
+	int 高低; // 11=高 22=低	
 	int i開始日時; // YYYYMMDD
 	int i開始index; // 
 	int i結束日時; // YYYYMMDD

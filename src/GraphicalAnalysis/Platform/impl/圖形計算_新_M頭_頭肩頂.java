@@ -5,6 +5,7 @@ import java.util.List;
 import GraphicalAnalysis.Graphical.impl.圖形計算_M頭_頭肩頂;
 import GraphicalAnalysis.Graphical.impl.頸線Util;
 import GraphicalAnalysis.Platform.圖形計算_新;
+import GraphicalAnalysis.Platform.高臺計算Util;
 import OutputData.圖形;
 import OutputData.平台;
 import OutputData.折点;
@@ -14,11 +15,11 @@ import common.CommonConst;
 public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 
 	@Override
-	public 圖形 圖形判别(平台 p, List<折点> 折點list_優化後, List<折点> 折点list3) {
+	public 圖形 圖形判别(平台 p, List<折点> 折点list1, List<折点> 折點list_優化後, List<折点> 折点list3) {
 		
 		
 		if(p.get高低() == CommonConst.平台_高低_高) {
-			return 圖形判别_向下(p, 折點list_優化後, 折点list3);
+			return 圖形判别_向下(p, 折点list1, 折點list_優化後, 折点list3);
 		}
 		if(p.get高低() == CommonConst.平台_高低_低) {
 			return 圖形判别_向上(p, 折點list_優化後, 折点list3);
@@ -27,10 +28,15 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 		return null;
 	}
 	
-	public 圖形 圖形判别_向下(平台 p, List<折点> 折點list_優化後, List<折点> 折点list3) {
+	public 圖形 圖形判别_向下(平台 p, List<折点> 折点list1, List<折点> 折點list_優化後, List<折点> 折点list3) {
 		
 		List<折点> 折点list高點 = 平台Util2.取得指定list的高點list(p.get平台折点list());
 		List<折点> 折点list低點 = 平台Util2.取得指定list的低點list(p.get平台折点list());
+		
+		// 高台要加两端的低点
+		// 平台只保留了以高点为边界的信息
+		// 如果是高台，就需要两端的低点
+		高臺計算Util.完善高台两端的低点(p, 折点list1);
 		
 		圖形 t = new 圖形計算_M頭_頭肩頂().取得M頭信息(p, 折點list_優化後, 折点list高點, 折点list低點);
 		if(t != null) {
@@ -145,14 +151,17 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 		
 		int i開始index= o圖形.getI開始index();
 		int i破位index = i開始index;
-		折点 p1 = 折点list低點.get(2);
+		// 取得最值折点
+		折点 p1 = o圖形.get高台_最値折點();
 				
 		for( int i = i開始index;;i++) {
 			
 			float f該日頸線價格 = 0;
 			if(o圖形.get形状()==1) {// 0=M形 1=頭肩形 2=收縮三角形
 				
-				f該日頸線價格 = 頸線Util.取得该日颈线价格(o圖形.get高台_第三折点(), p1, 折点list1, 折点list1.get(i).get日時());
+				f該日頸線價格 = o圖形.get高台_頸線價格();
+				// 頸線Util.取得该日颈线价格(折点list低點.get(0), 折点list低點.get(1), 折点list23, p3.get日時());
+				f該日頸線價格 = 頸線Util.取得该日颈线价格(o圖形.get高台_第一折点(), o圖形.get高台_第三折点(), 折点list1, 折点list1.get(i).get日時());
 			}			
 			if(o圖形.get形状()==0) {// 0=M形 1=頭肩形 2=收縮三角形
 				f該日頸線價格 = o圖形.get高台_頸線價格();
@@ -172,7 +181,11 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 		
 		o圖形.set高台_破位前折点(折點list_優化後.get(index-1));  //折点list23 上 三角形_破位前折点
 		o圖形.set高台_破位后第一折点(折點list_優化後.get(index));//折点list23 上 三角形_半路折点
-		o圖形.set高台_破位后第二折点(折點list_優化後.get(index+2));//折点list23 上 三角形_底部折点
+		if(index+2 >= 折點list_優化後.size()) {
+		}else {
+			o圖形.set高台_破位后第二折点(折點list_優化後.get(index+2));//折点list23 上 三角形_底部折点
+		}
+		
 		
 		return o圖形;
 	}

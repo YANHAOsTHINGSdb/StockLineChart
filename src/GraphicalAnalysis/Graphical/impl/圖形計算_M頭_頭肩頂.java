@@ -67,8 +67,8 @@ public class 圖形計算_M頭_頭肩頂 implements 圖形計算{
 		// 包括了下行中的高点
 		// 所以只取高台部分的高点
 		List<折点> 相對高點list = 取得高台部分的相对高点(折点list高點, 折点list3);
-		
-		if(相對高點list.size() == 2 ) {
+		//-----------------------------------------------
+		if(折点list低點.size() >= 2 ) {
 			// 在該高臺內，具有5個折點(2高，3低)			
 		}else {
 			return null;
@@ -82,9 +82,9 @@ public class 圖形計算_M頭_頭肩頂 implements 圖形計算{
 		}
 		
 		// 低点同位
-		折点 p1 = 折点list低點.get(1);
+		折点 p1 = 折点list低點.get(0);
 		折点 p2 = 折点list低點.get(折点list低點.size()-1);
-		float p_rate = 平台Util2.取得折点差价范围(p1, p2);
+		float p_rate = 平台Util2.取得折点差价范圍(p1, p2);
 		if(p_rate >= 0.9 && p_rate <= 1.1) {
 
 			//float 高台_頸部最高價格差;              // 最値折点 - 頸線價 的絶対値
@@ -107,7 +107,7 @@ public class 圖形計算_M頭_頭肩頂 implements 圖形計算{
 			float f高台_頸部最高價格 = Float.parseFloat(p3.get价格());
 			
 			//float f高台_頸線價格 = Float.parseFloat(折点list低點.get(1).get价格());
-			float f高台_頸線價格 = 頸線Util.取得该日颈线价格(折点list低點.get(1), 折点list低點.get(2), 折点list23, p3.get日時());
+			float f高台_頸線價格 = 頸線Util.取得该日颈线价格(折点list低點.get(0), 折点list低點.get(1), 折点list23, p3.get日時());
 			
 			t圖形.set高台_頸部最高價格差(f高台_頸部最高價格 - f高台_頸線價格);// 中間低點的價格
 			//			
@@ -168,7 +168,7 @@ public class 圖形計算_M頭_頭肩頂 implements 圖形計算{
 		折点 p1 = 折点list低點.get(0);
 		折点 p2 = 折点list低點.get(折点list低點.size()-1);
 
-		float p_rate = 平台Util2.取得折点差价范围(p1, p2);
+		float p_rate = 平台Util2.取得折点差价范圍(p1, p2);
 		if(p_rate >= 0.9 && p_rate <= 1.1) {
 			
 			//float 高台_頸部最高價格差;              // 最値折点 - 頸線價 的絶対値
@@ -251,7 +251,7 @@ public class 圖形計算_M頭_頭肩頂 implements 圖形計算{
 		折点 p1 = 折点list低點.get(0);
 		折点 p2 = 折点list低點.get(折点list低點.size()-1);
 
-		float p_rate = 平台Util2.取得折点差价范围(p1, p2);
+		float p_rate = 平台Util2.取得折点差价范圍(p1, p2);
 		if(p_rate >= 0.9 && p_rate <= 1.1) {
 			
 			//float 高台_頸部最高價格差;              // 最値折点 - 頸線價 的絶対値
@@ -321,7 +321,7 @@ public class 圖形計算_M頭_頭肩頂 implements 圖形計算{
 		// 低点同位
 		折点 p1 = 折点list高點.get(1);
 		折点 p2 = 折点list高點.get(折点list高點.size()-1);
-		float p_rate = 平台Util2.取得折点差价范围(p1, p2);
+		float p_rate = 平台Util2.取得折点差价范圍(p1, p2);
 		if(p_rate >= 0.9 && p_rate <= 1.1) {
 
 			//float 高台_頸部最高價格差;              // 最値折点       - 頸線價 的絶対値

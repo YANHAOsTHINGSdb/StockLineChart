@@ -145,7 +145,7 @@ public class 圖形解析 {
 		List<折点>折點list_優化後 = new 高臺計算Util().排除幹擾(折点list2, 折点list3, 平台list);
 		
 		// 高台充实
-		折點list_優化後 = new 高臺計算Util().高台充实(折点list1, 折點list_優化後, 平台list);
+		折點list_優化後 = new 高臺計算Util().高台充实By折点list1(折点list1, 折点list2, 折點list_優化後, 平台list);
 		
 		
 		/*

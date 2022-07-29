@@ -13,7 +13,7 @@ public class 頸線Util {
 		// 在指定折点list 取得 【get三角形_第三折点】的index2
 		// 在指定折点list 取得 【i日時】的index2
 		// 取得index1和index2對應的價格
-		int x = i日時;
+		int x = 簡單解析Util2.取得指定日期的index(折点list1, i日時);
 		int x1 = 簡單解析Util2.取得指定日期的index(折点list1, get三角形_第一折点.get日時());
 		float y1 = Float.parseFloat(get三角形_第一折点.get价格());
 		int x2 = 簡單解析Util2.取得指定日期的index(折点list1, get三角形_第三折点.get日時());

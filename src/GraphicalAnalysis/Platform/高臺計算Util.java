@@ -15,6 +15,14 @@ import common.CommonConst;
 
 public class 高臺計算Util {
 
+	/**
+	 * 
+	 * @param 折点list1
+	 * @param 折点list2
+	 * @param 折点list3
+	 * @param 日線list
+	 * @return
+	 */
 	public List<平台> 解析出高低臺信息(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折点list3, List<日線> 日線list) {
 
 		List<平台> 平台list = new ArrayList();
@@ -112,6 +120,16 @@ public class 高臺計算Util {
 		return 解析出高臺信息_条件结果(left, mid, right, 折点list1, 日線list);
 	}
 
+	/**
+	 * 
+	 * @param left
+	 * @param mid
+	 * @param right
+	 * @param 条件结果list3
+	 * @param 折点list1
+	 * @param 折点list3
+	 * @return
+	 */
 	private 平台 設置平臺信息(折点 left, 折点 mid, 折点 right, List<Integer> 条件结果list3, List<折点> 折点list1, List<折点> 折点list3) {
 		平台 p = new 平台();
 		List<折点> 平台_折点list = new ArrayList();
@@ -167,6 +185,13 @@ public class 高臺計算Util {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param 条件结果1
+	 * @param 条件结果2
+	 * @param 条件结果3
+	 * @return
+	 */
 	private boolean 判断開始条件(int 条件结果1, int 条件结果2, int 条件结果3) {
 		if(条件结果1 == 2 || 条件结果1 == 0) {
 			if(条件结果2 == 2 || 条件结果2 == 0) {
@@ -266,10 +291,10 @@ public class 高臺計算Util {
 
 	private int chk价格差(折点 left, 折点 mid, 折点 right, List<折点> 折点list1) {
 		//float mid_left_rate = left价格 / mid价格;
-		float mid_left_rate = 平台Util2.取得折点差价范围(left, mid);
+		float mid_left_rate = 平台Util2.取得折点差价范圍(left, mid);
 
 		//float mid_right_rate = right价格 / mid价格;
-		float mid_right_rate = 平台Util2.取得折点差价范围(right, mid);
+		float mid_right_rate = 平台Util2.取得折点差价范圍(right, mid);
 
 		float f_right_mid价差 = 平台Util2.取得指定两点价差(right, mid);
 		float f_left_mid价差 = 平台Util2.取得指定两点价差(left, mid);
@@ -428,7 +453,7 @@ public class 高臺計算Util {
 
 	}
 
-	public List<折点> 高台充实(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折點list_優化後, List<平台> 平台list) {
+	public List<折点> 高台充实By折点list1(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折點list_優化後, List<平台> 平台list) {
 
 		//-----------------------------------------------
 		// 循環處理平台list里的每一個高台.
@@ -474,7 +499,7 @@ public class 高臺計算Util {
 				break;
 			}
 			
-			float p_rate =平台Util2.取得折点差价范围(p1, z);
+			float p_rate =平台Util2.取得折点差价范圍(p1, z);
 			
 			if(p_rate >= 0.9 && p_rate <= 1.1) {
 				
@@ -498,6 +523,7 @@ public class 高臺計算Util {
 			}
 		}
 
+		p.set平台折点list(SortUtil.sortListByPropertyNamesValue(p.get平台折点list(),"日時"));
 		//
 		return SortUtil.sortListByPropertyNamesValue(目標list,"日時");
 
@@ -549,12 +575,14 @@ public class 高臺計算Util {
 			float f平台最高价格 = p平台.getF最高价格();
 //			int 高低; // 0=高 1=低
 //			int 形状; // 0=M形 1=頭肩形 2=收縮三角形
-			if(f之前高点价格 > f平台最高价格 && f之后高点价格 > f平台最高价格 ) {
+			//if(f之前高点价格 > f平台最高价格 && f之后高点价格 > f平台最高价格 ) {
+			if(f之前高点价格 > f平台最高价格 || f之后高点价格 > f平台最高价格 ) {	
+				
 				// 如果这个平台高于两旁高点，就是高三角形
-				p平台.set高低(1);
+				p平台.set高低(CommonConst.平台_高低_高);
 			}else {
 				// 如果这个平台低于两旁任一高点，就是低三角形
-				p平台.set高低(0);
+				p平台.set高低(CommonConst.平台_高低_低);
 			}
 			平台list1.add(p平台);
 		}
@@ -578,12 +606,13 @@ public class 高臺計算Util {
 			float f三角形最高价格 = t三角形.get三角形_大邊最高價格();
 //			int 高低; // 0=高 1=低
 //			int 形状; // 0=M形 1=頭肩形 2=收縮三角形
-			if(f之前高点价格 > f三角形最高价格 && f之后高点价格 > f三角形最高价格 ) {
+			//if(f之前高点价格 > f三角形最高价格 && f之后高点价格 > f三角形最高价格 ) {
+			if(f之前高点价格 > f三角形最高价格 || f之后高点价格 > f三角形最高价格 ) {
 				// 如果这个平台高于两旁高点，就是高三角形
-				t三角形.set高低(1);
+				t三角形.set高低(CommonConst.平台_高低_高);
 			}else {
 				// 如果这个平台低于两旁任一高点，就是低三角形
-				t三角形.set高低(0);
+				t三角形.set高低(CommonConst.平台_高低_低);
 			}
 
 			圖形_收縮三角形list_.add(t三角形);
@@ -597,6 +626,31 @@ public class 高臺計算Util {
 		int indexTo = 簡單解析Util2.取得指定日期的index(折点list1,  p.getI結束日時());
 		
 		return 平台Util2.取得两点之间的折点List(折点list1,折点list1.get(indexFrom), 折点list1.get(indexTo));
+	}
+
+	public static void 完善高台两端的低点(平台 p, List<折点> 折点list1) {
+		// 取得平台开始高折点
+		// 取得开始端低点
+		int index开始 = 簡單解析Util2.取得指定日期的index(折点list1, p.getI開始日時());
+		
+		if(index开始 >= 1) {
+			折点 开始端低点 = 折点list1.get(index开始 - 1);
+			p.get平台折点list().add(开始端低点);			
+		}		
+		
+		
+		// 取得平台结束高折点
+		// 取得结束端低点
+		int index結束 = 簡單解析Util2.取得指定日期的index(折点list1, p.getI結束日時());
+		
+		if(index結束 + 1 >= 折点list1.size()) {
+			
+		}else {
+			折点 結束端低点 = 折点list1.get(index結束 + 1);
+			p.get平台折点list().add(結束端低点);
+		}
+		
+		p.set平台折点list(SortUtil.sortListByPropertyNamesValue(p.get平台折点list(),"日時"));
 	}
 
 }

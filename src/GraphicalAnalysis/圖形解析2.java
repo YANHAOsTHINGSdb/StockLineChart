@@ -124,7 +124,6 @@ public class 圖形解析2 {
 	
 	List<頸線> 輸出圖形解析結果(List<折点> 折点list1, List<折点> 折点list2, List<日線> 日線list) {
 		
-		
 		List<圖形> 圖形list = new 圖形解析2().o圖形解析(折点list1, 折点list2, 日線list);
 		
 		List<頸線> 頸線list = new 圖形解析2().輸出頸線圖數據(圖形list, (float)0.1);
@@ -209,6 +208,14 @@ public class 圖形解析2 {
 	}
 
 
+	/**
+	 * 
+	 * @param 折点list1
+	 * @param 折点list2
+	 * @param 折点list3
+	 * @param 平台list
+	 * @return
+	 */
 	private List<圖形> o圖形解析_高低平台(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折点list3, List<平台> 平台list) {
 		// 設置高低平臺(与其他平台比较就无法得知是高还是低)
 		List<圖形> 圖形_高低平台List = new ArrayList();
@@ -223,7 +230,7 @@ public class 圖形解析2 {
 		List<折点>折點list_優化後 = new 高臺計算Util().排除幹擾(折点list2, 折点list3, 平台list);
 		
 		// 高台充实
-		折點list_優化後 = new 高臺計算Util().高台充实(折点list1, 折点list2, 折點list_優化後, 平台list);
+		折點list_優化後 = new 高臺計算Util().高台充实By折点list1(折点list1, 折点list2, 折點list_優化後, 平台list);
 
 		// 取得平台折点list
 		for(平台 p : 平台list) {
@@ -245,7 +252,7 @@ public class 圖形解析2 {
 			
 			圖形計算_新 o圖形計算_M頭_頭肩頂 = new 圖形計算_新_M頭_頭肩頂();
 			
-			圖形 o圖形 =o圖形計算_M頭_頭肩頂.圖形判别(p, 折點list_優化後, 折点list3);
+			圖形 o圖形 =o圖形計算_M頭_頭肩頂.圖形判别(p, 折点list1, 折點list_優化後, 折点list3);
 			
 			if(o圖形 == null) {
 				continue;

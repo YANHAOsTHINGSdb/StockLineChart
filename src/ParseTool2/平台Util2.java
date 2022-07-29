@@ -78,7 +78,7 @@ public class 平台Util2 {
 		return 頸線list;
 	}
 
-	public static float 取得折点差价范围(折点 p1, 折点 p2) {
+	public static float 取得折点差价范圍(折点 p1, 折点 p2) {
 		float p1价格 = Float.parseFloat(p1.get价格());
 		float p2价格 = Float.parseFloat(p2.get价格());
 		return p1价格/p2价格;
@@ -250,7 +250,7 @@ public class 平台Util2 {
 		return null;
 	}
 
-	public static 折点 取得折点list中指定点之间最低折点(List<折点> 折点list, int i開始index, int i結束index) {
+	public static 折点 取得折点list中指定点之間最低折点(List<折点> 折点list, int i開始index, int i結束index) {
 		// SortUtil.sortListByPropertyNamesValue(目標list,"日時");
 		折点 p1 = 折点list.get(i開始index+1);
 		折点 p2 = 折点list.get(i結束index-1);
