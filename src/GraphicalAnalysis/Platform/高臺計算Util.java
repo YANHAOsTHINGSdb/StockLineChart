@@ -470,8 +470,12 @@ public class 高臺計算Util {
 		for(平台 p : 平台list) {
 			// 取得高台的两端之间所有折点list1的高点
 			List<折点> 目標list = 取得高台的两端之间所有折点(p, 折点list2);
-
-			目標list = 解析出高臺信息_条件结果(目標list, 折点list1, 折点list2, p);
+			
+			目標list = 單方面追加平臺折點List(目標list, 折点list1, 折点list2, p, 0); // 0：向前 1：向后
+			
+			目標list = 單方面追加平臺折點List(目標list, 折点list1, 折点list2, p, 1); // 0：向前 1：向后
+			
+			目標list = 用更小单位的数据追加平台折点List(目標list, 折点list1, 折点list2, p);
 
 			折點list_優化後 = 将目标折点加入到目标折点list(折點list_優化後, 目標list);
 		}
@@ -479,10 +483,56 @@ public class 高臺計算Util {
 		return 折點list_優化後;
 	}
 
-	private List<折点> 解析出高臺信息_条件结果(List<折点> 目標list, List<折点> 折点list1, List<折点> 折点list2, 平台 p) {
+	private List<折点> 單方面追加平臺折點List(List<折点> 目標list, List<折点> 折点list1, List<折点> 折点list2, 平台 p, int i方向) {
+		// 
+				
+		// 該高點在允許範圍內 90-110%
+		折点 p1 = SortUtil.sortListByPropertyNamesValue(p.get平台折点list(),"价格").get(0);
+		// 取得该折点index
+		int  index = 0;
+		
+		// 每次向一个方向取一个高点
+		if(i方向 == 0) {
+			index = 簡單解析Util2.取得指定日期的index(折点list1, p.getI開始日時());
+		}else {
+			index = 簡單解析Util2.取得指定日期的index(折点list1, p.getI結束日時());
+		}
+		
+		for(;;) {
+			// 每次向一个方向取一个高点
+			if(i方向 == 0) {
+				index = index - 2;
+			}else {
+				index = index + 2;
+			}
+			
+			if( (index + 1) > 折点list1.size()) {
+				break;
+			}
+			
+			折点 z = 折点list1.get(index);
+			float p_rate =平台Util2.取得折点差价范圍(p1, z);
+			
+			if(p_rate >= 0.98 && p_rate <= 1.015) {
+				if( !目標list.contains(z)) {
+					
+					追加有效折点to目標list_平台(目標list,p, z);
+				}
+			}else {
+				break;
+			}
+			if(index < 0 || index > (折点list1.size()-1)) {
+				break;	
+			}
+		}
+		return SortUtil.sortListByPropertyNamesValue(目標list,"日時");
+	}
+
+	private List<折点> 用更小单位的数据追加平台折点List(List<折点> 目標list, List<折点> 折点list1, List<折点> 折点list2, 平台 p) {
 		// 充實目標list
 		// 充實平臺的平臺折點list
-
+		
+		// 用更小单位的数据充实平台折点List
 		//
 		List<折点> 折点list21 = 平台Util2.取得两日期之间的折点List(折点list1, p.getI開始日時(), p.getI結束日時());
 		// 从折点list1 取得所有高点
@@ -503,22 +553,9 @@ public class 高臺計算Util {
 			
 			if(p_rate >= 0.9 && p_rate <= 1.1) {
 				
-				if( !p.get平台折点list().contains(z)) {
-					p.get平台折点list().add(z);
-				}				
-				
-				if( !目標list.contains(z)) {
-					目標list.add(z);
-				}
-				
+				追加有效折点to目標list_平台(目標list,p, z);
 				折点 z1 = 取得下一点(z, 折点list1);
-				
-				if( !p.get平台折点list().contains(z1)) {
-					p.get平台折点list().add(z1);
-				}				
-				if( !目標list.contains(z1)) {
-					目標list.add(z1);
-				}
+				追加有效折点to目標list_平台(目標list,p, z1);
 
 			}
 		}
@@ -527,6 +564,17 @@ public class 高臺計算Util {
 		//
 		return SortUtil.sortListByPropertyNamesValue(目標list,"日時");
 
+	}
+
+	private void 追加有效折点to目標list_平台(List<折点> 目標list, 平台 p, 折点 z) {
+		if( !p.get平台折点list().contains(z)) {
+			p.get平台折点list().add(z);
+		}				
+		
+		if( !目標list.contains(z)) {
+			目標list.add(z);
+		}
+		
 	}
 
 	private 折点 取得下一点(折点 z, List<折点> 折点list1) {

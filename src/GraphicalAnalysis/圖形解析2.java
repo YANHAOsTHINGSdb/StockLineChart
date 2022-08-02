@@ -16,6 +16,7 @@ import OutputData.折点;
 import OutputData.頸線;
 import ParseTool2.簡單解析Util2;
 import ParseTool2.輸出頸線圖數據2;
+import common.CommonConst;
 
 public class 圖形解析2 {
 	public static void main(String[] args) {
@@ -134,8 +135,29 @@ public class 圖形解析2 {
 
 
 	private List<頸線> 輸出頸線圖數據(List<圖形> 圖形list, float f) {		
+		// 為了每個圖形畫頸線
+		// 頸線就是法人低价出貨的最大限制的連線：把它畫出來
+		// 直線需要定義兩個點：x=時間,y=價格
+		// 高台图形:
+		//   M形：中間唯一低點的平線（x開始=圖形的開始日時 x結束=圖形的結束日時, y開始結束=中間低點的价格） 
+		//   頭肩頂：中間兩個低點的連線（x開始=圖形的開始日時 x結束=圖形的結束日時, y開始=頸線該點（x開始）價格, y結束=頸線該點（x結束）價格） 
+		//   高臺：中間第一低點、第二低點的連線（x開始=圖形的開始日時 x結束=圖形的結束日時, y開始=頸線該點（x開始）價格, y結束=頸線該點（x結束）價格） 
+		// 三角形图形:
+		//   下位三角形:第一高点、第二高点的连线（x開始=圖形的開始日時 x結束=圖形的結束日時）
+		//   上位三角形:第一低点，第二低点的连线（x開始=圖形的開始日時 x結束=圖形的結束日時）
 		
-		
+		for(圖形 t : 圖形list) {
+			switch(t.get形状()) {
+			case CommonConst.圖形_M頭_低:
+			case CommonConst.圖形_M頭_高:
+			case CommonConst.圖形_頭肩_低:
+			case CommonConst.圖形_頭肩_高:
+			case CommonConst.圖形_高臺_低:
+			case CommonConst.圖形_高臺_高:
+			case CommonConst.圖形_三角形_低:
+			case CommonConst.圖形_三角形_高:
+			}
+		}
 		return null;
 	}
 
