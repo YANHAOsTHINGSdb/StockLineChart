@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import GraphicalAnalysis.Graphical.圖形計算;
-import GraphicalAnalysis.Graphical.impl.圖形計算_M頭_頭肩頂;
+import GraphicalAnalysis.Graphical.impl.圖形計算_M頭_頭肩頂_高;
 import GraphicalAnalysis.Graphical.impl.圖形計算_收縮三角形;
 import GraphicalAnalysis.Platform.高臺計算Util;
 import InputData.日線;
@@ -161,7 +161,7 @@ public class 圖形解析 {
 		
 		
 		// 圖形計算_M頭_頭肩頂
-		圖形計算 o圖形計算_M頭_頭肩頂 = new 圖形計算_M頭_頭肩頂();		
+		圖形計算 o圖形計算_M頭_頭肩頂 = new 圖形計算_M頭_頭肩頂_高();		
 		List<圖形> 圖形_M頭_頭肩頂圖形list = o圖形計算_M頭_頭肩頂.計算(折點list_優化後, 平台list, 折点list3);
 		
 		// 圖形計算_收縮三角形

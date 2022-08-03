@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import GraphicalAnalysis.Graphical.impl.圖形計算_收縮三角形;
+import GraphicalAnalysis.Graphical.impl.頸線Util;
 import GraphicalAnalysis.Platform.圖形計算_新;
 import GraphicalAnalysis.Platform.平臺計算;
 import GraphicalAnalysis.Platform.高臺計算Util;
@@ -134,7 +135,10 @@ public class 圖形解析2 {
 	}
 
 
-	private List<頸線> 輸出頸線圖數據(List<圖形> 圖形list, float f) {		
+	private List<頸線> 輸出頸線圖數據(List<圖形> 圖形list, float f ,List<折点> 折点list1) {	
+		
+		List<頸線> 頸線list = new ArrayList();
+				
 		// 為了每個圖形畫頸線
 		// 頸線就是法人低价出貨的最大限制的連線：把它畫出來
 		// 直線需要定義兩個點：x=時間,y=價格
@@ -146,19 +150,55 @@ public class 圖形解析2 {
 		//   下位三角形:第一高点、第二高点的连线（x開始=圖形的開始日時 x結束=圖形的結束日時）
 		//   上位三角形:第一低点，第二低点的连线（x開始=圖形的開始日時 x結束=圖形的結束日時）
 		
-		for(圖形 t : 圖形list) {
+		
+		for(圖形 t : 圖形list) {		
+			
+			頸線 j = null;
+ 
+			int i開始日時 = t.getI開始日時();
+			int i結束日時 = t.getI結束日時();
+			
+			float f開始价格 = 0;
+			float f結束价格 = 0;
+			
+			折点 z1 = null;
+			折点 z2 = null;
+			
 			switch(t.get形状()) {
 			case CommonConst.圖形_M頭_低:
 			case CommonConst.圖形_M頭_高:
+				
+				f開始价格 = Float.parseFloat(t.get高台_第三折点().get价格());
+				f結束价格 = f開始价格;
+
+				
 			case CommonConst.圖形_頭肩_低:
 			case CommonConst.圖形_頭肩_高:
+				z1 = t.get高台_第三折点();
+				z2 = t.get高台_第五折点();
+				
+				f開始价格 = 頸線Util.取得该日颈线价格(z1, z2, 折点list1, i開始日時);
+				f結束价格 = 頸線Util.取得该日颈线价格(z1, z2, 折点list1, i結束日時);
 			case CommonConst.圖形_高臺_低:
 			case CommonConst.圖形_高臺_高:
+				z1 = t.get高台_第三折点();
+				z2 = t.get高台_第五折点();
+				
+				f開始价格 = 頸線Util.取得该日颈线价格(z1, z2, 折点list1, i開始日時);
+				f結束价格 = 頸線Util.取得该日颈线价格(z1, z2, 折点list1, i結束日時);
+				
 			case CommonConst.圖形_三角形_低:
 			case CommonConst.圖形_三角形_高:
+				
 			}
+			j.setI開始日時(i開始日時);
+			j.setF開始价格(f結束价格);
+			j.setI結束日時(i結束日時);
+			j.setF結束价格(f結束价格);
+			
+			頸線list.add(j);
 		}
-		return null;
+		return 頸線list;
 	}
 
 

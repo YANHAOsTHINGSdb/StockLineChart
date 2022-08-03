@@ -98,10 +98,11 @@ public class 平台Util {
 			
 			折点 o折点 = 平台Util2.取得折点list中指定点之間最低折点(折点list,o平台.getI開始index(), o平台.getI結束index() );
 			float f折点价格 = Float.parseFloat(o折点.get价格());
-			o頸線.set開始价格(f折点价格);
+
+			o頸線.setF開始价格(f折点价格);
 			o頸線.setI開始日時(o平台.getI開始日時());
 			
-			o頸線.set結束价格(f折点价格);
+			o頸線.setF結束价格(f折点价格);
 			o頸線.setI結束日時(o平台.getI結束日時());
 			break;
 			
@@ -110,10 +111,10 @@ public class 平台Util {
 			//頸線 = 兩端連線的斜線
 			o頸線.setI開始日時(o平台.getI開始日時());
 			float f開始价格 = Float.parseFloat(折点list.get(o平台.getI開始index()).get价格());
-			o頸線.set開始价格(f開始价格);
+			o頸線.setF開始价格(f開始价格);
 			o頸線.setI結束日時(o平台.getI結束日時());
 			float f結束价格 = Float.parseFloat(折点list.get(o平台.getI結束index()).get价格());
-			o頸線.set結束价格(f結束价格);
+			o頸線.setF結束价格(f結束价格);
 			break;
 		}
 		

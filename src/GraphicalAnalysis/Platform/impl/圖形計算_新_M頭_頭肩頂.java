@@ -2,7 +2,8 @@ package GraphicalAnalysis.Platform.impl;
 
 import java.util.List;
 
-import GraphicalAnalysis.Graphical.impl.圖形計算_M頭_頭肩頂;
+import GraphicalAnalysis.Graphical.impl.圖形計算_M頭_頭肩頂_低;
+import GraphicalAnalysis.Graphical.impl.圖形計算_M頭_頭肩頂_高;
 import GraphicalAnalysis.Graphical.impl.頸線Util;
 import GraphicalAnalysis.Platform.圖形計算_新;
 import GraphicalAnalysis.Platform.高臺計算Util;
@@ -38,7 +39,7 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 		// 如果是高台，就需要两端的低点
 		高臺計算Util.完善高台两端的低点(p, 折点list1);
 		
-		圖形 t = new 圖形計算_M頭_頭肩頂().取得M頭信息(p, 折點list_優化後, 折点list高點, 折点list低點);
+		圖形 t = new 圖形計算_M頭_頭肩頂_高().取得M頭信息(p, 折點list_優化後, 折点list高點, 折点list低點);
 		if(t != null) {
 			//圖形list.add(t);
 			//continue;
@@ -46,7 +47,7 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 			return t;
 		}
 		
-		t = new 圖形計算_M頭_頭肩頂().取得頭肩頂信息(p, 折點list_優化後, 折点list高點, 折点list低點, 折点list3);
+		t = new 圖形計算_M頭_頭肩頂_高().取得頭肩頂信息(p, 折點list_優化後, 折点list高點, 折点list低點, 折点list3);
 		if(t != null) {
 			//圖形list.add(t);
 			//continue;
@@ -61,7 +62,7 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 		List<折点> 折点list高點 = 平台Util2.取得指定list的高點list(p.get平台折点list());
 		List<折点> 折点list低點 = 平台Util2.取得指定list的低點list(p.get平台折点list());
 		
-		圖形 t = new 圖形計算_M頭_頭肩頂().取得M底信息(p, 折點list_優化後, 折点list高點, 折点list低點);
+		圖形 t = new 圖形計算_M頭_頭肩頂_低().取得M底信息(p, 折點list_優化後, 折点list高點, 折点list低點);
 		if(t != null) {
 			//圖形list.add(t);
 			//continue;
@@ -69,7 +70,7 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 			return t;
 		}
 		
-		t = new 圖形計算_M頭_頭肩頂().取得頭肩底信息(p, 折點list_優化後, 折点list高點, 折点list低點, 折点list3);
+		t = new 圖形計算_M頭_頭肩頂_低().取得頭肩底信息(p, 折點list_優化後, 折点list高點, 折点list低點, 折点list3);
 		if(t != null) {
 			//圖形list.add(t);
 			//continue;

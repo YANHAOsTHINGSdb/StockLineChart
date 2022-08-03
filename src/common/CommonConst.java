@@ -33,8 +33,8 @@ public class CommonConst {
 	public static int debugMode = CommonConst.本番mode; // 0:本番  1:debug
 
 
-	public final static int 平臺類型_高平台 = 0;
-	public final static int 平臺類型_低平台 = 1;
+	public final static int 平臺類型_高平台 = 11;
+	public final static int 平臺類型_低平台 = 22;
 	public static final int 平臺類型_上坡 = 2;
 	public static final int 平臺類型_下坡 = 3;
 
@@ -64,8 +64,17 @@ public class CommonConst {
 //	public final static int 平台_類型_高点 = 0;
 //	public final static int 平台_類型_高台 = 1;
 //	public final static int 平台_類型_低台 = 2;
-	public static final int 平台_高低_高 = 0;
-	public static final int 平台_高低_低 = 1;
-
+	public static final int 平台_高低_高 = 11;
+	public static final int 平台_高低_低 = 22;
+	
+	public static final int 圖形_M頭_低 = 10;
+	public static final int 圖形_M頭_高 = 11;
+	public static final int 圖形_頭肩_低 = 20;
+	public static final int 圖形_頭肩_高 = 21;
+	public static final int 圖形_高臺_低 = 30;
+	public static final int 圖形_高臺_高 = 31;
+	public static final int 圖形_三角形_低 = 40;
+	public static final int 圖形_三角形_高 = 41;
+	
 
 }
