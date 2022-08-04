@@ -26,8 +26,8 @@ public class 高臺計算Util {
 	public List<平台> 解析出高低臺信息(List<折点> 折点list1, List<折点> 折点list2, List<折点> 折点list3, List<日線> 日線list) {
 
 		List<平台> 平台list = new ArrayList();
-		List<折点> 折点list3高點 = 平台Util2.取得指定list的高點list(折点list3);
-		List<折点> 折点list3低點 = 平台Util2.取得指定list的低點list(折点list3);
+		List<折点> 折点list2高點 = 平台Util2.取得指定list的高點list(折点list2);
+		List<折点> 折点list2低點 = 平台Util2.取得指定list的低點list(折点list2);
 		List<Integer> 条件结果list3 = new ArrayList();
 		//-----------------------------------------------
 		// 从折点list3 取得所有高点
@@ -50,26 +50,7 @@ public class 高臺計算Util {
 		//-----------------------------------------------
 
 
-		//-----------------------------------------------
-		// 从折点list3 取得所有低点
-		// 循環處理每一個低點.
-		//	     取得折點list2裏該點相鄰左右兩個低點
-		//	     条件A：上記3个折點至少有2个高点在list1裏也是相邻的（最多2個高点间隔以內）
-		//	     条件B：上記折點的日期间隔不超過10個單位（暫定）
-		//	     条件C：判断上记两个低点是不是在对方90%-110%之間
-		//	     如果条件A与B同時滿足
-		//	    上記兩個低點就是一個平臺
-		// 追加 到平台list，属性为【低台】
-		//-----------------------------------------------
-
-		// 从折点list3 取得所有高点
-//		for(折点 z : 折点list3) {
-//			if(z.get高低() == CommonConst.高点) {
-//				折点list3高點.add(z);
-//			}
-//		}
-
-		for(折点 z : 折点list3高點) {
+		for(折点 z : 折点list2高點) {
 
 			// 取得折點list2裏該點相鄰左右兩個高點
 			int zIndex = 簡單解析Util2.取得指定日期的index(折点list1, z.get日時());
