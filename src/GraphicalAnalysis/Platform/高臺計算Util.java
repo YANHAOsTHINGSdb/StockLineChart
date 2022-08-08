@@ -682,4 +682,27 @@ public class 高臺計算Util {
 		p.set平台折点list(SortUtil.sortListByPropertyNamesValue(p.get平台折点list(),"日時"));
 	}
 
+	public List<平台> 連接相鄰的高臺(List<折点> 折点list2, List<折点> 折点list3, List<平台> 平台list) {
+//		条件：两个高台的折点在折点2是相邻的				
+//		處理：重置高臺信息	
+//		      刪掉重復的
+
+		return null;
+	}
+
+	public List<平台> 去掉不合格的高台(List<折点> 折点list2, List<折点> 折点list3, List<平台> 平台list) {
+//		條件（and）：				
+//		1、單一高臺：區間在折點2只有一個高點
+//		2、兩端低點的價格差超大				
+//		  折點list2取得旁邊低點		
+//		（条件3是否可以满足）		
+//		3、該區間內不包括折3的折點
+//		 如果該平臺包含折3的高點，就是高臺		
+//		 如果該平臺包含折3的低點，就是低臺		
+//					
+//		處理：刪除高臺	
+		return null;
+	}
+
+
 }

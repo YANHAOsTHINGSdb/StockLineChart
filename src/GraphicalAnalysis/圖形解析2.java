@@ -303,6 +303,13 @@ public class 圖形解析2 {
 		
 		List<折点>平台折点list = new ArrayList();		
 		
+		// 連接相鄰的高臺
+		平台list = new 高臺計算Util().連接相鄰的高臺(折点list2, 折点list3, 平台list);
+		
+		// 去掉不合格的高台
+		平台list = new 高臺計算Util().去掉不合格的高台(折点list2, 折点list3, 平台list);
+		
+		
 		// 排除幹擾
 		List<折点>折點list_優化後 = new 高臺計算Util().排除幹擾(折点list2, 折点list3, 平台list);
 		
