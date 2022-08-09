@@ -740,6 +740,7 @@ public class 高臺計算Util {
 
 	private boolean chk相鄰兩個平臺是不是相鄰(平台 p_org, 平台 p, List<折点> 折点list2) {
 		
+		// 两平台最近的量高点是不是index差距为1以内
 		// 後面的平台(p)的开始高点
 		// 与
 		// 前面的平臺(p_org)的結束高點
