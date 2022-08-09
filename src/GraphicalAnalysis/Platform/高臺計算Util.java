@@ -2,6 +2,7 @@ package GraphicalAnalysis.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.feilong.core.util.SortUtil;
 
@@ -686,8 +687,77 @@ public class 高臺計算Util {
 //		条件：两个高台的折点在折点2是相邻的				
 //		處理：重置高臺信息	
 //		      刪掉重復的
+		
+		
+//		loop		變量設置		①➁③④		比較對象	返回值		
+//		--------------------------------------------------------------------------
+//		1			p_org			①				空和①		返回①
+//					p				-                           -
+//		2			p_org			①				①和➁		返回➁      2.1
+//					p				  ➁						返回①➁    2.2
+//		3			p_org			  ➁			➁和③		返回③      3.1
+//					p				    ③						返回➁③    3.2
+//		4			p_org			    ③			③和④		返回④      4.1
+//					p				      ④					返回③④    4.2
+// 
+// p     循環對象
+// p_org 前一个对象
+		
+		List<平台> result平台List = new ArrayList();
+		
+		//
+		平台 p_org = null;
+		
+		for(平台 p : 平台list) {
+			if( p_org == null) {
+				 p_org = p;
+				 continue;
+			}
+			// chk相鄰兩個平臺是不是相鄰
+			if(chk相鄰兩個平臺是不是相鄰(p_org, p, 折点list2)) {
+				
+				// 重置後面的平台 
+				p.setI開始日時(p_org.getI開始日時());
+				p.setI開始index(p_org.getI開始index());
+				result平台List.add(p);
+				
 
-		return null;
+			}else {
+				// 【2.2】【3.2】【4.2】
+				result平台List.add(p_org); 
+				result平台List.add(p);     
+				
+			}
+			// 為下一次循環準備
+			p_org = p;
+		}
+		
+		// 去除重復的平臺
+		result平台List.stream().distinct().collect(Collectors.toList());
+		
+		return result平台List;
+	}
+
+	private boolean chk相鄰兩個平臺是不是相鄰(平台 p_org, 平台 p, List<折点> 折点list2) {
+		
+		// 後面的平台(p)的开始高点
+		// 与
+		// 前面的平臺(p_org)的結束高點
+		// 是不是在折点2上相邻()
+		List<折点> 折点list2高點 = 平台Util2.取得指定list的高點list(折点list2);
+		
+		int size = p_org.get平台折点list().size();
+		折点 z最后折点 = p_org.get平台折点list().get(size-1);
+		折点 z先頭折点 = p.get平台折点list().get(0);
+		
+		int i最后折点index = 簡單解析Util2.取得指定日期的index(折点list2高點, z最后折点.get日時());
+		int i先頭折点index = 簡單解析Util2.取得指定日期的index(折点list2高點, z先頭折点.get日時());
+		
+		if(i最后折点index + 1 >= i先頭折点index){
+			return true;
+		}
+		
+		return false;
 	}
 
 	public List<平台> 去掉不合格的高台(List<折点> 折点list2, List<折点> 折点list3, List<平台> 平台list) {
@@ -701,7 +771,51 @@ public class 高臺計算Util {
 //		 如果該平臺包含折3的低點，就是低臺		
 //					
 //		處理：刪除高臺	
-		return null;
+		
+		List<平台> result平台List = new ArrayList();
+		
+		boolean b是否單一高臺 = false;
+		boolean b是否該平台包括折3的折點 = false;
+		
+		for(平台 p : 平台list) {
+			if(chk是否單一高臺(p, 折点list2)) {
+				b是否單一高臺 = true;
+			}
+			if(chk是否該平台包括折3的折點(p, 折点list3)) {
+				b是否單一高臺 = true;
+				//  如果該平臺包含折3的高點，就是高臺
+			}else {
+				//  如果該平臺包含折3的低點，就是低臺
+				
+			}
+			
+			if(b是否單一高臺 && b是否該平台包括折3的折點) {
+				
+			}else {
+				result平台List.add(p);
+			}
+			
+		}
+		return result平台List;
+	}
+
+	private boolean chk是否該平台包括折3的折點(平台 p, List<折点> 折点list3) {
+		
+		for(折点 z : 折点list3) {
+			// QA:平台的開始日時与結束日時 是什么概念
+			if(p.getI開始日時() >= z.get日時() && p.getI結束日時()<=z.get日時()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean chk是否單一高臺(平台 p, List<折点> 折点list2) {
+		// QA:平台的平台折点list 是什么概念
+		if(p.get平台折点list().size() > 1) {
+			return true;
+		}
+		return false;
 	}
 
 
