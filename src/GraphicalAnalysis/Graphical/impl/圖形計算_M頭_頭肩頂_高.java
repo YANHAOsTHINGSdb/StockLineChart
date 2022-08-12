@@ -32,8 +32,8 @@ public class 圖形計算_M頭_頭肩頂_高 implements 圖形計算{
 		//-----------------------------------------------
 		for(平台 p : 平台list) {
 			
-			List<折点> 折点list高點p = 平台Util2.取得指定list的高點list(p.get平台折点list());
-			List<折点> 折点list低點p = 平台Util2.取得指定list的低點list(p.get平台折点list());
+			List<折点> 折点list高點p = 平台Util2.取得指定list的高點list(p.get平台折点list1());
+			List<折点> 折点list低點p = 平台Util2.取得指定list的低點list(p.get平台折点list1());
 			
 			圖形 t = 取得M頭信息(p, 折點list_優化後, 折点list高點p, 折点list低點p);
 			if(t != null) {
@@ -74,7 +74,7 @@ public class 圖形計算_M頭_頭肩頂_高 implements 圖形計算{
 		//		                                                     .	
 		//---------------------------------------------------------------------------	
 			
-		List<折点> 折点list = p.get平台折点list();
+		//List<折点> 折点list = p.get平台折点list1();
 		
 		圖形 t圖形 = new 圖形(p);
 		//-----------------------------------------------
@@ -206,7 +206,7 @@ public class 圖形計算_M頭_頭肩頂_高 implements 圖形計算{
 		//                                      破位后第一折点   .	
 		//		                                                   .	
 		//---------------------------------------------------------------------------			
-		List<折点> 折点list = p.get平台折点list();
+		//List<折点> 折点list = p.get平台折点list1();
 		圖形 t圖形 = new 圖形(p);
 		//-----------------------------------------------
 		// 可以是M頭，也可以是頭肩頂，無論哪一個都可以被晉級為圖形
@@ -355,7 +355,7 @@ public class 圖形計算_M頭_頭肩頂_高 implements 圖形計算{
 	public 圖形 取得頭肩底信息(平台 p, List<折点> 折點list_優化後, List<折点> 折点list高點, List<折点> 折点list低點, List<折点> 折点list3) {
 	
 
-		List<折点> 折点list = p.get平台折点list();
+		//List<折点> 折点list = p.get平台折点list1();
 		
 		圖形 t圖形 = new 圖形(p);
 		//-----------------------------------------------

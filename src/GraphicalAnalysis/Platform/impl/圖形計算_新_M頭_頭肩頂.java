@@ -31,8 +31,8 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 	
 	public 圖形 圖形判别_向下(平台 p, List<折点> 折点list1, List<折点> 折點list_優化後, List<折点> 折点list3) {
 		
-		List<折点> 折点list高點 = 平台Util2.取得指定list的高點list(p.get平台折点list());
-		List<折点> 折点list低點 = 平台Util2.取得指定list的低點list(p.get平台折点list());
+		List<折点> 折点list高點 = 平台Util2.取得指定list的高點list(p.get平台折点list1());
+		List<折点> 折点list低點 = 平台Util2.取得指定list的低點list(p.get平台折点list1());
 		
 		// 高台要加两端的低点
 		// 平台只保留了以高点为边界的信息
@@ -59,8 +59,8 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 	}
 	
 	public 圖形 圖形判别_向上(平台 p, List<折点> 折點list_優化後, List<折点> 折点list3) {
-		List<折点> 折点list高點 = 平台Util2.取得指定list的高點list(p.get平台折点list());
-		List<折点> 折点list低點 = 平台Util2.取得指定list的低點list(p.get平台折点list());
+		List<折点> 折点list高點 = 平台Util2.取得指定list的高點list(p.get平台折点list1());
+		List<折点> 折点list低點 = 平台Util2.取得指定list的低點list(p.get平台折点list1());
 		
 		圖形 t = new 圖形計算_M頭_頭肩頂_低().取得M底信息(p, 折點list_優化後, 折点list高點, 折点list低點);
 		if(t != null) {
@@ -192,8 +192,8 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 	}
 	
 	public 圖形 趨勢計算_向上(圖形 o圖形, List<折点> 折点list1, List<折点> 折点list2, List<折点> 折点list3, List<折点> 折點list_優化後) {
-		List<折点> 折点list高點 = 平台Util2.取得指定list的高點list(o圖形.get平台折点list());
-		List<折点> 折点list低點 = 平台Util2.取得指定list的低點list(o圖形.get平台折点list());
+		List<折点> 折点list高點 = 平台Util2.取得指定list的高點list(o圖形.get平台折点list1());
+		List<折点> 折点list低點 = 平台Util2.取得指定list的低點list(o圖形.get平台折点list1());
 		//-----------------------------------------------
 		// 目的：豐富圖形信息，計算差價，驗證教科书圖形是否有效
 		// 循環取得所有圖形

@@ -46,7 +46,7 @@ public class 平台Util2 {
 					p.setI結束日時(o.get日時());
 					p.setI結束index(o.getIndex());
 
-					p.set平台折点list(平台Util2.取得两点之间的折点List(折点list, 折点list.get(p.getI結束index()), 折点list.get(p.getI結束index())));
+					p.set平台折点list1(平台Util2.取得两点之间的折点List(折点list, 折点list.get(p.getI結束index()), 折点list.get(p.getI結束index())));
 					// 重置開始狀態
 					i开始 = 0;
 

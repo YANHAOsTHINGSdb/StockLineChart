@@ -37,5 +37,7 @@ public class 平台 {
 	float f最低价格;
 	float f最高价格;
 	
-	List<折点> 平台折点list;//頸線與平臺結合的交叉點的日期List
+	List<折点> 平台折点list1;//頸線與平臺結合的交叉點的日期List
+	List<折点> 平台高折点list;//頸線與平臺結合的交叉點的日期List
+	List<折点> 平台低折点list;//頸線與平臺結合的交叉點的日期List
 }

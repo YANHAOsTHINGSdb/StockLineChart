@@ -126,7 +126,7 @@ public class 圖形計算_收縮三角形  implements 圖形計算{
 					 t.set三角形_破位前折点(z破前折点);
 					 
 					 三角形对象折点list.remove(三角形对象折点list.size()-1);// 最后一个折点打破三角形不算在内
-					 t.set平台折点list(三角形对象折点list);
+					 t.set平台折点list1(三角形对象折点list);
 					// t.set方向(z打破折点.get高低());// 0=向上 1=向下 // 破點折點為高點，時向上  破點折點為低點，時向下 
 					 
 					 圖形list.add(t);

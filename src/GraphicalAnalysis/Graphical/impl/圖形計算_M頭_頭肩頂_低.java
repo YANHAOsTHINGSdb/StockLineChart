@@ -31,8 +31,8 @@ public class 圖形計算_M頭_頭肩頂_低 implements 圖形計算 {
 		//-----------------------------------------------
 		for(平台 p : 平台list) {
 			
-			List<折点> 折点list高點p = 平台Util2.取得指定list的高點list(p.get平台折点list());
-			List<折点> 折点list低點p = 平台Util2.取得指定list的低點list(p.get平台折点list());
+			List<折点> 折点list高點p = 平台Util2.取得指定list的高點list(p.get平台折点list1());
+			List<折点> 折点list低點p = 平台Util2.取得指定list的低點list(p.get平台折点list1());
 			
 			圖形 t = 取得M頭信息(p, 折點list_優化後, 折点list高點p, 折点list低點p);
 			if(t != null) {

@@ -304,7 +304,7 @@ public class 圖形解析2 {
 		List<折点>平台折点list = new ArrayList();		
 		
 		// 連接相鄰的高臺
-		平台list = new 高臺計算Util().連接相鄰的高臺(折点list2, 折点list3, 平台list);
+		平台list = new 高臺計算Util().連接相鄰的高臺(折点list1,  折点list2, 折点list3, 平台list);
 		
 		// 去掉不合格的高台
 		平台list = new 高臺計算Util().去掉不合格的高台(折点list2, 折点list3, 平台list);
@@ -327,7 +327,7 @@ public class 圖形解析2 {
 	
 			平台折点list = new 高臺計算Util().取得平台折点list(折点list1, 折點list_優化後, p);
 			
-			p.set平台折点list(平台折点list);
+			p.set平台折点list1(平台折点list);
 			
 		}
 		

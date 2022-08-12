@@ -7,7 +7,7 @@ public class 圖形 extends 平台{
 	
 	public 圖形(平台 p) {
 
-		this.平台折点list=p.get平台折点list();
+		this.平台折点list1=p.get平台折点list1();
 		this.i開始index = p.getI開始index();
 		this.i結束index = p.getI結束index();
 		this.i開始日時 = p.getI開始日時();
