@@ -114,7 +114,7 @@ public class 高臺計算Util {
 	 */
 	private 平台 設置平臺信息(折点 left, 折点 mid, 折点 right, List<Integer> 条件结果list3, List<折点> 折点list1, List<折点> 折点list3) {
 		平台 p = new 平台();
-		List<折点> 平台_折点list = new ArrayList();
+	//	List<折点> 平台高折点list = new ArrayList();
 
 		// 条件结果1 0：left與mid相鄰  1：mid與right相鄰  2：前面两个都成立  9：全不滿足
 		// 条件结果2 0：left與mid不超過10個單位  1：mid與right不超過10個單位  2：前面两个都成立  9：全不滿足
@@ -130,29 +130,35 @@ public class 高臺計算Util {
 			
 			p.setI開始日時(left.get日時());
 			p.setI開始index(left.getIndex());
-			平台_折点list.add(left);
+	//		平台高折点list.add(left);
 			
 		}else {
 			p.setI開始日時(mid.get日時());
 			p.setI開始index(mid.getIndex());
 		}
 
-		平台_折点list.add(mid);
+	//	平台高折点list.add(mid);
 
 		//
 		if(判断结束条件(条件结果1, 条件结果2, 条件结果3)) {
 			
 			p.setI結束日時(right.get日時());
 			p.setI結束index(right.getIndex());
-			平台_折点list.add(right);
+	//		平台高折点list.add(right);
 		}else {
 			p.setI結束日時(mid.get日時());
 			p.setI結束index(mid.getIndex());
 		}
 
 		//p.setI類型(CommonConst.平台_類型_高台);
-		p.set平台高折点list(平台_折点list);
+		
+		折点 p開始 = 折点list1.get(p.getI開始index());
+		折点 p結束 = 折点list1.get(p.getI結束index());
+		List<折点> 平台折点list = 平台Util2.取得两点之间的折点List(折点list1, p開始, p結束);
 
+		p.set平台高折点list(平台Util2.取得指定list的高點list(平台折点list));
+		p.set平台低折点list(平台Util2.取得指定list的低點list(平台折点list));
+		p.set平台折点list1(平台折点list);
 		return p;
 	}
 
@@ -727,7 +733,7 @@ public class 高臺計算Util {
 			}else {
 				// 【2.2】【3.2】【4.2】
 				result平台List.add(p_org); 
-				result平台List.add(p);     
+				//result平台List.add(p);     
 				
 			}
 			// 為下一次循環準備
@@ -735,15 +741,53 @@ public class 高臺計算Util {
 		}
 		
 		// 去除重復的平臺
-		result平台List.stream().distinct().collect(Collectors.toList());
+		// List<Integer> listWithoutDuplicates = numbersList.stream().distinct().collect(Collectors.toList());
+		List<平台> result平台List去除重復 =result平台List.stream().distinct().collect(Collectors.toList());
 		
-		return result平台List;
+		return result平台List去除重復;
 	}
 
 	private boolean chk相鄰兩個平臺是否在一个价位(平台 p_org, 平台 p, List<折点> 折点list1) {
+		boolean is存在价位差 = true;
 		// 其中一个平台的任何高点不能小于另一个平台的低点
+		// 取得第一个平台的最高点和最低点
+
+		float p1_最高点 = Float.parseFloat(簡單解析Util2.取得指定折点List的最高点(p_org.get平台高折点list()).get价格());// 高点最高点
+		float p1_最低点 = Float.parseFloat(簡單解析Util2.取得指定折点List的最低点(p_org.get平台低折点list()).get价格());;// 低点最低点
+		// 取得第二个平台的最高点和最低点
+		float p2_最高点 = Float.parseFloat(簡單解析Util2.取得指定折点List的最高点(p.get平台高折点list()).get价格());// 高点最高点
+		float p2_最低点 = Float.parseFloat(簡單解析Util2.取得指定折点List的最低点(p.get平台低折点list()).get价格());;// 低点最低点
+		// 如果其中一个平台的最高点低于另一个平台的最低点，那么就不是一个价格
+		if(is存在价位差(p1_最高点, p2_最低点, p2_最高点) || is存在价位差(p2_最高点, p1_最低点, p1_最高点)) {
+			// 任何一个存在就是【存在价差】【在一个价位】
+			is存在价位差 = false;
+		}else {
+			// 任何一个不存在就是【不存在价差】【不在一个价位】
+			
+		}
 		
-		return false;
+		return is存在价位差;
+	}
+
+	private boolean is存在价位差(float p1_最高点, float p2_最低点, float p2_最高点) {
+		boolean is存在价位差 = false;
+		if(p1_最高点 > p2_最高点) {
+			return is存在价位差;
+		}
+		
+		if(p1_最高点 <= p2_最低点) {
+			is存在价位差 = true;
+		}
+		if(p1_最高点 > p2_最低点) {
+			// 相比较的高点更接近于低点
+			float p1比率1 = p1_最高点 -  p2_最低点;
+			float p1比率2 = p2_最高点 - p1_最高点;
+			if(p1比率1 <= p1比率2) {
+				is存在价位差 = true;
+			}
+			
+		}
+		return is存在价位差;
 	}
 
 	private boolean chk相鄰兩個平臺是不是相鄰(平台 p_org, 平台 p, List<折点> 折点list2) {
@@ -787,19 +831,23 @@ public class 高臺計算Util {
 		boolean b是否該平台包括折3的折點 = false;
 		
 		for(平台 p : 平台list) {
+			
+			b是否單一高臺 = false;
+			b是否該平台包括折3的折點 = false;
+			
 			if(chk是否單一高臺(p, 折点list2)) {
 				b是否單一高臺 = true;
 			}
 			if(chk是否該平台包括折3的折點(p, 折点list3)) {
-				b是否單一高臺 = true;
+				b是否該平台包括折3的折點 = true;
 				//  如果該平臺包含折3的高點，就是高臺
 			}else {
 				//  如果該平臺包含折3的低點，就是低臺
 				
 			}
 			
-			if(b是否單一高臺 && b是否該平台包括折3的折點) {
-				
+			if(b是否單一高臺 && ! b是否該平台包括折3的折點) {
+				continue;
 			}else {
 				result平台List.add(p);
 			}
@@ -814,7 +862,7 @@ public class 高臺計算Util {
 			// QA:平台的開始日時与結束日時 是什么概念
 			// ANS:開始日時：平台第一个高点的日时
 			//     結束日時：平台最后一个高点的日时
-			if(p.getI開始日時() >= z.get日時() && p.getI結束日時()<=z.get日時()) {
+			if(p.getI開始日時() <= z.get日時() && p.getI結束日時() >=z.get日時()) {
 				return true;
 			}
 		}
@@ -824,10 +872,14 @@ public class 高臺計算Util {
 	private boolean chk是否單一高臺(平台 p, List<折点> 折点list2) {
 		// QA:平台的平台折点list 是什么概念
 		// ANS:平台所有高点的集合
-		if(p.get平台高折点list().size() > 1) {
-			return true;
+		// 平台高折点list 包含的是折点list1的d對象
+		List<折点> l1 = new ArrayList(p.get平台折点list1());
+		List<折点> l2 = new ArrayList(折点list2);
+		l1.retainAll(l2);
+		if(l1.size() >= 2) {
+			return false;// 非單一高點
 		}
-		return false;
+		return true;// 單一高點
 	}
 
 
