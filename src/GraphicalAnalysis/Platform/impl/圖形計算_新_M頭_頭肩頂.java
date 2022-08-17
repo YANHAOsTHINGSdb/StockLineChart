@@ -4,6 +4,8 @@ import java.util.List;
 
 import GraphicalAnalysis.Graphical.impl.圖形計算_M頭_頭肩頂_低;
 import GraphicalAnalysis.Graphical.impl.圖形計算_M頭_頭肩頂_高;
+import GraphicalAnalysis.Graphical.impl.圖形計算_その他_低;
+import GraphicalAnalysis.Graphical.impl.圖形計算_その他_高;
 import GraphicalAnalysis.Graphical.impl.頸線Util;
 import GraphicalAnalysis.Platform.圖形計算_新;
 import GraphicalAnalysis.Platform.高臺計算Util;
@@ -55,7 +57,7 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 			return t;
 		}
 		
-		return null;
+		return new 圖形計算_その他_高().取得圖形信息(p, 折點list_優化後, 折点list高點, 折点list低點, 折点list3) ;
 	}
 	
 	public 圖形 圖形判别_向上(平台 p, List<折点> 折點list_優化後, List<折点> 折点list3) {
@@ -78,7 +80,7 @@ public class 圖形計算_新_M頭_頭肩頂 implements 圖形計算_新 {
 			return t;
 		}
 		
-		return null;
+		return new 圖形計算_その他_低().取得圖形信息(p, 折點list_優化後, 折点list高點, 折点list低點, 折点list3) ;
 	}
 	
 	@Override

@@ -6,7 +6,6 @@ import java.util.List;
 import GraphicalAnalysis.Graphical.impl.圖形計算_收縮三角形;
 import GraphicalAnalysis.Graphical.impl.頸線Util;
 import GraphicalAnalysis.Platform.圖形計算_新;
-import GraphicalAnalysis.Platform.平臺計算;
 import GraphicalAnalysis.Platform.高臺計算Util;
 import GraphicalAnalysis.Platform.impl.圖形計算_新_M頭_頭肩頂;
 import GraphicalAnalysis.Platform.impl.圖形計算_新_收縮三角形;
@@ -299,7 +298,7 @@ public class 圖形解析2 {
 		
 		平台list = 高臺計算Util.設置高低平臺(平台list, 折点list3);
 		
-		平臺計算 o平臺計算 = null;
+		//平臺計算 o平臺計算 = null;
 		
 		List<折点>平台折点list = new ArrayList();		
 		
